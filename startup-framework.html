@@ -929,6 +929,25 @@
     if (!e.target.closest('.flow-step') && !e.target.closest('.dd-search')) Object.keys(SEQ).forEach(closeCard);
   });
 
+  // ── Signals entry point ──
+  const nodeSignals = document.getElementById('node-signals');
+  const ddSignals   = document.getElementById('dd-signals');
+
+  nodeSignals.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = ddSignals.classList.contains('open');
+    Object.keys(SEQ).forEach(closeCard);
+    ddSignals.classList.toggle('open', !isOpen);
+    nodeSignals.classList.toggle('active', !isOpen);
+  });
+
+  document.getElementById('signals-next').addEventListener('click', e => {
+    e.stopPropagation();
+    ddSignals.classList.remove('open');
+    nodeSignals.classList.remove('active');
+    openNodeDD('f', 0);
+  });
+
   // ── Market search ──
   document.getElementById('search-markets').addEventListener('input', function() {
     const q = this.value.toLowerCase();
