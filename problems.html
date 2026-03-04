@@ -263,6 +263,85 @@
 </footer>
 
 <script>
+// ── Classifier ──
+function normalise(text) {
+  return text.toLowerCase().replace(/['']/g, "'").replace(/[^a-z0-9\s']/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function scoreInput(input) {
+  const norm = normalise(input);
+  const results = [];
+
+  for (const key of Object.keys(ARCHETYPE_KEYWORDS)) {
+    const arch = ARCHETYPE_KEYWORDS[key];
+    let score = 0;
+    const matched = [];
+
+    for (const [phrase, weight] of arch.keywords) {
+      if (norm.includes(normalise(phrase))) {
+        score += weight;
+        if (!matched.includes(phrase)) matched.push(phrase);
+      }
+    }
+
+    if (score > 0) results.push({ id: arch.id, label: arch.label, score, matched });
+  }
+
+  return results.sort((a, b) => b.score - a.score);
+}
+
+function classifyInput() {
+  const input = document.getElementById('classifier-input').value.trim();
+  const resultEl = document.getElementById('classifier-result');
+
+  if (!input) { resultEl.style.display = 'none'; return; }
+
+  const scores = scoreInput(input);
+  const L = typeof LANG !== 'undefined' ? LANG : 'en';
+
+  if (scores.length === 0) {
+    resultEl.style.display = 'block';
+    resultEl.innerHTML = `<div class="cr-no-match">No strong match found. Try describing the core friction or pain point more specifically.</div>`;
+    return;
+  }
+
+  const top = scores[0];
+  const alts = scores.slice(1, 3);
+
+  // find the problem object for the top match (for IT name if needed)
+  const topProblem = PROBLEMS.find(p => p.id === top.id);
+  const topName = L === 'it' && topProblem ? (topProblem.it_name || top.label) : top.label;
+
+  const altsHTML = alts.map((a, i) => {
+    const prob = PROBLEMS.find(p => p.id === a.id);
+    const name = L === 'it' && prob ? (prob.it_name || a.label) : a.label;
+    return `<span class="cr-alt"><span class="cr-alt-rank">${i === 0 ? '②' : '③'}</span>${name}</span>`;
+  }).join('');
+
+  const kwHTML = top.matched.map(kw => `<span class="cr-kw">${kw}</span>`).join('');
+
+  resultEl.style.display = 'block';
+  resultEl.innerHTML = `
+    <div class="cr-top">
+      <div>
+        <div class="cr-top-label">① Top match</div>
+        <div class="cr-top-name">→ ${topName}</div>
+        <div class="cr-top-score">score ${top.score} · ${top.matched.length} keyword${top.matched.length !== 1 ? 's' : ''} matched</div>
+      </div>
+    </div>
+    ${alts.length ? `<div class="cr-alts">${altsHTML}</div>` : ''}
+    ${kwHTML ? `<div class="cr-keywords-label">Keywords matched</div><div class="cr-keywords">${kwHTML}</div>` : ''}
+  `;
+}
+
+// Allow Enter to classify (Shift+Enter for newline)
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('classifier-input');
+  if (inp) inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); classifyInput(); }
+  });
+});
+
 // ── Language ──
 let LANG = localStorage.getItem('problems-lang') || 'en';
 
