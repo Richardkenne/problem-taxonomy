@@ -672,6 +672,12 @@ const ARCHETYPE_KEYWORDS = {
       ['high net worth only', 4], ['hedge fund', 2], ['private equity access', 3],
       ['venture capital access', 3],
 
+      // food access / healthy eating
+      ['healthy food', 3], ['healthy options', 3], ['no healthy food nearby', 4],
+      ['food desert', 4], ['no fresh produce', 3], ['fast food only', 4],
+      ['cheap unhealthy food', 3], ['healthy food too expensive', 4],
+      ['can\'t afford healthy food', 4], ['no gym nearby', 3], ['no nutritionist', 3],
+
       // healthcare
       ['healthcare access', 3], ['no doctor nearby', 3], ['medical desert', 3],
       ['mental health access', 3], ['therapy access', 3], ['specialist access', 3],
