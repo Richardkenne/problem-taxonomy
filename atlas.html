@@ -1182,8 +1182,51 @@ function resetRoadmap() {
     undimRing(ri);
   });
   document.getElementById('roadmap-inner').innerHTML = '';
+  document.getElementById('rm-reset').classList.remove('visible');
   document.getElementById('info-default').style.display = '';
   document.getElementById('info-content').style.display = 'none';
+  document.getElementById('combo-content').style.display = 'none';
+}
+
+function showComboInfo(p, s, r) {
+  const key = `${p}-${s}-${r}`;
+  const companies = COMBOS[key];
+  document.getElementById('info-default').style.display = 'none';
+  document.getElementById('info-content').style.display = 'none';
+  document.getElementById('combo-content').style.display = 'block';
+  // Render combination chips
+  const chipsEl = document.getElementById('combo-chips');
+  chipsEl.innerHTML = '';
+  [[p, 0], [s, 1], [r, 2]].forEach(([si, ri], idx) => {
+    if (idx > 0) {
+      const arrow = document.createElement('span');
+      arrow.className = 'combo-arrow';
+      arrow.textContent = '→';
+      chipsEl.appendChild(arrow);
+    }
+    const chip = document.createElement('span');
+    chip.className = 'combo-chip';
+    chip.style.background = ringTagBgs[ri];
+    chip.style.color = ringTagFgs[ri];
+    chip.textContent = SEGS[si].title;
+    chipsEl.appendChild(chip);
+  });
+  // Render company list
+  const listEl = document.getElementById('combo-exs');
+  listEl.innerHTML = '';
+  const fallback = document.getElementById('combo-fallback');
+  if (companies && companies.length) {
+    fallback.style.display = 'none';
+    companies.forEach(c => {
+      const li = document.createElement('li');
+      li.style.cssText = 'font-size:13.5px;color:#444;padding:6px 0;border-bottom:1px solid #f0f0f0;line-height:1.45;list-style:none;';
+      li.innerHTML = `<span style="color:#1e5ad7;font-weight:700;margin-right:4px;">·</span><a href="${c.url}" target="_blank" class="ex-link">${c.name}</a> — ${c.desc}`;
+      listEl.appendChild(li);
+    });
+  } else {
+    fallback.style.display = 'block';
+    fallback.textContent = 'No direct examples for this combination — but it\'s a valid configuration to explore.';
+  }
 }
 </script>
 
