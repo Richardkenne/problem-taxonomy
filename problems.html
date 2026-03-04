@@ -206,6 +206,8 @@
     .cr-trace-line.indent { padding-left: 18px; color: #889; }
     .cr-trace-line.highlight { color: #1e5ad7; font-weight: 600; }
     .cr-trace-line.match-best { color: #1a7a3c; font-weight: 700; }
+    .cr-cursor { animation: blink .7s step-end infinite; color: #1e5ad7; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
     @media (max-width: 540px) {
       .classifier-row { flex-direction: column; }
       .classifier-btn { width: 100%; }
