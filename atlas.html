@@ -237,7 +237,8 @@ const SEGS = [
       {name:'Uber',       url:'https://uber.com',        desc:'matching riders with drivers in real time'},
       {name:'Airbnb',     url:'https://airbnb.com',      desc:'matching hosts with travelers worldwide'},
       {name:'TaskRabbit', url:'https://taskrabbit.com',  desc:'matching workers with tasks nearby'},
-      {name:'Lyft',       url:'https://lyft.com',        desc:'matching drivers and riders, competing on trust'}
+      {name:'DoorDash',   url:'https://doordash.com',    desc:'coordinating restaurants, couriers and customers'},
+      {name:'Calendly',   url:'https://calendly.com',    desc:'eliminating the back-and-forth of scheduling'}
     ]},
   { ring:0, label:'Discovery',          color:PROBLEM_COLORS[1], title:'Discovery Problem',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
@@ -245,7 +246,9 @@ const SEGS = [
     ex:[
       {name:'Google',      url:'https://google.com',      desc:"organizing the web's information"},
       {name:'Yelp',        url:'https://yelp.com',        desc:'discovering local businesses'},
-      {name:'TripAdvisor', url:'https://tripadvisor.com', desc:'finding the right hotel or restaurant'}
+      {name:'TripAdvisor', url:'https://tripadvisor.com', desc:'finding the right hotel or restaurant'},
+      {name:'Spotify',     url:'https://spotify.com',     desc:'discovering new music via algorithm and playlists'},
+      {name:'Perplexity',  url:'https://perplexity.ai',   desc:'AI-native answer engine replacing keyword search'}
     ]},
   { ring:0, label:'Information\nAsymmetry', color:PROBLEM_COLORS[2], title:'Information Asymmetry',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
@@ -253,7 +256,9 @@ const SEGS = [
     ex:[
       {name:'Carfax',    url:'https://carfax.com',    desc:'transparent vehicle history for buyers'},
       {name:'Glassdoor', url:'https://glassdoor.com', desc:'salary and culture data for job seekers'},
-      {name:'Zillow',    url:'https://zillow.com',    desc:'real estate pricing data for homebuyers'}
+      {name:'Zillow',    url:'https://zillow.com',    desc:'real estate pricing data for homebuyers'},
+      {name:'Gong',      url:'https://gong.io',       desc:'surfaces what actually happens in sales calls'},
+      {name:'ZoomInfo',  url:'https://zoominfo.com',  desc:'B2B data giving sales teams full visibility'}
     ]},
   { ring:0, label:'Trust',              color:PROBLEM_COLORS[3], title:'Trust Problem',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
@@ -262,31 +267,38 @@ const SEGS = [
       {name:'Stripe',     url:'https://stripe.com',     desc:'secure, trusted payment infrastructure'},
       {name:'DocuSign',   url:'https://docusign.com',   desc:'legally binding digital signatures'},
       {name:'Trustpilot', url:'https://trustpilot.com', desc:'verified reviews to build credibility'},
-      {name:'PayPal',     url:'https://paypal.com',     desc:'trusted layer between buyers and sellers online'}
+      {name:'PayPal',     url:'https://paypal.com',     desc:'trusted layer between buyers and sellers online'},
+      {name:'Okta',       url:'https://okta.com',       desc:'identity and access management for enterprises'}
     ]},
   { ring:0, label:'Infrastructure\nGap', color:PROBLEM_COLORS[4], title:'Infrastructure Gap',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
     def:'Core technical or physical infrastructure is missing, blocking higher-level products from being built.',
     ex:[
-      {name:'AWS',    url:'https://aws.amazon.com', desc:'cloud infrastructure enabling the modern web'},
-      {name:'Twilio', url:'https://twilio.com',     desc:'communication APIs for developers'},
-      {name:'Plaid',  url:'https://plaid.com',      desc:'financial data pipes for fintech apps'}
+      {name:'AWS',        url:'https://aws.amazon.com', desc:'cloud infrastructure enabling the modern web'},
+      {name:'Twilio',     url:'https://twilio.com',     desc:'communication APIs for developers'},
+      {name:'Plaid',      url:'https://plaid.com',      desc:'financial data pipes for fintech apps'},
+      {name:'Segment',    url:'https://segment.com',    desc:'customer data infrastructure for any product'},
+      {name:'Cloudflare', url:'https://cloudflare.com', desc:'security and performance layer for the internet'}
     ]},
   { ring:0, label:'Process\nInefficiency', color:PROBLEM_COLORS[5], title:'Process Inefficiency',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
     def:'Existing workflows are too slow, expensive, or error-prone. The cost of doing business is unnecessarily high.',
     ex:[
-      {name:'Slack',  url:'https://slack.com',  desc:'replacing email for team communication'},
-      {name:'Notion', url:'https://notion.so',  desc:'consolidating fragmented knowledge tools'},
-      {name:'Figma',  url:'https://figma.com',  desc:'eliminating version chaos in design'}
+      {name:'Slack',    url:'https://slack.com',    desc:'replacing email for team communication'},
+      {name:'Notion',   url:'https://notion.so',    desc:'consolidating fragmented knowledge tools'},
+      {name:'Figma',    url:'https://figma.com',    desc:'eliminating version chaos in design'},
+      {name:'Rippling', url:'https://rippling.com', desc:'unifying HR, IT, and payroll in one system'},
+      {name:'Linear',   url:'https://linear.app',   desc:'fast issue tracking replacing bloated Jira'}
     ]},
   { ring:0, label:'Automation\nOpportunity', color:PROBLEM_COLORS[6], title:'Automation Opportunity',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
     def:'Manual, repetitive work is ripe for automation, freeing humans for higher-value tasks.',
     ex:[
-      {name:'Zapier',   url:'https://zapier.com',   desc:'connecting apps without code'},
-      {name:'UiPath',   url:'https://uipath.com',   desc:'robotic process automation for enterprise'},
-      {name:'HubSpot',  url:'https://hubspot.com',  desc:'automating marketing and sales pipelines'}
+      {name:'Zapier',     url:'https://zapier.com',     desc:'connecting apps without code'},
+      {name:'UiPath',     url:'https://uipath.com',     desc:'robotic process automation for enterprise'},
+      {name:'HubSpot',    url:'https://hubspot.com',    desc:'automating marketing and sales pipelines'},
+      {name:'Bill.com',   url:'https://bill.com',       desc:'automating accounts payable and receivable'},
+      {name:'Ramp',       url:'https://ramp.com',       desc:'automated expense management and spend controls'}
     ]},
   { ring:0, label:'Aggregation\nProblem', color:PROBLEM_COLORS[7], title:'Aggregation Problem',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
@@ -294,7 +306,9 @@ const SEGS = [
     ex:[
       {name:'Booking.com', url:'https://booking.com',  desc:'aggregating hotels globally'},
       {name:'Etsy',        url:'https://etsy.com',     desc:'aggregating independent craft sellers'},
-      {name:'Instacart',   url:'https://instacart.com',desc:'aggregating grocery delivery from local stores'}
+      {name:'Instacart',   url:'https://instacart.com',desc:'aggregating grocery delivery from local stores'},
+      {name:'Faire',       url:'https://faire.com',    desc:'aggregating independent brands for retailers'},
+      {name:'Substack',    url:'https://substack.com', desc:'aggregating independent writers into one ecosystem'}
     ]},
   { ring:0, label:'Access\nLimitation', color:PROBLEM_COLORS[8], title:'Access Limitation',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
@@ -302,27 +316,29 @@ const SEGS = [
     ex:[
       {name:'Robinhood', url:'https://robinhood.com', desc:'commission-free investing for everyone'},
       {name:'Coursera',  url:'https://coursera.com',  desc:'world-class education at low cost'},
-      {name:'Substack',  url:'https://substack.com',  desc:'enabling any writer to monetize an audience'},
-      {name:'Coinbase',  url:'https://coinbase.com',  desc:'crypto trading accessible to everyday users'},
-      {name:'Udemy',     url:'https://udemy.com',     desc:'anyone can teach, anyone can learn'},
-      {name:'WeWork',    url:'https://wework.com',    desc:'flexible office space for startups and freelancers'},
-      {name:'Square',    url:'https://squareup.com',  desc:'card payments for any small business'}
+      {name:'Shopify',   url:'https://shopify.com',   desc:'e-commerce tools once only for large retailers'},
+      {name:'Canva',     url:'https://canva.com',     desc:'professional design for non-designers'},
+      {name:'Webflow',   url:'https://webflow.com',   desc:'professional web design without engineers'}
     ]},
   { ring:0, label:'Cost\nReduction', color:PROBLEM_COLORS[9], title:'Cost Reduction Opportunity',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
     def:'The existing solution works but is dramatically too expensive for most users or businesses.',
     ex:[
-      {name:'Zoom',     url:'https://zoom.us',     desc:'replacing expensive business travel with video calls'},
-      {name:'Shopify',  url:'https://shopify.com', desc:'affordable e-commerce for small merchants'},
-      {name:'Canva',    url:'https://canva.com',   desc:'professional design tools at 1% of agency cost'}
+      {name:'Zoom',    url:'https://zoom.us',     desc:'replacing expensive business travel with video calls'},
+      {name:'Shopify', url:'https://shopify.com', desc:'affordable e-commerce for small merchants'},
+      {name:'Canva',   url:'https://canva.com',   desc:'professional design at 1% of agency cost'},
+      {name:'Wise',    url:'https://wise.com',    desc:'international transfers at true mid-market rate'},
+      {name:'Notion',  url:'https://notion.so',   desc:'$8/mo replacing a $50+/mo multi-tool stack'}
     ]},
   { ring:0, label:'Speed\nProblem', color:PROBLEM_COLORS[10], title:'Speed Problem',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
     def:'Current solutions are too slow for modern expectations. Speed itself becomes the competitive advantage.',
     ex:[
-      {name:'Stripe',   url:'https://stripe.com',   desc:'instant setup vs. weeks of bank onboarding'},
-      {name:'Vercel',   url:'https://vercel.com',   desc:'instant deployments replacing slow CI pipelines'},
-      {name:'DoorDash', url:'https://doordash.com', desc:'30-min delivery vs. slow alternatives'}
+      {name:'Stripe',     url:'https://stripe.com',     desc:'payment setup in hours vs. weeks of bank onboarding'},
+      {name:'Vercel',     url:'https://vercel.com',     desc:'instant deployments replacing slow CI pipelines'},
+      {name:'DoorDash',   url:'https://doordash.com',   desc:'30-min delivery vs. 60+ min alternatives'},
+      {name:'Linear',     url:'https://linear.app',     desc:'100ms issue tracking vs. Jira\'s 2+ second responses'},
+      {name:'Superhuman', url:'https://superhuman.com', desc:'2× faster email with sub-100ms interactions'}
     ]},
   { ring:0, label:'New\nCapability', color:PROBLEM_COLORS[11], title:'New Tech Capability',
     tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
@@ -331,8 +347,8 @@ const SEGS = [
       {name:'OpenAI',     url:'https://openai.com',     desc:'LLMs enabling conversational AI products'},
       {name:'Midjourney', url:'https://midjourney.com', desc:'diffusion models enabling instant image generation'},
       {name:'Tesla',      url:'https://tesla.com',      desc:'batteries + software enabling viable electric vehicles'},
-      {name:'Shazam',     url:'https://shazam.com',    desc:'mobile audio fingerprinting identifying any song in seconds'},
-      {name:'Peloton',    url:'https://onepeloton.com', desc:'sensors + streaming turning exercise into live entertainment'}
+      {name:'Shazam',     url:'https://shazam.com',     desc:'audio fingerprinting identifying any song in seconds'},
+      {name:'SpaceX',     url:'https://spacex.com',     desc:'reusable rockets reducing launch cost by 10×'}
     ]},
 
   // ── Ring 1: Solutions (6) ──
@@ -340,17 +356,21 @@ const SEGS = [
     tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
     def:'A two-sided platform connecting buyers and sellers, taking a percentage of each transaction.',
     ex:[
-      {name:'Airbnb', url:'https://airbnb.com', desc:'connecting hosts and travelers globally'},
-      {name:'Etsy',   url:'https://etsy.com',   desc:'connecting craft sellers with buyers'},
-      {name:'Uber',   url:'https://uber.com',   desc:'connecting drivers with riders in real time'}
+      {name:'Airbnb',      url:'https://airbnb.com',      desc:'connecting hosts and travelers globally'},
+      {name:'Etsy',        url:'https://etsy.com',        desc:'connecting craft sellers with buyers'},
+      {name:'Uber',        url:'https://uber.com',        desc:'connecting drivers with riders in real time'},
+      {name:'Upwork',      url:'https://upwork.com',      desc:'freelancers matched to companies worldwide'},
+      {name:'Booking.com', url:'https://booking.com',     desc:'hotels and travelers matched at global scale'}
     ]},
   { ring:1, label:'SaaS',        color:SOLUTION_COLORS[1], title:'SaaS',
     tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
     def:'Subscription-based software delivered over the internet. Recurring revenue with low marginal cost per user.',
     ex:[
-      {name:'Slack',       url:'https://slack.com',       desc:'team communication at $7/user/month'},
-      {name:'Salesforce',  url:'https://salesforce.com',  desc:'CRM at $25–300/user/month'},
-      {name:'Notion',      url:'https://notion.so',       desc:'workspace at freemium pricing'}
+      {name:'Slack',      url:'https://slack.com',      desc:'team communication at $7/user/month'},
+      {name:'Salesforce', url:'https://salesforce.com', desc:'CRM at $25–300/user/month'},
+      {name:'Notion',     url:'https://notion.so',      desc:'workspace at freemium pricing'},
+      {name:'Figma',      url:'https://figma.com',      desc:'design tool at $12/editor/month'},
+      {name:'HubSpot',    url:'https://hubspot.com',    desc:'marketing and CRM free tier to $3K+/mo enterprise'}
     ]},
   { ring:1, label:'Platform',    color:SOLUTION_COLORS[2], title:'Platform',
     tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
@@ -358,7 +378,9 @@ const SEGS = [
     ex:[
       {name:'Shopify',    url:'https://shopify.com',    desc:'merchants and developers build on top'},
       {name:'Stripe',     url:'https://stripe.com',     desc:'developers build payment products on top'},
-      {name:'Salesforce', url:'https://salesforce.com', desc:'3rd party apps for the CRM ecosystem'}
+      {name:'Salesforce', url:'https://salesforce.com', desc:'3rd party apps for the CRM ecosystem'},
+      {name:'GitHub',     url:'https://github.com',     desc:'every developer builds and ships from here'},
+      {name:'Databricks', url:'https://databricks.com', desc:'data teams and ML engineers build on top'}
     ]},
   { ring:1, label:'Infrastructure', color:SOLUTION_COLORS[3], title:'Infrastructure',
     tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
@@ -366,15 +388,19 @@ const SEGS = [
     ex:[
       {name:'AWS',        url:'https://aws.amazon.com', desc:'powers ~33% of the internet'},
       {name:'Cloudflare', url:'https://cloudflare.com', desc:'security and performance layer for websites'},
-      {name:'Plaid',      url:'https://plaid.com',      desc:'financial data pipes for thousands of fintech apps'}
+      {name:'Plaid',      url:'https://plaid.com',      desc:'financial data pipes for thousands of fintech apps'},
+      {name:'Twilio',     url:'https://twilio.com',     desc:'communication infrastructure as simple API calls'},
+      {name:'Segment',    url:'https://segment.com',    desc:'customer data infrastructure — write once, send anywhere'}
     ]},
   { ring:1, label:'Automation',  color:SOLUTION_COLORS[4], title:'Automation',
     tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
     def:'Software that replaces or augments manual, repetitive human work — improving speed, accuracy, and cost.',
     ex:[
-      {name:'Zapier', url:'https://zapier.com', desc:'no-code automation connecting 5,000+ apps'},
-      {name:'UiPath', url:'https://uipath.com', desc:'enterprise robotic process automation'},
-      {name:'Make',   url:'https://make.com',   desc:'visual workflow automation platform'}
+      {name:'Zapier',  url:'https://zapier.com', desc:'no-code automation connecting 5,000+ apps'},
+      {name:'UiPath',  url:'https://uipath.com', desc:'enterprise robotic process automation'},
+      {name:'Make',    url:'https://make.com',   desc:'visual workflow automation platform'},
+      {name:'n8n',     url:'https://n8n.io',     desc:'open-source automation for technical teams'},
+      {name:'Workato', url:'https://workato.com',desc:'enterprise-grade integration automation'}
     ]},
   { ring:1, label:'Data\nNetwork', color:SOLUTION_COLORS[5], title:'Data Network',
     tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
@@ -383,7 +409,8 @@ const SEGS = [
       {name:'Waze',     url:'https://waze.com',     desc:'crowdsourced traffic data improving with every driver'},
       {name:'LinkedIn', url:'https://linkedin.com', desc:'professional graph richer with every connection'},
       {name:'Palantir', url:'https://palantir.com', desc:'analytics improving with every dataset ingested'},
-      {name:'Duolingo', url:'https://duolingo.com', desc:'learning model trained by millions of daily learners'}
+      {name:'Duolingo', url:'https://duolingo.com', desc:'learning model trained by millions of daily learners'},
+      {name:'Spotify',  url:'https://spotify.com',  desc:'recommendation engine refined by billions of listening sessions'}
     ]},
 
   // ── Ring 2: Products (6) ──
@@ -393,23 +420,29 @@ const SEGS = [
     ex:[
       {name:'Uber',      url:'https://uber.com',      desc:'GPS-dependent real-time coordination'},
       {name:'Instagram', url:'https://instagram.com', desc:'camera and feed in your pocket'},
-      {name:'Robinhood', url:'https://robinhood.com', desc:'trading on-the-go with push alerts'}
+      {name:'Robinhood', url:'https://robinhood.com', desc:'trading on-the-go with push alerts'},
+      {name:'Duolingo',  url:'https://duolingo.com',  desc:'daily learning habit driven by streaks and notifications'},
+      {name:'WhatsApp',  url:'https://whatsapp.com',  desc:'messaging built around the phone number and contacts'}
     ]},
   { ring:2, label:'Web\nApp',     color:PRODUCT_COLORS[1], title:'Web App',
     tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
     def:'Browser-based application. Best for complex tools, B2B products, or keyboard-heavy interactions.',
     ex:[
-      {name:'Notion',   url:'https://notion.so',   desc:'documents and databases in the browser'},
-      {name:'Figma',    url:'https://figma.com',   desc:'full-featured design tool, zero install'},
-      {name:'Airtable', url:'https://airtable.com',desc:'spreadsheet-database hybrid for teams'}
+      {name:'Notion',     url:'https://notion.so',   desc:'documents and databases in the browser'},
+      {name:'Figma',      url:'https://figma.com',   desc:'full-featured design tool, zero install'},
+      {name:'Airtable',   url:'https://airtable.com',desc:'spreadsheet-database hybrid for teams'},
+      {name:'Linear',     url:'https://linear.app',  desc:'keyboard-first project management for engineers'},
+      {name:'Salesforce', url:'https://salesforce.com', desc:'complex CRM workflows best on a large screen'}
     ]},
   { ring:2, label:'API',          color:PRODUCT_COLORS[2], title:'API',
     tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
     def:'Programmatic interface for developers. Best when your customers are technical teams who want to integrate.',
     ex:[
-      {name:'Stripe',   url:'https://stripe.com',   desc:'payments API embedded in thousands of apps'},
-      {name:'Twilio',   url:'https://twilio.com',   desc:'SMS and voice API for any application'},
-      {name:'SendGrid', url:'https://sendgrid.com', desc:'email delivery API at scale'}
+      {name:'Stripe',      url:'https://stripe.com',      desc:'payments API embedded in thousands of apps'},
+      {name:'Twilio',      url:'https://twilio.com',      desc:'SMS and voice API for any application'},
+      {name:'SendGrid',    url:'https://sendgrid.com',    desc:'email delivery API at scale'},
+      {name:'Plaid',       url:'https://plaid.com',       desc:'bank connectivity API for any fintech'},
+      {name:'OpenAI API',  url:'https://platform.openai.com', desc:'GPT models as API — intelligence as a service'}
     ]},
   { ring:2, label:'AI\nTool',     color:PRODUCT_COLORS[3], title:'AI Tool',
     tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
@@ -417,7 +450,9 @@ const SEGS = [
     ex:[
       {name:'ChatGPT',    url:'https://chat.openai.com', desc:'conversational AI for any question or task'},
       {name:'Midjourney', url:'https://midjourney.com',  desc:'image generation from text prompts'},
-      {name:'Jasper',     url:'https://jasper.ai',       desc:'AI copywriting for marketing teams'}
+      {name:'Cursor',     url:'https://cursor.com',      desc:'AI code editor accelerating development 10×'},
+      {name:'Perplexity', url:'https://perplexity.ai',   desc:'AI-native search with cited real-time answers'},
+      {name:'ElevenLabs', url:'https://elevenlabs.io',   desc:'ultra-realistic AI voice synthesis for any content'}
     ]},
   { ring:2, label:'Platform',     color:PRODUCT_COLORS[4], title:'Platform Product',
     tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
@@ -425,7 +460,9 @@ const SEGS = [
     ex:[
       {name:'Shopify',    url:'https://shopify.com',    desc:'app store of 8,000+ integrations'},
       {name:'Salesforce', url:'https://salesforce.com', desc:'AppExchange with 5,000+ apps'},
-      {name:'AWS',        url:'https://aws.amazon.com', desc:'200+ services built on core infrastructure'}
+      {name:'AWS',        url:'https://aws.amazon.com', desc:'200+ services built on core infrastructure'},
+      {name:'GitHub',     url:'https://github.com',     desc:'Actions, Copilot, and 10,000+ integrations'},
+      {name:'OpenAI',     url:'https://openai.com',     desc:'GPT as platform — thousands of products built on top'}
     ]},
   { ring:2, label:'Hardware',     color:PRODUCT_COLORS[5], title:'Hardware',
     tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
