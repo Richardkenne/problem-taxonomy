@@ -795,7 +795,12 @@
     });
   });
 
+  let _lastNodeClick = 0;
+  document.querySelectorAll('.node.clickable').forEach(n => {
+    n.addEventListener('touchstart', () => { _lastNodeClick = Date.now(); }, { passive: true });
+  });
   document.addEventListener('click', e => {
+    if (Date.now() - _lastNodeClick < 300) return;
     if (!e.target.closest('.flow-step')) Object.keys(SEQ).forEach(closeCard);
   });
 </script>
