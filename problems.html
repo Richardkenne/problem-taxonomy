@@ -213,6 +213,17 @@
   <h1 class="page-title">12 Problem<br>Archetypes</h1>
   <p class="page-sub">Every startup solves one of these structural problems. Understanding them helps you identify real opportunities — and avoid building solutions in search of a problem.</p>
 
+  <!-- ── CLASSIFIER ── -->
+  <div class="classifier" id="classifier">
+    <div class="classifier-title">⬡ Problem Classifier</div>
+    <div class="classifier-row">
+      <textarea class="classifier-input" id="classifier-input" rows="2"
+        placeholder="Describe a problem or idea… e.g. 'People waste hours waiting in hospitals'"></textarea>
+      <button class="classifier-btn" onclick="classifyInput()">Classify →</button>
+    </div>
+    <div class="classifier-result" id="classifier-result"></div>
+  </div>
+
   <!-- ── GRID ── -->
   <div class="grid" id="grid"></div>
 
