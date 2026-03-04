@@ -366,18 +366,34 @@ function renderTrace(text) {
 }
 
 function appendResultCard(text, resultEl) {
-  // Extract "Best match: X" from LLM output and link to archetype section
   const match = text.match(/Best match:\s*(.+)/i);
   if (!match) return;
-  const label = match[1].trim().replace(/[*_.]/g, '');
+  const label = match[1].trim().replace(/[*_.:\n]/g, '').toLowerCase();
 
-  // Find matching archetype by label (fuzzy)
-  const arch = Object.values(ARCHETYPE_KEYWORDS).find(a =>
-    label.toLowerCase().includes(a.label.toLowerCase()) ||
-    a.label.toLowerCase().includes(label.toLowerCase().split(' ')[0])
-  );
+  // Map common LLM label variants to archetype ids
+  const labelMap = {
+    'coordination': 'coordination', 'coordination problem': 'coordination',
+    'discovery': 'discovery', 'discovery problem': 'discovery',
+    'information asymmetry': 'information', 'information': 'information',
+    'trust': 'trust', 'trust problem': 'trust',
+    'infrastructure': 'infrastructure', 'infrastructure gap': 'infrastructure',
+    'process': 'process', 'process inefficiency': 'process',
+    'automation': 'automation', 'automation gap': 'automation',
+    'aggregation': 'aggregation', 'aggregation problem': 'aggregation',
+    'access': 'access', 'access limitation': 'access',
+    'cost': 'cost', 'cost reduction': 'cost',
+    'speed': 'speed', 'speed/latency': 'speed', 'latency': 'speed',
+    'capability': 'capability', 'new capability': 'capability',
+  };
 
+  const archId = labelMap[label] ||
+    Object.keys(labelMap).find(k => label.includes(k) || k.includes(label.split(' ')[0]));
+
+  if (!archId) return;
+  const id = labelMap[archId] || archId;
+  const arch = ARCHETYPE_KEYWORDS[id] || Object.values(ARCHETYPE_KEYWORDS).find(a => a.id === id);
   if (!arch) return;
+
   const prob = PROBLEMS.find(p => p.id === arch.id);
   const name = prob ? prob.label : arch.label;
 
