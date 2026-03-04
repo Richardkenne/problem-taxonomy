@@ -907,7 +907,47 @@ function toggleLang() {
   renderAll();
 }
 
+let _activeSection = null;
+
+function toggleSection(id) {
+  // Deactivate all grid cards
+  document.querySelectorAll('.grid-card').forEach(c => c.classList.remove('card-active'));
+
+  if (_activeSection === id) {
+    // Close it
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('open');
+    _activeSection = null;
+    return;
+  }
+
+  // Close previous
+  if (_activeSection) {
+    const prev = document.getElementById(_activeSection);
+    if (prev) prev.classList.remove('open');
+  }
+
+  // Open new
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('open');
+    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
+
+  // Mark card active
+  const card = document.querySelector(`.grid-card[data-id="${id}"]`);
+  if (card) card.classList.add('card-active');
+
+  _activeSection = id;
+}
+
 renderAll();
+
+// Open section if URL hash is present (e.g. problems.html#coordination)
+if (window.location.hash) {
+  const hashId = window.location.hash.slice(1);
+  setTimeout(() => toggleSection(hashId), 100);
+}
 </script>
 </body>
 </html>
