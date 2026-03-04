@@ -815,7 +815,7 @@ function renderAll() {
   grid.innerHTML = '';
   PROBLEMS.forEach(p => {
     const a = document.createElement('a');
-    a.href = `#${p.id}`;
+    a.href = `startup-framework.html?problem=${p.id}`;
     a.className = 'grid-card';
     a.style.background = p.light;
     a.innerHTML = `
