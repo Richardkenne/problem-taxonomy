@@ -836,7 +836,8 @@ function renderAll() {
     a.href = 'javascript:void(0)';
     a.className = 'grid-card';
     a.dataset.id = p.id;
-    a.style.background = p.light;
+    a.style.background = '#fff';
+    a.style.border = '1.5px solid #e8ecf2';
     a.innerHTML = `
       <div class="grid-num" style="color:${p.textDark}">${p.num}</div>
       <div class="grid-name" style="color:${p.color}">${t(p,'name')}</div>
