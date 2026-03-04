@@ -1156,6 +1156,20 @@ SEGS.forEach((seg, si) => {
   wheel.appendChild(g);
 });
 
+// ── Pre-select problem from URL param (?problem=coordination etc.) ──
+(function() {
+  const PROB_IDX = { coordination:0, discovery:1, information:2, trust:3, infrastructure:4, process:5, automation:6, aggregation:7, access:8, cost:9, speed:10, capability:11 };
+  const param = new URLSearchParams(window.location.search).get('problem');
+  if (param !== null && PROB_IDX[param] !== undefined) {
+    const si = PROB_IDX[param];
+    // Find the segElement for this problem (ring 0)
+    const probSeg = segElements.find(el => el.seg.ring === 0 && segElements.indexOf(el) === si);
+    if (probSeg) {
+      setTimeout(() => probSeg.g.dispatchEvent(new MouseEvent('click', { bubbles: true })), 200);
+    }
+  }
+})();
+
 function dimRing(ri, selectedSi) {
   segElements.forEach((el, i) => {
     if (el.seg.ring !== ri) return;
