@@ -1069,6 +1069,25 @@ SEGS.forEach((seg, si) => {
     if (roadmapState[ri] !== si) { path.setAttribute('fill', seg.color); }
   });
   g.addEventListener('click', () => {
+    // Deselect on re-click
+    if (roadmapState[ri] === si) {
+      path.setAttribute('fill', seg.color);
+      path.setAttribute('stroke-width', '1');
+      path.removeAttribute('filter');
+      roadmapState[ri] = null;
+      undimRing(ri);
+      updateRoadmap();
+      document.getElementById('combo-content').style.display = 'none';
+      // Show remaining selection or default
+      const remaining = [roadmapState[0], roadmapState[1], roadmapState[2]].find(v => v !== null);
+      if (remaining !== undefined) {
+        showInfo(SEGS[remaining]);
+      } else {
+        document.getElementById('info-default').style.display = '';
+        document.getElementById('info-content').style.display = 'none';
+      }
+      return;
+    }
     // Deselect previous in same ring
     const prev = roadmapState[ri];
     if (prev !== null && prev !== si) {
@@ -1082,7 +1101,12 @@ SEGS.forEach((seg, si) => {
     path.setAttribute('filter','url(#glow)');
     // Dim all other segments in the same ring
     dimRing(ri, si);
-    showInfo(seg);
+    // Show combo if all 3 rings selected
+    if (roadmapState[0] !== null && roadmapState[1] !== null && roadmapState[2] !== null) {
+      showComboInfo(roadmapState[0], roadmapState[1], roadmapState[2]);
+    } else {
+      showInfo(seg);
+    }
     updateRoadmap();
   });
   wheel.appendChild(g);
