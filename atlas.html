@@ -52,8 +52,15 @@
     }
 
     /* ── Layout ── */
-    #container { display: grid; grid-template-columns: 1fr 360px; height: 100vh; }
-    @media (max-width: 860px) { #container { grid-template-columns: 1fr; height: auto; overflow-y: auto; } body { overflow: auto; } }
+    #container { display: grid; grid-template-columns: 1fr; height: 100vh; }
+    #container.panel-open { grid-template-columns: 1fr 360px; }
+    #right { display: none; }
+    #container.panel-open #right { display: block; }
+    @media (max-width: 860px) {
+      #container, #container.panel-open { grid-template-columns: 1fr; height: auto; overflow-y: auto; }
+      #container.panel-open #right { display: block; }
+      body { overflow: auto; }
+    }
 
     /* ── Left ── */
     #left { display: flex; flex-direction: column; padding: 28px 24px 12px; overflow: hidden; }
