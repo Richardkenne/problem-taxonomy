@@ -767,7 +767,14 @@
     } else {
       text = `A ${s[2]||'product'} using a ${s[1]||'?'} model, solving a "${s[0]||'?'}".`;
     }
-    el.innerHTML = `<div class="concept-label">Your startup concept</div><p class="concept-text">${text}</p><button class="concept-copy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent).then(()=>{this.textContent='Copied ✓';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button>`;
+    const safeText = text.replace(/`/g,"'");
+    el.innerHTML = `
+      <div class="concept-label">Your startup concept</div>
+      <p class="concept-text">${text}</p>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="concept-copy" onclick="navigator.clipboard.writeText(\`${safeText}\`).then(()=>{this.textContent='Copied ✓';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button>
+        <button class="concept-copy" style="background:#444" onclick="(function(){const b=new Blob([\`${safeText}\`],{type:'text/plain'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='startup-concept.txt';a.click();URL.revokeObjectURL(u)})()">Download TXT</button>
+      </div>`;
     el.classList.add('visible');
   }
 
