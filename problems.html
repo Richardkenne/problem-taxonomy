@@ -192,6 +192,34 @@
 </footer>
 
 <script>
+// ── Language ──
+let LANG = localStorage.getItem('problems-lang') || 'en';
+
+const UI = {
+  en: {
+    back: '← Back to Framework',
+    title: '12 Problem<br>Archetypes',
+    sub: 'Every startup solves one of these structural problems. Understanding them helps you identify real opportunities — and avoid building solutions in search of a problem.',
+    signalsLabel: 'Signals — how to recognize it',
+    questionsLabel: 'Questions to ask',
+    examplesLabel: 'Real examples',
+    footerDesc: 'A structured methodology for discovering startup opportunities — from market inefficiencies to product decisions.',
+    footerExplore: 'Explore',
+    footerAbout: 'About',
+  },
+  it: {
+    back: '← Torna al Framework',
+    title: '12 Archetipi<br>di Problema',
+    sub: 'Ogni startup risolve uno di questi problemi strutturali. Comprenderli ti aiuta a identificare opportunità reali — e a evitare di costruire soluzioni in cerca di un problema.',
+    signalsLabel: 'Segnali — come riconoscerlo',
+    questionsLabel: 'Domande da fare',
+    examplesLabel: 'Esempi reali',
+    footerDesc: 'Una metodologia strutturata per scoprire opportunità di startup — dalle inefficienze di mercato alle decisioni di prodotto.',
+    footerExplore: 'Esplora',
+    footerAbout: 'Info',
+  }
+};
+
 const PROBLEMS = [
   {
     id: 'coordination',
