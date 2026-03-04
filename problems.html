@@ -368,58 +368,61 @@ async function classifyInput() {
   }
 }
 
-function renderTrace(text) {
-  return text.split('\n').filter(l => l.trim()).map(line => {
-    let cls = 'cr-trace-line visible';
-    if (line.startsWith('Best match:')) cls += ' match-best';
-    else if (line.includes('→')) cls += ' indent';
-    return `<span class="${cls}">${line}</span>`;
-  }).join('\n');
+const LABEL_MAP = {
+  'coordination': 'coordination', 'coordination problem': 'coordination',
+  'discovery': 'discovery', 'discovery problem': 'discovery',
+  'information asymmetry': 'information', 'information': 'information',
+  'trust': 'trust', 'trust problem': 'trust',
+  'infrastructure': 'infrastructure', 'infrastructure gap': 'infrastructure',
+  'process': 'process', 'process inefficiency': 'process',
+  'automation': 'automation', 'automation gap': 'automation', 'automation opportunity': 'automation',
+  'aggregation': 'aggregation', 'aggregation problem': 'aggregation',
+  'access': 'access', 'access limitation': 'access',
+  'cost': 'cost', 'cost reduction': 'cost',
+  'speed': 'speed', 'speed/latency': 'speed', 'latency': 'speed', 'speed problem': 'speed',
+  'capability': 'capability', 'new capability': 'capability', 'new tech capability': 'capability',
+};
+
+function resolveId(rawLabel) {
+  const label = rawLabel.trim().replace(/[*_.:\n]/g, '').toLowerCase();
+  return LABEL_MAP[label] ||
+    LABEL_MAP[Object.keys(LABEL_MAP).find(k => label.includes(k))] ||
+    LABEL_MAP[Object.keys(LABEL_MAP).find(k => k.includes(label.split(' ')[0]))];
 }
 
-function appendResultCard(text, resultEl) {
+function renderClassifierResult(text, resultEl) {
   const match = text.match(/Best match:\s*(.+)/i);
-  if (!match) return;
-  const label = match[1].trim().replace(/[*_.:\n]/g, '').toLowerCase();
+  if (!match) {
+    resultEl.innerHTML = `<div class="cr-no-match">Could not identify a clear archetype. Try describing the problem more specifically.</div>`;
+    return;
+  }
 
-  // Map common LLM label variants to archetype ids
-  const labelMap = {
-    'coordination': 'coordination', 'coordination problem': 'coordination',
-    'discovery': 'discovery', 'discovery problem': 'discovery',
-    'information asymmetry': 'information', 'information': 'information',
-    'trust': 'trust', 'trust problem': 'trust',
-    'infrastructure': 'infrastructure', 'infrastructure gap': 'infrastructure',
-    'process': 'process', 'process inefficiency': 'process',
-    'automation': 'automation', 'automation gap': 'automation',
-    'aggregation': 'aggregation', 'aggregation problem': 'aggregation',
-    'access': 'access', 'access limitation': 'access',
-    'cost': 'cost', 'cost reduction': 'cost',
-    'speed': 'speed', 'speed/latency': 'speed', 'latency': 'speed',
-    'capability': 'capability', 'new capability': 'capability',
-  };
+  const id = resolveId(match[1]);
+  if (!id) {
+    resultEl.innerHTML = `<div class="cr-no-match">Matched: <strong>${match[1].trim()}</strong> — not found in archetypes.</div>`;
+    return;
+  }
 
-  const id = labelMap[label] ||
-    labelMap[Object.keys(labelMap).find(k => label.includes(k))] ||
-    labelMap[Object.keys(labelMap).find(k => k.includes(label.split(' ')[0]))];
-
-  if (!id) return;
   const arch = ARCHETYPE_KEYWORDS[id];
-  if (!arch) return;
+  const prob = PROBLEMS.find(p => p.id === id);
+  if (!prob) return;
 
-  const prob = PROBLEMS.find(p => p.id === arch.id);
-  const name = prob ? prob.name : arch.label;
+  // Extract reasoning line if present
+  const reasonLine = text.match(/(?:because|reasoning|reason|why)[:\s]+([^\n]+)/i);
+  const reason = reasonLine ? reasonLine[1].trim() : '';
 
-  const card = document.createElement('div');
-  card.id = 'cr-card';
-  card.innerHTML = `
-    <div class="cr-top" style="margin-top:14px">
-      <div>
-        <div class="cr-top-label">① Best match</div>
-        <div class="cr-top-name"><a class="cr-top-link" href="#${arch.id}">→ ${name}</a></div>
-        <div class="cr-top-score">Click to jump to this archetype ↓</div>
+  resultEl.innerHTML = `
+    <div class="cr-result-card" style="margin-top:16px; background:#fff; border:1.5px solid #1e5ad7; border-radius:12px; padding:20px 24px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1e5ad7;margin-bottom:8px;">Best match</div>
+      <div style="font-size:22px;font-weight:800;color:#0f1d3a;margin-bottom:4px;">${prob.name}</div>
+      <div style="font-size:13.5px;color:#666;margin-bottom:${reason ? '12px' : '20px'};font-style:italic;">${prob.tagline}</div>
+      ${reason ? `<div style="font-size:13px;color:#555;background:#f7f9ff;border-radius:8px;padding:10px 14px;margin-bottom:20px;">💡 ${reason}</div>` : ''}
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="startup-framework.html?problem=${id}" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#1e5ad7;color:#fff;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;">→ Open in Framework</a>
+        <a href="atlas.html?problem=${id}" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#0f1d3a;color:#fff;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;">◉ Explore in Atlas</a>
+        <button onclick="toggleSection('${id}')" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#f0f2f7;color:#333;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">↓ Read more</button>
       </div>
     </div>`;
-  resultEl.appendChild(card);
 }
 
 // Allow Enter to classify (Shift+Enter for newline)
