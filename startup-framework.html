@@ -674,7 +674,11 @@
 
   /* ── Reveal ── */
   function reveal(key) {
-    document.querySelectorAll(`[data-reveal="${key}"]`).forEach(el => el.classList.remove('hidden'));
+    document.querySelectorAll(`[data-reveal="${key}"]`).forEach(el => {
+      el.classList.remove('hidden');
+      el.classList.add('revealing');
+      el.addEventListener('animationend', () => el.classList.remove('revealing'), { once: true });
+    });
   }
 
   /* ── Close card ── */
