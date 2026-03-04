@@ -429,13 +429,8 @@ const SEGS = [
     ]},
 ];
 
-// ── Combination lookup ──
-// Key format: "problem_idx-solution_idx-product_idx"  (SEGS array indices)
-// Problems 0-11 · Solutions 12-17 · Products 18-23
-// Solutions: 12=Marketplace 13=SaaS 14=Platform 15=Infrastructure 16=Automation 17=DataNetwork
-// Products:  18=MobileApp  19=WebApp  20=API  21=AITool  22=Platform(prod)  23=Hardware
-
-const COMBOS = {
+/* COMBOS loaded from combos.js */
+const __COMBOS_PLACEHOLDER = {
   // ── 0 COORDINATION ──────────────────────────────────────────
   '0-12-18': [ // Marketplace + Mobile App
     {name:'Uber',       url:'https://uber.com',       desc:'real-time driver–rider matching, GPS-native'},
