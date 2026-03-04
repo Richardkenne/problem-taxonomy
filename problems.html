@@ -281,7 +281,12 @@ function scoreInput(input) {
     const matched = [];
 
     for (const [phrase, weight] of arch.keywords) {
-      if (norm.includes(normalise(phrase))) {
+      const np = normalise(phrase);
+      // Short keywords (≤3 chars) must match as whole words to avoid false substring hits
+      const matches = np.length <= 3
+        ? new RegExp('(?<![a-z0-9])' + np.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![a-z0-9])').test(norm)
+        : norm.includes(np);
+      if (matches) {
         score += weight;
         if (!matched.includes(phrase)) matched.push(phrase);
       }
