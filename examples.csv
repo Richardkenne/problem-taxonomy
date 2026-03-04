@@ -1,0 +1,99 @@
+perspective,company,step1,step2,step3,step4
+VC,Uber,Transportation,Coordination problem,Marketplace,Mobile app
+VC,Stripe,Payments,Infrastructure gap,Infrastructure,API
+VC,Airbnb,Commerce,Aggregation problem,Marketplace,Web app
+VC,Oscar Health,Healthcare,Process inefficiency,Platform,Web app
+VC,Palantir,Large spending,Information asymmetry,Platform,Web app
+VC,Zoom,Communications,Speed problem,SaaS,Web app
+VC,Shopify,Commerce,Access limitation,Platform,Web app
+VC,Robinhood,Finance,Access limitation,SaaS,Mobile app
+VC,Figma,Design tools,Process inefficiency,SaaS,Web app
+VC,Notion,Productivity,Process inefficiency,SaaS,Web app
+VC,Plaid,Fintech,Infrastructure gap,Infrastructure,API
+VC,Snowflake,Enterprise data,Information asymmetry,SaaS,Web app
+VC,Twilio,Communications,Infrastructure gap,Infrastructure,API
+VC,Canva,Design,Access limitation,SaaS,Web app
+VC,DoorDash,Food delivery,Coordination problem,Marketplace,Mobile app
+VC,SpaceX,Aerospace,Cost reduction,Infrastructure,Hardware
+VC,Wealthfront,Finance,Access limitation,SaaS,Web app
+VC,Instacart,Grocery,Coordination problem,Marketplace,Mobile app
+VC,Cloudflare,Internet infra,Infrastructure gap,Infrastructure,Web app
+VC,MongoDB,Enterprise data,Process inefficiency,Infrastructure,API
+VC,Datadog,DevOps,Information asymmetry,SaaS,Web app
+VC,Brex,Finance,Access limitation,SaaS,Web app
+VC,Rippling,HR / Payroll,Process inefficiency,SaaS,Web app
+VC,Gusto,HR / Payroll,Process inefficiency,SaaS,Web app
+VC,Airtable,Productivity,Process inefficiency,Platform,Web app
+VC,Intercom,Customer support,Process inefficiency,SaaS,Web app
+VC,Segment,Marketing data,Aggregation problem,Infrastructure,API
+VC,Webflow,Web design,Access limitation,SaaS,Web app
+VC,Retool,Internal tools,Process inefficiency,Platform,Web app
+VC,Vercel,Developer tools,Speed problem,Platform,Web app
+Founder,Airbnb,Coordination problem,Hosts & travelers,Marketplace,Web app
+Founder,Dropbox,Access limitation,Knowledge workers,SaaS,Web app
+Founder,Slack,Process inefficiency,Teams,SaaS,Web app
+Founder,Uber,Coordination problem,Drivers & riders,Marketplace,Mobile app
+Founder,Notion,Process inefficiency,Knowledge workers,SaaS,Web app
+Founder,WhatsApp,Speed problem,Mobile users,SaaS,Mobile app
+Founder,Figma,Process inefficiency,Design teams,SaaS,Web app
+Founder,Canva,Access limitation,Non-designers,SaaS,Web app
+Founder,Stripe,Infrastructure gap,Developers,Infrastructure,API
+Founder,GitHub,Coordination problem,Developers,Platform,Web app
+Founder,Zoom,Speed problem,Remote workers,SaaS,Web app
+Founder,Linear,Process inefficiency,Engineering teams,SaaS,Web app
+Founder,Loom,Speed problem,Remote teams,SaaS,Web app
+Founder,Superhuman,Speed problem,Professionals,SaaS,Web app
+Founder,Vercel,Speed problem,Developers,Platform,Web app
+Founder,Duolingo,Access limitation,Language learners,SaaS,Mobile app
+Founder,Calm,Access limitation,Stressed adults,SaaS,Mobile app
+Founder,Headspace,Access limitation,Wellness seekers,SaaS,Mobile app
+Founder,Robinhood,Access limitation,Retail investors,SaaS,Mobile app
+Founder,Monzo,Process inefficiency,Bank customers,SaaS,Mobile app
+Founder,Revolut,Cost reduction,Travelers,SaaS,Mobile app
+Founder,Clubhouse,Discovery problem,Audio listeners,Marketplace,Mobile app
+Founder,Substack,Access limitation,Writers,Platform,Web app
+Founder,Beehiiv,Access limitation,Newsletter creators,Platform,Web app
+Founder,Webflow,Access limitation,Non-developers,SaaS,Web app
+Founder,Airtable,Process inefficiency,Operations teams,Platform,Web app
+Founder,Miro,Coordination problem,Remote teams,SaaS,Web app
+Founder,Typeform,Process inefficiency,Marketers,SaaS,Web app
+Founder,Calendly,Process inefficiency,Professionals,SaaS,Web app
+Founder,Hotjar,Information asymmetry,Product teams,SaaS,Web app
+VC,Netflix,Media & Entertainment,Aggregation problem,Platform,Web app
+VC,Tesla,Automotive,New tech capability,Platform,Hardware
+VC,Palantir,Government / Public Sector,Information asymmetry,Platform,Web app
+VC,Salesforce,Enterprise software,Process inefficiency,SaaS,Web app
+VC,ServiceNow,Enterprise IT,Process inefficiency,SaaS,Web app
+VC,Workday,HR / Finance,Process inefficiency,SaaS,Web app
+VC,Databricks,Enterprise data,Aggregation problem,Platform,Web app
+VC,OpenAI,Technology (Broad),New tech capability,Platform,Web app
+VC,Anthropic,Technology (Broad),New tech capability,Infrastructure,API
+VC,Cohere,Software,New tech capability,Infrastructure,API
+VC,Scale AI,AI / Data,Process inefficiency,Platform,Web app
+VC,Anduril,Security & Defense,Infrastructure gap,Platform,Hardware
+VC,Relativity Space,Aerospace,Cost reduction,Infrastructure,Hardware
+VC,Devoted Health,Healthcare,Process inefficiency,Platform,Web app
+VC,Hims & Hers,Healthcare,Access limitation,Marketplace,Mobile app
+VC,Calm,Mental health,Access limitation,SaaS,Mobile app
+VC,Navan,Travel / Expense,Process inefficiency,SaaS,Web app
+VC,Faire,Wholesale & Distribution,Coordination problem,Marketplace,Web app
+VC,Coda,Productivity,Process inefficiency,SaaS,Web app
+Founder,Twitter / X,Discovery problem,Public figures,Platform,Mobile app
+Founder,TikTok,Discovery problem,Content creators,Platform,Mobile app
+Founder,Pinterest,Discovery problem,Visual shoppers,Platform,Mobile app
+Founder,Discord,Coordination problem,Gaming communities,Platform,Mobile app
+Founder,Spotify,Access limitation,Music listeners,Marketplace,Mobile app
+Founder,Netflix,Access limitation,TV viewers,Platform,Web app
+Founder,Duolingo,Access limitation,Language learners,SaaS,Mobile app
+Founder,Bumble,Coordination problem,Single professionals,Marketplace,Mobile app
+Founder,Tinder,Coordination problem,Singles,Marketplace,Mobile app
+Founder,Deel,Process inefficiency,Remote teams,SaaS,Web app
+Founder,Remote,Process inefficiency,Global employers,SaaS,Web app
+Founder,Lattice,Process inefficiency,HR teams,SaaS,Web app
+Founder,Pendo,Information asymmetry,Product managers,SaaS,Web app
+Founder,Amplitude,Information asymmetry,Product teams,SaaS,Web app
+Founder,Mixpanel,Information asymmetry,Growth teams,SaaS,Web app
+Founder,PostHog,Information asymmetry,Engineers,Platform,Web app
+Founder,Lottie,Access limitation,Motion designers,SaaS,Web app
+Founder,Framer,Access limitation,Designers,SaaS,Web app
+Founder,Linear,Process inefficiency,Engineering teams,SaaS,Web app

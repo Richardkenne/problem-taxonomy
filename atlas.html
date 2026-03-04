@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Startup Discovery Atlas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #fff; color: #111; }
+
+    /* ── View toggle ── */
+    .view-toggle {
+      position: fixed; top: 16px; right: 16px; z-index: 1000;
+      display: flex; background: #f0f2f7; border-radius: 20px; padding: 3px; gap: 2px;
+    }
+    .view-toggle a, .view-toggle .t-active {
+      font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 16px;
+      text-decoration: none; transition: all .15s; white-space: nowrap;
+    }
+    .view-toggle .t-active { background: #fff; color: #111; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+    .view-toggle a { color: #888; }
+    .view-toggle a:hover { color: #333; }
+
+    /* ── Footer ── */
+    .site-footer {
+      border-top: 1px solid #e8ecf2;
+      padding: 56px 40px 32px;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px; max-width: 880px; margin: 0 auto 40px;
+    }
+    .footer-col-label {
+      font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: #aaa; margin-bottom: 14px;
+    }
+    .footer-col-desc { font-size: 13.5px; color: #999; line-height: 1.6; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 9px; }
+    .footer-links a { font-size: 13.5px; color: #aaa; text-decoration: none; transition: color .15s; }
+    .footer-links a:hover { color: #111; }
+    .footer-about-item { font-size: 13.5px; color: #111; margin-bottom: 8px; }
+    .footer-bottom {
+      max-width: 880px; margin: 0 auto;
+      border-top: 1px solid #f0f2f7; padding-top: 20px;
+      text-align: center; font-size: 12.5px; color: #bbb;
+    }
+    @media (max-width: 640px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .site-footer { padding: 40px 20px 24px; }
+    }
+
+    /* ── Layout ── */
+    #container { display: grid; grid-template-columns: 1fr 360px; height: 100vh; }
+    @media (max-width: 860px) { #container { grid-template-columns: 1fr; height: auto; overflow-y: auto; } body { overflow: auto; } }
+
+    /* ── Left ── */
+    #left { display: flex; flex-direction: column; padding: 28px 24px 12px; overflow: hidden; }
+    #left h1 { font-size: 22px; font-weight: 700; color: #111; margin-bottom: 3px; padding-right: 120px; }
+    #left p  { font-size: 13px; color: #888; margin-bottom: 12px; }
+    #atlas-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; }
+    #atlas { width: 100%; height: 100%; max-width: 520px; max-height: calc(100vh - 200px); }
+
+    /* ── Roadmap ── */
+    #roadmap {
+      padding: 10px 0 14px;
+      min-height: 42px;
+    }
+    #roadmap-inner {
+      display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    }
+    #roadmap-inner:empty::before {
+      content: 'Click segments to build your discovery path';
+      font-size: 12px; color: #ccc;
+    }
+    .rm-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11.5px; font-weight: 600;
+      padding: 4px 11px; border-radius: 20px;
+      letter-spacing: .02em;
+      animation: chipIn .2s ease;
+    }
+    @keyframes chipIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+    .rm-chip .rm-ring {
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      opacity: .65; letter-spacing: .05em;
+    }
+    .rm-arrow { color: #ccc; font-size: 13px; }
+    #rm-reset {
+      font-size: 11px; color: #bbb; background: none; border: none;
+      cursor: pointer; padding: 4px 8px; border-radius: 8px;
+      transition: color .15s;
+    }
+    #rm-reset:hover { color: #666; }
+
+    /* ── Right ── */
+    #right { border-left: 1px solid #e8ecf2; padding: 36px 28px; overflow-y: auto; background: #fff; }
+    #info-default { color: #bbb; font-size: 14px; margin-top: 80px; text-align: center; line-height: 1.8; }
+    #info-content { display: none; }
+    .info-tag {
+      display: inline-block; font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 12px; margin-bottom: 14px;
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    #info-title { font-size: 24px; font-weight: 700; color: #111; margin-bottom: 20px; line-height: 1.25; }
+    .info-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #aaa; margin-bottom: 7px; }
+    #info-def { font-size: 14px; color: #333; line-height: 1.65; margin-bottom: 24px; }
+    #info-exs { list-style: none; }
+    #info-exs li { font-size: 13.5px; color: #444; padding: 6px 0; border-bottom: 1px solid #f0f0f0; line-height: 1.45; }
+    #info-exs li:last-child { border-bottom: none; }
+    #info-exs li::before { content: '· '; color: #1e5ad7; font-weight: 700; font-size: 16px; vertical-align: middle; }
+
+    /* ── Example links ── */
+    .ex-link { color: #1e5ad7; text-decoration: none; font-weight: 600; }
+    .ex-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div class="view-toggle">
+  <a href="startup-framework.html">≡ Framework</a>
+  <span class="t-active">◉ Atlas</span>
+</div>
+
+<div id="container">
+  <div id="left">
+    <a href="startup-framework.html" style="font-size:12px;color:#1e5ad7;text-decoration:none;margin-bottom:8px;display:inline-block;">← Home</a>
+    <h1>Startup Discovery Atlas</h1>
+    <p>Interactive circular model — click any segment to explore</p>
+    <p style="font-size:12px; color:#aaa; margin-bottom:4px;">Darker = more foundational &nbsp;·&nbsp; <span style="color:#1e3a8a; font-weight:600;">Problems</span> (inner) &nbsp;→&nbsp; <span style="color:#065f46; font-weight:600;">Solutions</span> (mid) &nbsp;→&nbsp; <span style="color:#92400e; font-weight:600;">Products</span> (outer) &nbsp;·&nbsp; <a href="problems.html" style="color:#1e5ad7;text-decoration:none;font-weight:600;">Learn the 12 archetypes →</a></p>
+    <div id="atlas-wrap">
+      <svg id="atlas" viewBox="0 0 660 660" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div id="roadmap">
+      <div id="roadmap-inner"></div>
+    </div>
+  </div>
+  <div id="right">
+    <div id="info-default">Click any segment<br>to explore</div>
+    <div id="info-content">
+      <div class="info-tag" id="info-tag"></div>
+      <div id="info-title"></div>
+      <div class="info-lbl">DEFINITION</div>
+      <div id="info-def"></div>
+      <div class="info-lbl">EXAMPLES</div>
+      <ul id="info-exs"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const CX = 330, CY = 330;
+
+const R = [
+  { r1: 80,  r2: 178 }, // problems  (inner = most important)
+  { r1: 183, r2: 250 }, // solutions
+  { r1: 255, r2: 318 }, // products  (outer = most concrete)
+];
+
+// Color palette:
+// Ring 0 (Problems)  — darkest, deep navy/indigo spectrum
+// Ring 1 (Solutions) — medium, rich emerald/teal spectrum
+// Ring 2 (Products)  — lightest, warm muted spectrum
+
+const PROBLEM_COLORS = [
+  '#0d1b4b', // 0 Coordination        — deep navy
+  '#112266', // 1 Discovery           — dark indigo
+  '#1a2e7a', // 2 Info Asymmetry
+  '#1e3a8a', // 3 Trust               — rich blue
+  '#1d4ed8', // 4 Infrastructure Gap
+  '#2563eb', // 5 Process Inefficiency
+  '#1e5ad7', // 6 Automation Opp
+  '#3b5fc0', // 7 Aggregation
+  '#2d4db3', // 8 Access Limitation
+  '#1e40af', // 9 Cost Reduction
+  '#1a3699', // 10 Speed Problem
+  '#152b88', // 11 New Capability
+];
+
+const SOLUTION_COLORS = [
+  '#064e3b', // Marketplace  — deep emerald
+  '#065f46', // SaaS
+  '#047857', // Platform
+  '#059669', // Infrastructure
+  '#10b981', // Automation
+  '#34d399', // Data Network  — lighter teal
+];
+
+const PRODUCT_COLORS = [
+  '#92400e', // Mobile App   — warm amber-brown
+  '#b45309', // Web App
+  '#d97706', // API          — amber
+  '#78350f', // AI Tool      — deep brown
+  '#9a3412', // Platform     — rust
+  '#b91c1c', // Hardware     — dark red
+];
+
+const SEGS = [
+  // ── Ring 0: Problems (12) ──
+  { ring:0, label:'Coordination',       color:PROBLEM_COLORS[0], title:'Coordination Problem',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Supply and demand exist but fail to connect. Value is destroyed by friction in matching.',
+    ex:[
+      {name:'Uber',       url:'https://uber.com',        desc:'matching riders with drivers in real time'},
+      {name:'Airbnb',     url:'https://airbnb.com',      desc:'matching hosts with travelers worldwide'},
+      {name:'TaskRabbit', url:'https://taskrabbit.com',  desc:'matching workers with tasks nearby'}
+    ]},
+  { ring:0, label:'Discovery',          color:PROBLEM_COLORS[1], title:'Discovery Problem',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Users cannot find what they need despite it existing. Search and recommendation are broken.',
+    ex:[
+      {name:'Google',      url:'https://google.com',      desc:"organizing the web's information"},
+      {name:'Yelp',        url:'https://yelp.com',        desc:'discovering local businesses'},
+      {name:'TripAdvisor', url:'https://tripadvisor.com', desc:'finding the right hotel or restaurant'}
+    ]},
+  { ring:0, label:'Information\nAsymmetry', color:PROBLEM_COLORS[2], title:'Information Asymmetry',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'One party holds significantly more information, distorting markets and blocking trust.',
+    ex:[
+      {name:'Carfax',    url:'https://carfax.com',    desc:'transparent vehicle history for buyers'},
+      {name:'Glassdoor', url:'https://glassdoor.com', desc:'salary and culture data for job seekers'},
+      {name:'Zillow',    url:'https://zillow.com',    desc:'real estate pricing data for homebuyers'}
+    ]},
+  { ring:0, label:'Trust',              color:PROBLEM_COLORS[3], title:'Trust Problem',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Parties willing to transact are blocked by lack of trust or insufficient verification.',
+    ex:[
+      {name:'Stripe',     url:'https://stripe.com',     desc:'secure, trusted payment infrastructure'},
+      {name:'DocuSign',   url:'https://docusign.com',   desc:'legally binding digital signatures'},
+      {name:'Trustpilot', url:'https://trustpilot.com', desc:'verified reviews to build credibility'}
+    ]},
+  { ring:0, label:'Infrastructure\nGap', color:PROBLEM_COLORS[4], title:'Infrastructure Gap',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Core technical or physical infrastructure is missing, blocking higher-level products from being built.',
+    ex:[
+      {name:'AWS',    url:'https://aws.amazon.com', desc:'cloud infrastructure enabling the modern web'},
+      {name:'Twilio', url:'https://twilio.com',     desc:'communication APIs for developers'},
+      {name:'Plaid',  url:'https://plaid.com',      desc:'financial data pipes for fintech apps'}
+    ]},
+  { ring:0, label:'Process\nInefficiency', color:PROBLEM_COLORS[5], title:'Process Inefficiency',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Existing workflows are too slow, expensive, or error-prone. The cost of doing business is unnecessarily high.',
+    ex:[
+      {name:'Slack',  url:'https://slack.com',  desc:'replacing email for team communication'},
+      {name:'Notion', url:'https://notion.so',  desc:'consolidating fragmented knowledge tools'},
+      {name:'Figma',  url:'https://figma.com',  desc:'eliminating version chaos in design'}
+    ]},
+  { ring:0, label:'Automation\nOpportunity', color:PROBLEM_COLORS[6], title:'Automation Opportunity',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Manual, repetitive work is ripe for automation, freeing humans for higher-value tasks.',
+    ex:[
+      {name:'Zapier',   url:'https://zapier.com',   desc:'connecting apps without code'},
+      {name:'UiPath',   url:'https://uipath.com',   desc:'robotic process automation for enterprise'},
+      {name:'HubSpot',  url:'https://hubspot.com',  desc:'automating marketing and sales pipelines'}
+    ]},
+  { ring:0, label:'Aggregation\nProblem', color:PROBLEM_COLORS[7], title:'Aggregation Problem',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Supply or demand is fragmented across many small players, making it hard for either side to find the other.',
+    ex:[
+      {name:'Booking.com', url:'https://booking.com',  desc:'aggregating hotels globally'},
+      {name:'Etsy',        url:'https://etsy.com',     desc:'aggregating independent craft sellers'},
+      {name:'Instacart',   url:'https://instacart.com',desc:'aggregating grocery delivery from local stores'}
+    ]},
+  { ring:0, label:'Access\nLimitation', color:PROBLEM_COLORS[8], title:'Access Limitation',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'A valuable resource or opportunity is only available to a privileged few. Democratization is the opportunity.',
+    ex:[
+      {name:'Robinhood', url:'https://robinhood.com', desc:'commission-free investing for everyone'},
+      {name:'Coursera',  url:'https://coursera.com',  desc:'world-class education at low cost'},
+      {name:'Substack',  url:'https://substack.com',  desc:'enabling any writer to monetize an audience'}
+    ]},
+  { ring:0, label:'Cost\nReduction', color:PROBLEM_COLORS[9], title:'Cost Reduction Opportunity',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'The existing solution works but is dramatically too expensive for most users or businesses.',
+    ex:[
+      {name:'Zoom',     url:'https://zoom.us',     desc:'replacing expensive business travel with video calls'},
+      {name:'Shopify',  url:'https://shopify.com', desc:'affordable e-commerce for small merchants'},
+      {name:'Canva',    url:'https://canva.com',   desc:'professional design tools at 1% of agency cost'}
+    ]},
+  { ring:0, label:'Speed\nProblem', color:PROBLEM_COLORS[10], title:'Speed Problem',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'Current solutions are too slow for modern expectations. Speed itself becomes the competitive advantage.',
+    ex:[
+      {name:'Stripe',   url:'https://stripe.com',   desc:'instant setup vs. weeks of bank onboarding'},
+      {name:'Vercel',   url:'https://vercel.com',   desc:'instant deployments replacing slow CI pipelines'},
+      {name:'DoorDash', url:'https://doordash.com', desc:'30-min delivery vs. slow alternatives'}
+    ]},
+  { ring:0, label:'New\nCapability', color:PROBLEM_COLORS[11], title:'New Tech Capability',
+    tag:'Problem', tagBg:'#dbeafe', tagFg:'#1e3a8a',
+    def:'A breakthrough in technology enables solutions that were previously impossible or prohibitively expensive.',
+    ex:[
+      {name:'OpenAI',     url:'https://openai.com',     desc:'LLMs enabling conversational AI products'},
+      {name:'Midjourney', url:'https://midjourney.com', desc:'diffusion models enabling instant image generation'},
+      {name:'Tesla',      url:'https://tesla.com',      desc:'batteries + software enabling viable electric vehicles'}
+    ]},
+
+  // ── Ring 1: Solutions (6) ──
+  { ring:1, label:'Marketplace', color:SOLUTION_COLORS[0], title:'Marketplace',
+    tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
+    def:'A two-sided platform connecting buyers and sellers, taking a percentage of each transaction.',
+    ex:[
+      {name:'Airbnb', url:'https://airbnb.com', desc:'connecting hosts and travelers globally'},
+      {name:'Etsy',   url:'https://etsy.com',   desc:'connecting craft sellers with buyers'},
+      {name:'Uber',   url:'https://uber.com',   desc:'connecting drivers with riders in real time'}
+    ]},
+  { ring:1, label:'SaaS',        color:SOLUTION_COLORS[1], title:'SaaS',
+    tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
+    def:'Subscription-based software delivered over the internet. Recurring revenue with low marginal cost per user.',
+    ex:[
+      {name:'Slack',       url:'https://slack.com',       desc:'team communication at $7/user/month'},
+      {name:'Salesforce',  url:'https://salesforce.com',  desc:'CRM at $25–300/user/month'},
+      {name:'Notion',      url:'https://notion.so',       desc:'workspace at freemium pricing'}
+    ]},
+  { ring:1, label:'Platform',    color:SOLUTION_COLORS[2], title:'Platform',
+    tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
+    def:'An ecosystem on which third parties build products or services. Value grows with the number of participants.',
+    ex:[
+      {name:'Shopify',    url:'https://shopify.com',    desc:'merchants and developers build on top'},
+      {name:'Stripe',     url:'https://stripe.com',     desc:'developers build payment products on top'},
+      {name:'Salesforce', url:'https://salesforce.com', desc:'3rd party apps for the CRM ecosystem'}
+    ]},
+  { ring:1, label:'Infrastructure', color:SOLUTION_COLORS[3], title:'Infrastructure',
+    tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
+    def:'Core technical layer that other products and companies are built on. Revenue comes at scale, invisibly.',
+    ex:[
+      {name:'AWS',        url:'https://aws.amazon.com', desc:'powers ~33% of the internet'},
+      {name:'Cloudflare', url:'https://cloudflare.com', desc:'security and performance layer for websites'},
+      {name:'Plaid',      url:'https://plaid.com',      desc:'financial data pipes for thousands of fintech apps'}
+    ]},
+  { ring:1, label:'Automation',  color:SOLUTION_COLORS[4], title:'Automation',
+    tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
+    def:'Software that replaces or augments manual, repetitive human work — improving speed, accuracy, and cost.',
+    ex:[
+      {name:'Zapier', url:'https://zapier.com', desc:'no-code automation connecting 5,000+ apps'},
+      {name:'UiPath', url:'https://uipath.com', desc:'enterprise robotic process automation'},
+      {name:'Make',   url:'https://make.com',   desc:'visual workflow automation platform'}
+    ]},
+  { ring:1, label:'Data\nNetwork', color:SOLUTION_COLORS[5], title:'Data Network',
+    tag:'Solution', tagBg:'#d1fae5', tagFg:'#064e3b',
+    def:'A product where value compounds as more data is collected. More users = smarter product = stronger moat.',
+    ex:[
+      {name:'Waze',     url:'https://waze.com',     desc:'crowdsourced traffic data improving with every driver'},
+      {name:'LinkedIn', url:'https://linkedin.com', desc:'professional graph richer with every connection'},
+      {name:'Palantir', url:'https://palantir.com', desc:'analytics improving with every dataset ingested'}
+    ]},
+
+  // ── Ring 2: Products (6) ──
+  { ring:2, label:'Mobile\nApp',  color:PRODUCT_COLORS[0], title:'Mobile App',
+    tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
+    def:'Native or cross-platform mobile experience. Best for location-aware, high-frequency, or notification-driven products.',
+    ex:[
+      {name:'Uber',      url:'https://uber.com',      desc:'GPS-dependent real-time coordination'},
+      {name:'Instagram', url:'https://instagram.com', desc:'camera and feed in your pocket'},
+      {name:'Robinhood', url:'https://robinhood.com', desc:'trading on-the-go with push alerts'}
+    ]},
+  { ring:2, label:'Web\nApp',     color:PRODUCT_COLORS[1], title:'Web App',
+    tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
+    def:'Browser-based application. Best for complex tools, B2B products, or keyboard-heavy interactions.',
+    ex:[
+      {name:'Notion',   url:'https://notion.so',   desc:'documents and databases in the browser'},
+      {name:'Figma',    url:'https://figma.com',   desc:'full-featured design tool, zero install'},
+      {name:'Airtable', url:'https://airtable.com',desc:'spreadsheet-database hybrid for teams'}
+    ]},
+  { ring:2, label:'API',          color:PRODUCT_COLORS[2], title:'API',
+    tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
+    def:'Programmatic interface for developers. Best when your customers are technical teams who want to integrate.',
+    ex:[
+      {name:'Stripe',   url:'https://stripe.com',   desc:'payments API embedded in thousands of apps'},
+      {name:'Twilio',   url:'https://twilio.com',   desc:'SMS and voice API for any application'},
+      {name:'SendGrid', url:'https://sendgrid.com', desc:'email delivery API at scale'}
+    ]},
+  { ring:2, label:'AI\nTool',     color:PRODUCT_COLORS[3], title:'AI Tool',
+    tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
+    def:'AI-powered product solving a specific task. Best when intelligence, generation, or prediction is the core value.',
+    ex:[
+      {name:'ChatGPT',    url:'https://chat.openai.com', desc:'conversational AI for any question or task'},
+      {name:'Midjourney', url:'https://midjourney.com',  desc:'image generation from text prompts'},
+      {name:'Jasper',     url:'https://jasper.ai',       desc:'AI copywriting for marketing teams'}
+    ]},
+  { ring:2, label:'Platform',     color:PRODUCT_COLORS[4], title:'Platform Product',
+    tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
+    def:'Multi-sided or extensible product that enables third-party developers or merchants to build on top.',
+    ex:[
+      {name:'Shopify',    url:'https://shopify.com',    desc:'app store of 8,000+ integrations'},
+      {name:'Salesforce', url:'https://salesforce.com', desc:'AppExchange with 5,000+ apps'},
+      {name:'AWS',        url:'https://aws.amazon.com', desc:'200+ services built on core infrastructure'}
+    ]},
+  { ring:2, label:'Hardware',     color:PRODUCT_COLORS[5], title:'Hardware',
+    tag:'Product', tagBg:'#fef3c7', tagFg:'#78350f',
+    def:'Physical device paired with software. Best when the physical form factor is core to the experience.',
+    ex:[
+      {name:'Tesla', url:'https://tesla.com', desc:'electric vehicle with over-the-air software updates'},
+      {name:'Nest',  url:'https://nest.com',  desc:'smart thermostat learning your schedule'},
+      {name:'Whoop', url:'https://whoop.com', desc:'fitness tracker with subscription coaching'}
+    ]},
+];
+
+// ── Build SVG ──
+const ns = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('atlas');
+
+function toRad(d) { return d * Math.PI / 180; }
+
+function arcPath(cx, cy, r1, r2, s, e) {
+  const gap = 1.2, a = s+gap/2, b = e-gap/2, lg = (b-a) > 180 ? 1 : 0;
+  const cos=Math.cos, sin=Math.sin;
+  const x1=cx+r1*cos(toRad(a)), y1=cy+r1*sin(toRad(a));
+  const x2=cx+r2*cos(toRad(a)), y2=cy+r2*sin(toRad(a));
+  const x3=cx+r2*cos(toRad(b)), y3=cy+r2*sin(toRad(b));
+  const x4=cx+r1*cos(toRad(b)), y4=cy+r1*sin(toRad(b));
+  return `M${x1},${y1}L${x2},${y2}A${r2},${r2},0,${lg},1,${x3},${y3}L${x4},${y4}A${r1},${r1},0,${lg},0,${x1},${y1}Z`;
+}
+
+function hexToRgb(h) { return [1,3,5].map(i => parseInt(h.slice(i,i+2),16)); }
+function lighten(h, n=35) { return '#'+hexToRgb(h).map(c=>Math.min(255,c+n).toString(16).padStart(2,'0')).join(''); }
+
+// SVG defs
+const defs = document.createElementNS(ns, 'defs');
+defs.innerHTML = `<filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+  <feGaussianBlur stdDeviation="4" result="blur"/>
+  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+</filter>`;
+svg.appendChild(defs);
+
+// Center circle
+const cg = document.createElementNS(ns, 'g');
+const cc = document.createElementNS(ns, 'circle');
+cc.setAttribute('cx', CX); cc.setAttribute('cy', CY); cc.setAttribute('r', '76');
+cc.setAttribute('fill', '#0f1d3a');
+cg.appendChild(cc);
+['Startup','Framework'].forEach((txt, i) => {
+  const t = document.createElementNS(ns, 'text');
+  t.setAttribute('x', CX); t.setAttribute('y', String(CY + (i-0.5)*15));
+  t.setAttribute('text-anchor','middle'); t.setAttribute('dominant-baseline','middle');
+  t.setAttribute('fill','#fff'); t.setAttribute('font-size','13');
+  t.setAttribute('font-weight','700'); t.setAttribute('font-family','system-ui,sans-serif');
+  t.textContent = txt;
+  cg.appendChild(t);
+});
+svg.appendChild(cg);
+
+// Roadmap state: one selection per ring
+const roadmapState = { 0: null, 1: null, 2: null };
+const ringLabels = ['Problem', 'Solution', 'Product'];
+const ringTagBgs = ['#dbeafe', '#d1fae5', '#fef3c7'];
+const ringTagFgs = ['#1e3a8a', '#064e3b', '#78350f'];
+
+const ringIdx = [0, 0, 0];
+const segElements = []; // { g, path, seg }
+
+SEGS.forEach((seg, si) => {
+  const ri = seg.ring;
+  const ring = R[ri];
+  const count = ri === 0 ? 12 : 6;
+  const step = 360 / count;
+  const idx = ringIdx[ri]++;
+  const startDeg = -90 + idx * step;
+  const endDeg = startDeg + step;
+  const midDeg = (startDeg + endDeg) / 2;
+  const midR = (ring.r1 + ring.r2) / 2;
+  const midRad = toRad(midDeg);
+
+  const g = document.createElementNS(ns, 'g');
+  g.style.cursor = 'pointer';
+
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('d', arcPath(CX, CY, ring.r1, ring.r2, startDeg, endDeg));
+  path.setAttribute('fill', seg.color);
+  path.setAttribute('stroke', '#fff');
+  path.setAttribute('stroke-width', '1');
+  g.appendChild(path);
+
+  // Label
+  const lx = CX + midR * Math.cos(midRad);
+  const ly = CY + midR * Math.sin(midRad);
+  const rotAngle = (midDeg > 90 && midDeg < 270) ? midDeg - 180 : midDeg;
+  const lines = seg.label.split('\n');
+  const lg2 = document.createElementNS(ns, 'g');
+  lg2.setAttribute('transform', `translate(${lx},${ly}) rotate(${rotAngle})`);
+  lg2.style.pointerEvents = 'none';
+  lines.forEach((line, i) => {
+    const t = document.createElementNS(ns, 'text');
+    const yOff = lines.length === 1 ? 0 : (i - 0.5) * 11;
+    t.setAttribute('x','0'); t.setAttribute('y', String(yOff));
+    t.setAttribute('text-anchor','middle'); t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('fill','#fff');
+    t.setAttribute('font-size', ri === 0 ? '9.5' : '10.5');
+    t.setAttribute('font-weight','600');
+    t.setAttribute('font-family','system-ui,sans-serif');
+    t.textContent = line;
+    lg2.appendChild(t);
+  });
+  g.appendChild(lg2);
+
+  segElements.push({ g, path, seg });
+
+  g.addEventListener('mouseenter', () => {
+    if (roadmapState[ri] !== si && parseFloat(g.style.opacity || 1) > 0.5) {
+      path.setAttribute('fill', lighten(seg.color, 40));
+    }
+  });
+  g.addEventListener('mouseleave', () => {
+    if (roadmapState[ri] !== si) { path.setAttribute('fill', seg.color); }
+  });
+  g.addEventListener('click', () => {
+    // Deselect previous in same ring
+    const prev = roadmapState[ri];
+    if (prev !== null && prev !== si) {
+      segElements[prev].path.setAttribute('fill', segElements[prev].seg.color);
+      segElements[prev].path.setAttribute('stroke-width','1');
+      segElements[prev].path.removeAttribute('filter');
+    }
+    roadmapState[ri] = si;
+    path.setAttribute('fill', lighten(seg.color, 55));
+    path.setAttribute('stroke-width','3');
+    path.setAttribute('filter','url(#glow)');
+    // Dim all other segments in the same ring
+    dimRing(ri, si);
+    showInfo(seg);
+    updateRoadmap();
+  });
+  svg.appendChild(g);
+});
+
+function dimRing(ri, selectedSi) {
+  segElements.forEach((el, i) => {
+    if (el.seg.ring !== ri) return;
+    el.g.style.transition = 'opacity .25s';
+    el.g.style.opacity = (i === selectedSi) ? '1' : '0.22';
+  });
+}
+
+function undimRing(ri) {
+  segElements.forEach(el => {
+    if (el.seg.ring !== ri) return;
+    el.g.style.opacity = '1';
+  });
+}
+
+function showInfo(seg) {
+  document.getElementById('info-default').style.display = 'none';
+  document.getElementById('info-content').style.display = 'block';
+  const tag = document.getElementById('info-tag');
+  tag.textContent = seg.tag;
+  tag.style.background = seg.tagBg;
+  tag.style.color = seg.tagFg;
+  document.getElementById('info-title').textContent = seg.title;
+  document.getElementById('info-def').textContent = seg.def;
+  const list = document.getElementById('info-exs');
+  list.innerHTML = '';
+  seg.ex.forEach(e => {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="${e.url}" target="_blank" class="ex-link">${e.name}</a> — ${e.desc}`;
+    list.appendChild(li);
+  });
+}
+
+function updateRoadmap() {
+  const inner = document.getElementById('roadmap-inner');
+  inner.innerHTML = '';
+  let hasAny = false;
+  [0, 1, 2].forEach((ri, i) => {
+    const si = roadmapState[ri];
+    if (si === null) return;
+    const seg = SEGS[si];
+    if (hasAny) {
+      const arrow = document.createElement('span');
+      arrow.className = 'rm-arrow';
+      arrow.textContent = '→';
+      inner.appendChild(arrow);
+    }
+    const chip = document.createElement('span');
+    chip.className = 'rm-chip';
+    chip.style.background = ringTagBgs[ri];
+    chip.style.color = ringTagFgs[ri];
+    chip.innerHTML = `<span class="rm-ring">${ringLabels[ri]}</span>${seg.title}`;
+    inner.appendChild(chip);
+    hasAny = true;
+  });
+  if (hasAny) {
+    const btn = document.createElement('button');
+    btn.id = 'rm-reset';
+    btn.textContent = '✕ reset';
+    btn.addEventListener('click', resetRoadmap);
+    inner.appendChild(btn);
+  }
+}
+
+function resetRoadmap() {
+  [0, 1, 2].forEach(ri => {
+    const si = roadmapState[ri];
+    if (si !== null) {
+      segElements[si].path.setAttribute('fill', segElements[si].seg.color);
+      segElements[si].path.setAttribute('stroke-width','1');
+      segElements[si].path.removeAttribute('filter');
+      roadmapState[ri] = null;
+    }
+    undimRing(ri);
+  });
+  document.getElementById('roadmap-inner').innerHTML = '';
+  document.getElementById('info-default').style.display = '';
+  document.getElementById('info-content').style.display = 'none';
+}
+</script>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-col-label">Problem Taxonomy</div>
+      <div class="footer-col-desc">A structured methodology for discovering startup opportunities — from market inefficiencies to product decisions.</div>
+    </div>
+    <div>
+      <div class="footer-col-label">Explore</div>
+      <ul class="footer-links">
+        <li><a href="startup-framework.html">↗ Framework</a></li>
+        <li><a href="atlas.html">↗ Discovery Atlas</a></li>
+        <li><a href="problems.html">↗ 12 Problem Archetypes</a></li>
+        <li><a href="why.html">↗ Why these two models?</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-label">About</div>
+      <div class="footer-about-item">12 Problem archetypes</div>
+      <div class="footer-about-item">6 Solution models</div>
+      <div class="footer-about-item">6 Product types</div>
+      <div class="footer-about-item">2 Startup entry points</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <script>document.write(new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}));</script>
+    &nbsp;—&nbsp; Richard Kennedy &nbsp;·&nbsp; v0.1 &nbsp;—&nbsp; Mar 2026
+  </div>
+</footer>
+</body>
+</html>

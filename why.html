@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why these two models?</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #fff; color: #111; line-height: 1.75;
+    }
+    .page { max-width: 660px; margin: 0 auto; padding: 56px 24px 100px; }
+
+    /* Lang toggle */
+    .lang-toggle {
+      position: fixed; top: 16px; right: 16px; z-index: 1000;
+      display: flex; background: #f0f2f7; border-radius: 20px; padding: 3px; gap: 2px;
+    }
+    .lang-toggle button {
+      font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 16px;
+      border: none; cursor: pointer; transition: all .15s; background: none; color: #888;
+    }
+    .lang-toggle button.active { background: #fff; color: #111; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+
+    .back { display: inline-block; font-size: 13px; color: #1e5ad7; text-decoration: none; margin-bottom: 40px; }
+    .back:hover { text-decoration: underline; }
+
+    h1 { font-size: 42px; font-weight: 700; line-height: 1.15; color: #0f1d3a; margin-bottom: 40px; }
+    h2 { font-size: 20px; font-weight: 700; color: #0f1d3a; margin-top: 52px; margin-bottom: 16px; }
+    p { font-size: 15.5px; color: #333; margin-bottom: 16px; }
+    p strong { color: #111; font-weight: 600; }
+    hr { border: none; border-top: 1px solid #e4e8f0; margin: 48px 0; }
+
+    .flow {
+      background: #f5f7fb; border-left: 3px solid #1e5ad7;
+      border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 20px 0;
+      font-size: 14px; color: #1a2540; line-height: 2;
+    }
+    .flow span { color: #1e5ad7; font-weight: 700; margin-right: 6px; }
+
+    .q-list { list-style: none; padding: 0; margin: 16px 0 20px; }
+    .q-list li { font-size: 15px; color: #333; padding: 6px 0 6px 22px; position: relative; border-bottom: 1px solid #f0f3f8; }
+    .q-list li:last-child { border-bottom: none; }
+    .q-list li::before { content: '→'; position: absolute; left: 0; color: #1e5ad7; font-weight: 700; }
+    .q-list li strong { color: #111; }
+
+    .ref-list { list-style: none; padding: 0; margin: 12px 0 0; }
+    .ref-list li { font-size: 14px; color: #555; padding: 5px 0 5px 18px; position: relative; }
+    .ref-list li::before { content: '·'; position: absolute; left: 0; color: #1e5ad7; font-weight: 700; font-size: 18px; line-height: 1.2; }
+
+    .align-box { border: 1px solid #dde3ef; border-radius: 10px; padding: 20px 24px; margin: 24px 0; background: #fafbff; }
+    .align-box .align-row { display: flex; align-items: center; gap: 12px; font-size: 15px; color: #333; margin-bottom: 10px; }
+    .align-box .align-row:last-child { margin-bottom: 0; }
+    .align-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 3px 9px; border-radius: 12px; white-space: nowrap; }
+    .badge-blue   { background: #e7efff; color: #1e5ad7; }
+    .badge-green  { background: #d1fae5; color: #065f46; }
+    .badge-purple { background: #ede9fe; color: #5b21b6; }
+
+    blockquote { border-left: 3px solid #e4e8f0; padding: 12px 20px; margin: 24px 0; font-style: italic; font-size: 15.5px; color: #555; }
+    blockquote cite { display: block; margin-top: 8px; font-size: 13px; font-style: normal; color: #888; }
+
+    /* Hide/show lang layers */
+    .lang-it { display: none; }
+    body.it .lang-en { display: none; }
+    body.it .lang-it { display: block; }
+    /* inline elements */
+    span.lang-it { display: none; }
+    body.it span.lang-en { display: none; }
+    body.it span.lang-it { display: inline; }
+
+    @media (max-width: 600px) { h1 { font-size: 30px; } h2 { font-size: 18px; } .page { padding: 36px 20px 80px; } }
+  </style>
+</head>
+<body>
+
+<!-- Language toggle -->
+<div class="lang-toggle">
+  <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+  <button id="btn-it" onclick="setLang('it')">IT</button>
+</div>
+
+<div class="page">
+
+  <a class="back" href="startup-framework.html">← <span class="lang-en">Back to Framework</span><span class="lang-it">Torna al Framework</span></a>
+
+  <!-- ═══ ENGLISH ═══ -->
+  <div class="lang-en">
+    <h1>Why these<br>two models?</h1>
+
+    <p>Across the startup ecosystem, two main ways of discovering opportunities consistently appear.</p>
+    <p>These approaches are not theoretical inventions — they emerge repeatedly from the practices of founders, venture capital firms, and startup accelerators. They represent two complementary entry points into the same process of building new companies.</p>
+
+    <hr>
+
+    <h2>1. Market-First Thinking — Venture Capital Perspective</h2>
+    <p>In venture capital, startups are often analyzed starting from <strong>large markets</strong>. The reasoning is simple: large markets tend to contain <strong>multiple inefficiencies</strong>, which create opportunities for new companies.</p>
+    <p>The typical reasoning flow:</p>
+    <div class="flow">
+      <span>→</span> Large Market<br>
+      <span>→</span> Important Problem<br>
+      <span>→</span> Solution<br>
+      <span>→</span> Product<br>
+      <span>→</span> Company
+    </div>
+    <p>Investors frequently begin with questions such as:</p>
+    <ul class="q-list">
+      <li>Is this a <strong>large market</strong> (&gt;$10B TAM)?</li>
+      <li>Are there <strong>structural inefficiencies</strong>?</li>
+      <li>Are incumbents <strong>slow or fragmented</strong>?</li>
+      <li>Is a <strong>technological shift</strong> enabling new entrants?</li>
+    </ul>
+    <p>If these conditions are present, a startup can capture value by building a better solution. Examples of large markets frequently cited in venture analysis:</p>
+    <ul class="ref-list">
+      <li>Transportation</li><li>Payments</li><li>Healthcare</li><li>Commerce</li><li>Real Estate</li>
+    </ul>
+    <p style="margin-top:20px">Sources describing this perspective:</p>
+    <ul class="ref-list">
+      <li><em>Venture Deals</em> — Brad Feld and Jason Mendelson</li>
+      <li>Market frameworks used by Sequoia Capital and Andreessen Horowitz</li>
+      <li>Startup investment memos across the industry</li>
+    </ul>
+
+    <hr>
+
+    <h2>2. Problem-First Thinking — Founder Perspective</h2>
+    <p>Many successful startups begin from a <strong>specific problem experienced by real users</strong>. This approach is strongly associated with lean startup thinking and early-stage founder methodology.</p>
+    <p>The typical reasoning flow:</p>
+    <div class="flow">
+      <span>→</span> Real Problem<br>
+      <span>→</span> Users / Market<br>
+      <span>→</span> Solution<br>
+      <span>→</span> Product<br>
+      <span>→</span> Company
+    </div>
+    <p>Instead of asking "How big is the market?", founders ask:</p>
+    <ul class="q-list">
+      <li>What <strong>painful problem</strong> exists?</li>
+      <li>Who experiences this problem <strong>frequently</strong>?</li>
+      <li>Are current solutions <strong>bad, expensive, or inefficient</strong>?</li>
+      <li>Can technology <strong>dramatically improve the experience</strong>?</li>
+    </ul>
+    <p>This approach is heavily emphasized in startup accelerators and founder communities. It is widely taught in:</p>
+    <ul class="ref-list">
+      <li>Y Combinator startup advice and YC application framework</li>
+      <li>Lectures and essays by Paul Graham</li>
+      <li>The customer discovery framework of Steve Blank</li>
+      <li><em>The Lean Startup</em> — Eric Ries</li>
+    </ul>
+    <blockquote>
+      "Make something people want."
+      <cite>— Paul Graham, Y Combinator</cite>
+    </blockquote>
+
+    <hr>
+
+    <h2>Why both models matter</h2>
+    <p>These two perspectives are not contradictory. They simply represent <strong>different entry points into the same startup discovery process</strong>.</p>
+    <div class="align-box">
+      <div class="align-row"><span class="align-badge badge-blue">Market-first</span> begins with economic opportunity</div>
+      <div class="align-row"><span class="align-badge badge-green">Problem-first</span> begins with user pain</div>
+    </div>
+    <p>In practice, successful startups often combine both. When these three elements align, the probability of building a successful company increases dramatically:</p>
+    <div class="align-box">
+      <div class="align-row"><span class="align-badge badge-blue">Market opportunity</span> a large, underserved space</div>
+      <div class="align-row"><span class="align-badge badge-green">Real user problem</span> a genuine, frequent pain point</div>
+      <div class="align-row"><span class="align-badge badge-purple">Technological shift</span> a new capability enabling a better solution</div>
+    </div>
+
+    <hr>
+
+    <h2>From framework to discovery</h2>
+    <p>This site visualizes startup discovery as a progression through layers:</p>
+    <div class="flow">
+      <span>→</span> Market<br>
+      <span>→</span> Economic Inefficiency<br>
+      <span>→</span> Problem Archetype<br>
+      <span>→</span> Solution Model<br>
+      <span>→</span> Product<br>
+      <span>→</span> Company
+    </div>
+    <p>This layered view helps founders systematically explore where new companies can emerge — instead of relying on random ideas, the goal is to map the <strong>structure of opportunities</strong> inside markets.</p>
+  </div>
+
+  <!-- ═══ ITALIANO ═══ -->
+  <div class="lang-it">
+    <h1>Perché questi<br>due modelli?</h1>
+
+    <p>Nell'ecosistema startup, emergono sistematicamente due modi principali per scoprire opportunità.</p>
+    <p>Questi approcci non sono invenzioni teoriche — emergono ripetutamente dalle pratiche di fondatori, venture capital e acceleratori. Rappresentano due punti di ingresso complementari nello stesso processo di costruzione di nuove aziende.</p>
+
+    <hr>
+
+    <h2>1. Pensiero Market-First — Prospettiva Venture Capital</h2>
+    <p>Nel venture capital, le startup vengono spesso analizzate a partire da <strong>mercati grandi</strong>. Il ragionamento è semplice: i mercati grandi tendono a contenere <strong>molteplici inefficienze</strong>, che creano opportunità per nuove aziende.</p>
+    <p>Il flusso di ragionamento tipico:</p>
+    <div class="flow">
+      <span>→</span> Mercato Grande<br>
+      <span>→</span> Problema Importante<br>
+      <span>→</span> Soluzione<br>
+      <span>→</span> Prodotto<br>
+      <span>→</span> Azienda
+    </div>
+    <p>Gli investitori iniziano spesso con domande come:</p>
+    <ul class="q-list">
+      <li>È un <strong>mercato grande</strong> (&gt;$10B TAM)?</li>
+      <li>Esistono <strong>inefficienze strutturali</strong>?</li>
+      <li>I player esistenti sono <strong>lenti o frammentati</strong>?</li>
+      <li>Un <strong>cambiamento tecnologico</strong> sta abilitando nuovi entranti?</li>
+    </ul>
+    <p>Se queste condizioni esistono, una startup può catturare valore costruendo una soluzione migliore. Esempi di mercati grandi citati frequentemente nel venture capital:</p>
+    <ul class="ref-list">
+      <li>Trasporti</li><li>Pagamenti</li><li>Sanità</li><li>Commercio</li><li>Immobiliare</li>
+    </ul>
+    <p style="margin-top:20px">Fonti che descrivono questa prospettiva:</p>
+    <ul class="ref-list">
+      <li><em>Venture Deals</em> — Brad Feld e Jason Mendelson</li>
+      <li>Framework di mercato usati da Sequoia Capital e Andreessen Horowitz</li>
+      <li>Memo di investimento startup in tutto il settore</li>
+    </ul>
+
+    <hr>
+
+    <h2>2. Pensiero Problem-First — Prospettiva Founder</h2>
+    <p>Molte startup di successo nascono da un <strong>problema specifico vissuto da utenti reali</strong>. Questo approccio è strettamente associato al lean startup thinking e alla metodologia dei founder in fase iniziale.</p>
+    <p>Il flusso di ragionamento tipico:</p>
+    <div class="flow">
+      <span>→</span> Problema Reale<br>
+      <span>→</span> Utenti / Mercato<br>
+      <span>→</span> Soluzione<br>
+      <span>→</span> Prodotto<br>
+      <span>→</span> Azienda
+    </div>
+    <p>Invece di chiedersi "Quanto è grande il mercato?", i founder si chiedono:</p>
+    <ul class="q-list">
+      <li>Quale <strong>problema doloroso</strong> esiste?</li>
+      <li>Chi vive questo problema <strong>frequentemente</strong>?</li>
+      <li>Le soluzioni attuali sono <strong>brutte, costose o inefficienti</strong>?</li>
+      <li>La tecnologia può <strong>migliorare drasticamente l'esperienza</strong>?</li>
+    </ul>
+    <p>Questo approccio è molto enfatizzato negli acceleratori startup e nelle community di fondatori. È ampiamente insegnato in:</p>
+    <ul class="ref-list">
+      <li>Consigli di Y Combinator e framework di candidatura YC</li>
+      <li>Lezioni e saggi di Paul Graham</li>
+      <li>Il framework di customer discovery di Steve Blank</li>
+      <li><em>The Lean Startup</em> — Eric Ries</li>
+    </ul>
+    <blockquote>
+      "Costruisci qualcosa che le persone vogliono."
+      <cite>— Paul Graham, Y Combinator</cite>
+    </blockquote>
+
+    <hr>
+
+    <h2>Perché entrambi i modelli contano</h2>
+    <p>Queste due prospettive non sono contraddittorie. Rappresentano semplicemente <strong>punti di ingresso diversi nello stesso processo di scoperta startup</strong>.</p>
+    <div class="align-box">
+      <div class="align-row"><span class="align-badge badge-blue">Market-first</span> inizia dall'opportunità economica</div>
+      <div class="align-row"><span class="align-badge badge-green">Problem-first</span> inizia dal dolore dell'utente</div>
+    </div>
+    <p>In pratica, le startup di successo spesso combinano entrambi. Quando questi tre elementi si allineano, la probabilità di costruire un'azienda di successo aumenta drasticamente:</p>
+    <div class="align-box">
+      <div class="align-row"><span class="align-badge badge-blue">Opportunità di mercato</span> uno spazio grande e non servito</div>
+      <div class="align-row"><span class="align-badge badge-green">Problema reale dell'utente</span> un pain point genuino e frequente</div>
+      <div class="align-row"><span class="align-badge badge-purple">Cambiamento tecnologico</span> una nuova capacità che abilita una soluzione migliore</div>
+    </div>
+
+    <hr>
+
+    <h2>Dal framework alla scoperta</h2>
+    <p>Questo sito visualizza la scoperta startup come una progressione attraverso livelli:</p>
+    <div class="flow">
+      <span>→</span> Mercato<br>
+      <span>→</span> Inefficienza Economica<br>
+      <span>→</span> Archetipo del Problema<br>
+      <span>→</span> Modello di Soluzione<br>
+      <span>→</span> Prodotto<br>
+      <span>→</span> Azienda
+    </div>
+    <p>Questa visione stratificata aiuta i founder a esplorare sistematicamente dove possono emergere nuove aziende — invece di affidarsi a idee casuali, l'obiettivo è mappare la <strong>struttura delle opportunità</strong> all'interno dei mercati.</p>
+  </div>
+
+</div>
+
+<script>
+  function setLang(lang) {
+    document.body.classList.toggle('it', lang === 'it');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-it').classList.toggle('active', lang === 'it');
+    localStorage.setItem('why-lang', lang);
+  }
+  // Restore saved preference
+  const saved = localStorage.getItem('why-lang');
+  if (saved === 'it') setLang('it');
+</script>
+</body>
+</html>

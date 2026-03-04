@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>12 Problem Archetypes</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #fff; color: #111; line-height: 1.7; }
+
+    /* ── View toggle ── */
+    .view-toggle {
+      position: fixed; top: 16px; right: 16px; z-index: 1000;
+      display: flex; background: #f0f2f7; border-radius: 20px; padding: 3px; gap: 2px;
+    }
+    .view-toggle a, .view-toggle .t-active {
+      font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 16px;
+      text-decoration: none; transition: all .15s; white-space: nowrap;
+    }
+    .view-toggle .t-active { background: #fff; color: #111; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+    .view-toggle a { color: #888; }
+    .view-toggle a:hover { color: #333; }
+
+    /* ── Page ── */
+    .page { max-width: 780px; margin: 0 auto; padding: 56px 24px 80px; }
+
+    .back { font-size: 13px; color: #1e5ad7; text-decoration: none; display: inline-block; margin-bottom: 36px; }
+    .back:hover { text-decoration: underline; }
+
+    .page-title { font-size: 38px; font-weight: 700; color: #0f1d3a; line-height: 1.15; margin-bottom: 10px; }
+    .page-sub { font-size: 15.5px; color: #666; margin-bottom: 48px; max-width: 560px; }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 72px;
+    }
+    @media (max-width: 680px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 400px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+    .grid-card {
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+      display: block;
+    }
+    .grid-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+    .grid-num { font-size: 10px; font-weight: 700; opacity: .5; letter-spacing: .06em; margin-bottom: 6px; }
+    .grid-name { font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .grid-short { font-size: 11.5px; opacity: .75; margin-top: 4px; line-height: 1.35; }
+
+    /* ── Divider ── */
+    .section-divider { border: none; border-top: 1px solid #e8ecf2; margin: 64px 0; }
+
+    /* ── Problem section ── */
+    .problem-section { margin-bottom: 72px; scroll-margin-top: 32px; }
+
+    .problem-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+    .problem-badge {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800;
+    }
+    .problem-title { font-size: 26px; font-weight: 700; color: #0f1d3a; line-height: 1.2; }
+    .problem-tagline { font-size: 14px; color: #888; margin-top: 3px; }
+
+    .problem-def {
+      font-size: 15.5px; color: #333; line-height: 1.75;
+      margin-bottom: 24px;
+      padding: 18px 22px;
+      background: #f7f9ff;
+      border-left: 3px solid #1e5ad7;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .block-label {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .09em; color: #aaa; margin-bottom: 10px;
+    }
+
+    .signals { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
+    .signal-chip {
+      font-size: 12px; padding: 5px 12px; border-radius: 20px;
+      background: #f0f2f7; color: #1a2540; font-weight: 500;
+    }
+
+    .examples-list { list-style: none; margin-bottom: 28px; }
+    .examples-list li {
+      font-size: 14px; color: #333; padding: 10px 0;
+      border-bottom: 1px solid #f0f3f8; display: flex; gap: 10px; align-items: baseline;
+    }
+    .examples-list li:last-child { border-bottom: none; }
+    .ex-co { font-weight: 700; color: #111; min-width: 100px; flex-shrink: 0; }
+    .ex-co a { color: #1e5ad7; text-decoration: none; }
+    .ex-co a:hover { text-decoration: underline; }
+    .ex-desc { color: #555; font-size: 13.5px; }
+
+    .ask-box {
+      background: #fafbff; border: 1px solid #dde3ef; border-radius: 10px;
+      padding: 16px 20px; margin-bottom: 8px;
+    }
+    .ask-box .block-label { margin-bottom: 8px; }
+    .ask-list { list-style: none; }
+    .ask-list li { font-size: 14px; color: #333; padding: 4px 0 4px 18px; position: relative; }
+    .ask-list li::before { content: '→'; position: absolute; left: 0; color: #1e5ad7; font-weight: 700; font-size: 12px; top: 5px; }
+
+    /* ── Footer ── */
+    .site-footer { border-top: 1px solid #e8ecf2; padding: 56px 40px 32px; margin-top: 40px; }
+    .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; max-width: 880px; margin: 0 auto 40px; }
+    .footer-col-label { font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #aaa; margin-bottom: 14px; }
+    .footer-col-desc { font-size: 13.5px; color: #999; line-height: 1.6; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 9px; }
+    .footer-links a { font-size: 13.5px; color: #aaa; text-decoration: none; transition: color .15s; }
+    .footer-links a:hover { color: #111; }
+    .footer-about-item { font-size: 13.5px; color: #111; margin-bottom: 8px; }
+    .footer-bottom { max-width: 880px; margin: 0 auto; border-top: 1px solid #f0f2f7; padding-top: 20px; text-align: center; font-size: 12.5px; color: #bbb; }
+    @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } .site-footer { padding: 40px 20px 24px; } }
+  </style>
+</head>
+<body>
+
+<div class="view-toggle">
+  <a href="startup-framework.html">≡ Framework</a>
+  <a href="atlas.html">◉ Atlas</a>
+  <span class="t-active">⬡ Problems</span>
+</div>
+
+<div class="page">
+  <a class="back" href="startup-framework.html">← Back to Framework</a>
+  <h1 class="page-title">12 Problem<br>Archetypes</h1>
+  <p class="page-sub">Every startup solves one of these structural problems. Understanding them helps you identify real opportunities — and avoid building solutions in search of a problem.</p>
+
+  <!-- ── GRID ── -->
+  <div class="grid" id="grid"></div>
+
+  <hr class="section-divider">
+
+  <!-- ── DETAIL SECTIONS ── -->
+  <div id="sections"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-col-label">Problem Taxonomy</div>
+      <div class="footer-col-desc">A structured methodology for discovering startup opportunities — from market inefficiencies to product decisions.</div>
+    </div>
+    <div>
+      <div class="footer-col-label">Explore</div>
+      <ul class="footer-links">
+        <li><a href="startup-framework.html">↗ Framework</a></li>
+        <li><a href="atlas.html">↗ Discovery Atlas</a></li>
+        <li><a href="problems.html">↗ Problem Archetypes</a></li>
+        <li><a href="why.html">↗ Why these two models?</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-label">About</div>
+      <div class="footer-about-item">12 Problem archetypes</div>
+      <div class="footer-about-item">6 Solution models</div>
+      <div class="footer-about-item">6 Product types</div>
+      <div class="footer-about-item">2 Startup entry points</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <script>document.write(new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}));</script>
+    &nbsp;—&nbsp; Richard Kennedy &nbsp;·&nbsp; v0.1 &nbsp;—&nbsp; Mar 2026
+  </div>
+</footer>
+
+<script>
+const PROBLEMS = [
+  {
+    id: 'coordination',
+    num: '01',
+    name: 'Coordination Problem',
+    short: 'Supply & demand don\'t meet',
+    tagline: 'Value exists on both sides — but they can\'t find each other.',
+    color: '#0d1b4b', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A coordination problem exists when supply and demand are present but fail to connect efficiently. The friction in matching destroys value for both sides. The opportunity is to build the bridge — a platform, marketplace, or tool that makes coordination frictionless.',
+    signals: ['Buyers and sellers exist but use inefficient channels', 'High search costs on either side', 'Word-of-mouth is the main discovery method', 'Transactions happen but slowly or randomly'],
+    questions: ['Who is trying to find whom?', 'What prevents them from connecting today?', 'How much value is lost because they can\'t match efficiently?'],
+    examples: [
+      { name: 'Uber', url: 'https://uber.com', desc: 'Riders and drivers existed — but hailing a cab was unreliable and slow.' },
+      { name: 'Airbnb', url: 'https://airbnb.com', desc: 'Spare rooms existed and travelers needed them — no efficient bridge existed.' },
+      { name: 'TaskRabbit', url: 'https://taskrabbit.com', desc: 'Local workers and local tasks — no reliable matching layer.' },
+      { name: 'Upwork', url: 'https://upwork.com', desc: 'Freelancers and companies — coordination was fragmented across job boards.' },
+    ]
+  },
+  {
+    id: 'discovery',
+    num: '02',
+    name: 'Discovery Problem',
+    short: 'Can\'t find what already exists',
+    tagline: 'The answer exists — but users can\'t find it.',
+    color: '#112266', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A discovery problem occurs when valuable things exist but are invisible or hard to find. Users waste time searching, rely on word of mouth, or simply give up. The opportunity is better search, curation, recommendation, or aggregation.',
+    signals: ['Users describe finding things as "hard" or "hit or miss"', 'Recommendations come mostly from friends', 'Existing search tools return poor results', 'High discovery costs relative to transaction value'],
+    questions: ['What are people trying to find that\'s hard to find?', 'Why does current search fail them?', 'What signals could enable better discovery?'],
+    examples: [
+      { name: 'Google', url: 'https://google.com', desc: 'The web existed — but finding anything required knowing the exact URL.' },
+      { name: 'Yelp', url: 'https://yelp.com', desc: 'Local businesses existed — but discovering good ones was word-of-mouth only.' },
+      { name: 'TripAdvisor', url: 'https://tripadvisor.com', desc: 'Hotels and restaurants existed — but quality was invisible to travelers.' },
+      { name: 'Product Hunt', url: 'https://producthunt.com', desc: 'New products launched daily — but discovering them was fragmented.' },
+    ]
+  },
+  {
+    id: 'information',
+    num: '03',
+    name: 'Information Asymmetry',
+    short: 'One side knows more than the other',
+    tagline: 'Unequal information distorts markets and blocks trust.',
+    color: '#1a2e7a', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'Information asymmetry occurs when one party in a transaction has significantly more or better information than the other. This distorts pricing, creates distrust, and often prevents transactions from happening at all. The opportunity is to make information transparent, accessible, and actionable.',
+    signals: ['Buyers feel they can\'t trust sellers', 'Prices are opaque or vary wildly', 'Experts hold information that consumers need but can\'t access', 'Fraud or deception is common in the market'],
+    questions: ['Who has information that others need?', 'What decisions are made poorly because of missing information?', 'What would change if both sides had equal information?'],
+    examples: [
+      { name: 'Carfax', url: 'https://carfax.com', desc: 'Used car buyers had no way to verify vehicle history — dealers knew everything.' },
+      { name: 'Glassdoor', url: 'https://glassdoor.com', desc: 'Job seekers had no insight into salaries or company culture before joining.' },
+      { name: 'Zillow', url: 'https://zillow.com', desc: 'Home buyers couldn\'t access real estate pricing data that agents had.' },
+      { name: 'Clearbit', url: 'https://clearbit.com', desc: 'Sales teams had no data on who was visiting their website or why.' },
+    ]
+  },
+  {
+    id: 'trust',
+    num: '04',
+    name: 'Trust Problem',
+    short: 'Parties won\'t transact without verification',
+    tagline: 'Willingness exists — but lack of trust blocks the transaction.',
+    color: '#1e3a8a', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A trust problem exists when two parties are willing to transact but are blocked by insufficient verification, reputation, or guarantees. Trust is the invisible infrastructure of commerce. When it\'s missing, markets freeze or operate at a fraction of their potential.',
+    signals: ['High rates of fraud or scams in the category', 'Users hesitate to share payment info or personal data', 'Transactions require long legal processes', 'Intermediaries exist solely to provide trust'],
+    questions: ['What prevents people from transacting even when both sides want to?', 'What verification or guarantee would unlock the market?', 'Who currently provides trust — and at what cost?'],
+    examples: [
+      { name: 'Stripe', url: 'https://stripe.com', desc: 'Online payments required trust infrastructure — Stripe made it developer-native.' },
+      { name: 'DocuSign', url: 'https://docusign.com', desc: 'Contracts required physical signatures — DocuSign made digital legally binding.' },
+      { name: 'Trustpilot', url: 'https://trustpilot.com', desc: 'Consumers couldn\'t verify whether online businesses were legitimate.' },
+      { name: 'Persona', url: 'https://withpersona.com', desc: 'Businesses needed verified identity without friction — Persona automated KYC.' },
+    ]
+  },
+  {
+    id: 'infrastructure',
+    num: '05',
+    name: 'Infrastructure Gap',
+    short: 'Missing layer that everything else needs',
+    tagline: 'Higher-value products can\'t be built because the foundation doesn\'t exist.',
+    color: '#1d4ed8', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An infrastructure gap exists when the foundational technical, physical, or regulatory layer needed to build higher-order products is missing or too expensive to build from scratch. The company that fills this gap becomes critical infrastructure — invisible but essential.',
+    signals: ['Every player in the industry is rebuilding the same basic component', 'High fixed costs to enter the market', 'Companies avoid entering because the foundation is too hard', 'Technical talent is wasted on commodity plumbing'],
+    questions: ['What do all companies in this space have to build themselves?', 'What would become possible if this infrastructure existed?', 'Who pays to build it today — and is that efficient?'],
+    examples: [
+      { name: 'AWS', url: 'https://aws.amazon.com', desc: 'Every company was building its own servers — AWS made that unnecessary.' },
+      { name: 'Twilio', url: 'https://twilio.com', desc: 'Every app needed SMS/voice — Twilio turned it into a simple API.' },
+      { name: 'Plaid', url: 'https://plaid.com', desc: 'Every fintech app needed bank connectivity — Plaid became the standard pipe.' },
+      { name: 'Segment', url: 'https://segment.com', desc: 'Every company was building custom data pipelines — Segment standardized the layer.' },
+    ]
+  },
+  {
+    id: 'process',
+    num: '06',
+    name: 'Process Inefficiency',
+    short: 'Existing workflow is too slow or expensive',
+    tagline: 'The job gets done — but at enormous waste of time, money, or effort.',
+    color: '#2563eb', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'Process inefficiency occurs when an existing workflow is so slow, expensive, error-prone, or fragmented that the cost of doing business is unnecessarily high. People have learned to live with the friction — but they\'d switch instantly to something better. The opportunity is to redesign the process from scratch.',
+    signals: ['High reliance on email, spreadsheets, or manual steps', 'Same data entered multiple times in different systems', 'Errors and rework are common', 'Process takes days or weeks when it could take minutes'],
+    questions: ['What multi-step process could be collapsed into one?', 'Where is human time being spent on work that software could do?', 'What would this process look like if designed today from scratch?'],
+    examples: [
+      { name: 'Slack', url: 'https://slack.com', desc: 'Team communication ran on fragmented email threads — Slack made it real-time and searchable.' },
+      { name: 'Notion', url: 'https://notion.so', desc: 'Knowledge was scattered across Docs, Sheets, Confluence — Notion unified it.' },
+      { name: 'Figma', url: 'https://figma.com', desc: 'Design files emailed back and forth — Figma made collaboration real-time.' },
+      { name: 'Rippling', url: 'https://rippling.com', desc: 'HR, payroll, and IT were three separate systems — Rippling unified them.' },
+    ]
+  },
+  {
+    id: 'automation',
+    num: '07',
+    name: 'Automation Opportunity',
+    short: 'Manual work that machines could do',
+    tagline: 'Humans are doing repetitive work that software could handle better.',
+    color: '#1e5ad7', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An automation opportunity exists when a high-volume, repetitive, rule-based task is still being done manually. Humans spend time on work that adds no judgment or creativity — just execution. Automating it frees people for higher-value work and dramatically reduces cost and error rates.',
+    signals: ['Large teams dedicated to repetitive data entry or processing', 'The same decision is made thousands of times using the same rules', 'Errors from manual work are common and costly', 'Process can be described as a clear sequence of steps'],
+    questions: ['What repetitive decisions could be encoded into rules?', 'Where do humans spend time executing rather than thinking?', 'What would 10x throughput look like at the same headcount?'],
+    examples: [
+      { name: 'Zapier', url: 'https://zapier.com', desc: 'Manually copying data between apps — Zapier automated it without code.' },
+      { name: 'UiPath', url: 'https://uipath.com', desc: 'Enterprise data entry in legacy systems — UiPath built software robots to replace it.' },
+      { name: 'HubSpot', url: 'https://hubspot.com', desc: 'Marketing and sales follow-ups were manual — HubSpot automated the pipeline.' },
+      { name: 'Workato', url: 'https://workato.com', desc: 'Business workflows across enterprise tools — Workato automated complex integrations.' },
+    ]
+  },
+  {
+    id: 'aggregation',
+    num: '08',
+    name: 'Aggregation Problem',
+    short: 'Supply is fragmented across too many small players',
+    tagline: 'The supply exists — but it\'s scattered and hard to access at scale.',
+    color: '#3b5fc0', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An aggregation problem exists when supply or demand is so fragmented that neither side can efficiently find or transact with the other. The solution is to aggregate one side (usually supply) and create a single point of access. The aggregator captures value by owning the customer relationship.',
+    signals: ['Market is served by thousands of small independent providers', 'Customers must contact many vendors to compare', 'No single player has more than a small market share', 'Quality and pricing vary wildly across providers'],
+    questions: ['Who are the fragmented suppliers that customers struggle to navigate?', 'What would a single access point unlock?', 'Which side (supply or demand) is harder to aggregate?'],
+    examples: [
+      { name: 'Booking.com', url: 'https://booking.com', desc: 'Hotels were sold individually — Booking aggregated global inventory.' },
+      { name: 'Etsy', url: 'https://etsy.com', desc: 'Independent craft sellers had no common storefront — Etsy aggregated them.' },
+      { name: 'Instacart', url: 'https://instacart.com', desc: 'Grocery stores each had their own delivery — Instacart aggregated local supply.' },
+      { name: 'Faire', url: 'https://faire.com', desc: 'Independent wholesale brands had no common channel to reach retailers.' },
+    ]
+  },
+  {
+    id: 'access',
+    num: '09',
+    name: 'Access Limitation',
+    short: 'Only a few can access it — most are excluded',
+    tagline: 'A valuable resource is available to some — but locked away from most.',
+    color: '#2d4db3', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An access limitation exists when something valuable — a financial product, a skill, an education, a service — is only available to a privileged few due to cost, geography, or gatekeepers. The opportunity is democratization: making the thing available to the many, not just the few.',
+    signals: ['Premium version of something is dramatically better than what most people use', 'Geographic or income barriers exclude large groups', 'Gatekeepers (brokers, advisors, institutions) are the only access point', 'Self-service version doesn\'t exist or is inadequate'],
+    questions: ['Who has access to this today — and who doesn\'t?', 'What are the barriers: cost, geography, complexity, gatekeepers?', 'What would change if access were universal?'],
+    examples: [
+      { name: 'Robinhood', url: 'https://robinhood.com', desc: 'Investing required brokers and high minimums — Robinhood made it free and mobile.' },
+      { name: 'Coursera', url: 'https://coursera.com', desc: 'World-class education was locked behind university admissions and tuition.' },
+      { name: 'Substack', url: 'https://substack.com', desc: 'Publishing required a media company — Substack gave any writer a business.' },
+      { name: 'Canva', url: 'https://canva.com', desc: 'Professional design required expensive software and skills — Canva democratized it.' },
+    ]
+  },
+  {
+    id: 'cost',
+    num: '10',
+    name: 'Cost Reduction',
+    short: 'The solution works — but costs 10x too much',
+    tagline: 'The existing solution is functional but prohibitively expensive.',
+    color: '#1e40af', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A cost reduction opportunity exists when the current solution works but is so expensive that most potential users are priced out. The technology or business model innovation that reduces the cost by 10x or more unlocks a vastly larger market — and often disrupts the incumbents entirely.',
+    signals: ['Most customers say the current solution is "too expensive"', 'Large price gap between what exists and what users can afford', 'Premium solutions exist, but mass-market versions don\'t', 'Incumbents have high margins and no incentive to cut prices'],
+    questions: ['What costs 10x more than it should?', 'Which cost component could technology eliminate?', 'Who would buy this if it cost 10x less?'],
+    examples: [
+      { name: 'Zoom', url: 'https://zoom.us', desc: 'Business travel and video conferencing hardware cost thousands — Zoom made it free.' },
+      { name: 'Shopify', url: 'https://shopify.com', desc: 'Building an e-commerce site required agencies costing tens of thousands.' },
+      { name: 'Canva', url: 'https://canva.com', desc: 'Professional design cost $50–100/hour from agencies — Canva dropped it to near zero.' },
+      { name: 'Wealthfront', url: 'https://wealthfront.com', desc: 'Financial advisors charged 1–2% AUM — Wealthfront automated it at 0.25%.' },
+    ]
+  },
+  {
+    id: 'speed',
+    num: '11',
+    name: 'Speed Problem',
+    short: 'The current solution is too slow',
+    tagline: 'Speed itself becomes the competitive advantage.',
+    color: '#1a3699', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A speed problem exists when current solutions work but are too slow relative to user expectations or competitive needs. As a category matures, speed becomes the dimension of competition. The company that makes something 10x faster redefines the standard — and makes the old approach feel broken.',
+    signals: ['Users describe waiting as the main frustration', 'Current process takes days or weeks for something that should be instant', 'Industry SLAs are measured in days when users expect minutes', 'Speed gap creates downstream inefficiencies'],
+    questions: ['What takes too long — and what would change if it were instant?', 'Where does waiting create cascading costs?', 'What does 10x speed unlock that\'s currently impossible?'],
+    examples: [
+      { name: 'Stripe', url: 'https://stripe.com', desc: 'Setting up payments took weeks with banks — Stripe made it hours.' },
+      { name: 'Vercel', url: 'https://vercel.com', desc: 'Deployments took hours through traditional CI — Vercel made them seconds.' },
+      { name: 'DoorDash', url: 'https://doordash.com', desc: 'Food delivery took 60+ minutes — DoorDash built infrastructure for sub-30 min.' },
+      { name: 'Linear', url: 'https://linear.app', desc: 'Jira was slow and heavy — Linear rebuilt project management for speed-first teams.' },
+    ]
+  },
+  {
+    id: 'capability',
+    num: '12',
+    name: 'New Tech Capability',
+    short: 'Technology now makes the impossible possible',
+    tagline: 'A breakthrough enables solutions that simply didn\'t exist before.',
+    color: '#152b88', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A new technology capability problem emerges when a breakthrough — in AI, hardware, biology, or infrastructure — makes a previously impossible or prohibitively expensive solution suddenly viable. The opportunity is to be the first to build the right product on top of the new capability before incumbents react.',
+    signals: ['A new technology has dropped in cost by 10–100x recently', 'Researchers have demonstrated something previously impossible', 'Early adopters are using new tools in unexpected ways', 'Incumbents are dismissing the new technology as a toy'],
+    questions: ['What can now be done that couldn\'t be done 3 years ago?', 'What existing product would be disrupted if this technology scaled?', 'Who benefits most from this new capability?'],
+    examples: [
+      { name: 'OpenAI', url: 'https://openai.com', desc: 'LLMs made conversational AI and code generation commercially viable.' },
+      { name: 'Midjourney', url: 'https://midjourney.com', desc: 'Diffusion models made professional-quality image generation instant and cheap.' },
+      { name: 'Tesla', url: 'https://tesla.com', desc: 'Battery cost curves finally made electric vehicles range-competitive.' },
+      { name: 'Figma', url: 'https://figma.com', desc: 'Browser rendering became powerful enough to run professional design tools.' },
+    ]
+  },
+];
+
+// ── Render grid ──
+const grid = document.getElementById('grid');
+PROBLEMS.forEach(p => {
+  const a = document.createElement('a');
+  a.href = `#${p.id}`;
+  a.className = 'grid-card';
+  a.style.background = p.light;
+  a.innerHTML = `
+    <div class="grid-num" style="color:${p.textDark}">${p.num}</div>
+    <div class="grid-name" style="color:${p.color}">${p.name}</div>
+    <div class="grid-short" style="color:${p.color}">${p.short}</div>
+  `;
+  grid.appendChild(a);
+});
+
+// ── Render sections ──
+const sections = document.getElementById('sections');
+PROBLEMS.forEach((p, i) => {
+  const div = document.createElement('div');
+  div.className = 'problem-section';
+  div.id = p.id;
+
+  const exHTML = p.examples.map(e => `
+    <li>
+      <span class="ex-co"><a href="${e.url}" target="_blank">${e.name}</a></span>
+      <span class="ex-desc">${e.desc}</span>
+    </li>`).join('');
+
+  const sigHTML = p.signals.map(s => `<span class="signal-chip">${s}</span>`).join('');
+  const askHTML = p.questions.map(q => `<li>${q}</li>`).join('');
+
+  div.innerHTML = `
+    <div class="problem-header">
+      <div class="problem-badge" style="background:${p.light};color:${p.color}">${p.num}</div>
+      <div>
+        <div class="problem-title">${p.name}</div>
+        <div class="problem-tagline">${p.tagline}</div>
+      </div>
+    </div>
+    <div class="problem-def">${p.def}</div>
+    <div class="block-label">Signals — how to recognize it</div>
+    <div class="signals">${sigHTML}</div>
+    <div class="ask-box">
+      <div class="block-label">Questions to ask</div>
+      <ul class="ask-list">${askHTML}</ul>
+    </div>
+    <div class="block-label" style="margin-top:20px">Real examples</div>
+    <ul class="examples-list">${exHTML}</ul>
+    ${i < PROBLEMS.length - 1 ? '<hr class="section-divider">' : ''}
+  `;
+  sections.appendChild(div);
+});
+</script>
+</body>
+</html>

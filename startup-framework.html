@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Startup Creation Framework</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #fff; color: #111;
+    }
+
+    /* ── Page wrapper ── */
+    #page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 48px 24px 0;
+    }
+
+    /* ── Header ── */
+    #panel-header {
+      margin-bottom: 32px;
+    }
+    #panel-header h1 { font-size: 26px; font-weight: 700; color: #111; margin-bottom: 6px; }
+    #panel-header a  { font-size: 13px; color: #1e5ad7; text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ── Card panels ── */
+    .panel { background: #f0f2f7; border-radius: 14px; padding: 18px 22px; margin-bottom: 16px; }
+
+    /* ── Panel top row ── */
+    .panel-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 8px; }
+    .panel-top h2 { font-size: 14px; font-weight: 700; color: #0f1d3a; flex: 1; }
+    .reset-btn {
+      background: none; border: 1px solid #c8d0df; border-radius: 5px;
+      font-size: 11px; color: #888; padding: 3px 8px; cursor: pointer;
+      white-space: nowrap; display: none;
+    }
+    .reset-btn:hover { border-color: #e05c5c; color: #e05c5c; }
+    .reset-btn.visible { display: block; }
+    .progress-dots { display: flex; gap: 5px; align-items: center; padding: 0 2px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #d0d5e0; transition: background 0.2s; }
+    .dot.done { background: #1e5ad7; }
+
+    /* ── Card inner ── */
+    .card-inner {
+      background: #fff; border-radius: 10px; padding: 16px 20px 18px;
+      border: 1.5px solid transparent; transition: border 0.3s, box-shadow 0.3s;
+    }
+    .card-inner.complete { border-color: #34c27a; box-shadow: 0 0 0 3px rgba(52,194,122,.1); }
+
+    /* ── Flow row ── */
+    .flow-row { display: flex; align-items: flex-start; gap: 14px; }
+    @media (max-width: 600px) { .flow-row { gap: 8px; } }
+    .flow-step { display: flex; flex-direction: column; align-items: center; position: relative; transition: opacity .28s; }
+    .flow-step.hidden { opacity: 0; pointer-events: none; }
+    .arrow { flex-shrink: 0; color: #8a95a8; font-size: 15px; padding-top: 8px; line-height: 1; transition: opacity .28s; }
+    .arrow.hidden { opacity: 0; }
+
+    /* ── Node ── */
+    .node {
+      padding: 7px 14px; background: #eef1f7; border: 1px solid #c8d0df;
+      border-radius: 6px; font-size: 12.5px; font-weight: 500; color: #1a2540;
+      text-align: center; white-space: nowrap;
+    }
+    @media (max-width: 600px) { .node { font-size: 11.5px; padding: 6px 10px; } }
+    .node.clickable { cursor: pointer; }
+    .node.clickable:hover { background: #dde4f0; border-color: #a0aec0; }
+    .node.active { background: #1e5ad7; border-color: #1e5ad7; color: #fff; }
+    .node.done   { background: #e7efff; border-color: #1e5ad7; color: #1e5ad7; font-weight: 600; }
+    .node.passive { background: #f5f6f9; border-color: #dde3ef; color: #8a95a8; font-style: italic; }
+
+    /* ── Selection label under node ── */
+    .node-label {
+      margin-top: 5px;
+      font-size: 10.5px;
+      color: #1e5ad7;
+      font-weight: 600;
+      max-width: 120px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 14px;
+    }
+    .passive-tip {
+      position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+      background: #333; color: #fff; font-size: 11px; padding: 4px 9px; border-radius: 5px;
+      white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .15s; z-index: 100;
+    }
+    .flow-step:hover .passive-tip { opacity: 1; }
+
+    /* ── Complete badge ── */
+    .complete-badge { display: none; font-size: 11px; font-weight: 600; color: #34c27a; margin-top: 10px; text-align: center; letter-spacing: .04em; }
+    .complete-badge.visible { display: block; }
+
+    /* ── Dropdown ── */
+    .dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+      width: 210px; background: #fff; border: 1px solid #dde3ef; border-radius: 8px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.13); z-index: 200; overflow: hidden; max-height: 420px; overflow-y: auto;
+    }
+    .dropdown.open { display: block; }
+    @media (max-width: 768px) {
+      .dropdown { position: fixed; left: 50% !important; transform: translateX(-50%); top: auto !important; bottom: 52px; width: 88vw; max-width: 340px; max-height: 55vh; }
+    }
+    .dd-title { position: sticky; top: 0; font-size: 10.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #fff; background: #1e5ad7; padding: 7px 13px; z-index: 1; }
+    .dd-section { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #aaa; padding: 7px 13px 3px; background: #fafbfd; }
+    .dd-item { font-size: 12.5px; color: #222; padding: 8px 13px; cursor: pointer; border-bottom: 1px solid #f2f4f8; line-height: 1.4; }
+    .dd-item:last-child { border-bottom: none; }
+    .dd-item:hover { background: #e7efff; }
+    .dd-item.selected { background: #e7efff; font-weight: 600; color: #1e5ad7; }
+    .dd-item b { display: block; font-size: 12px; font-weight: 600; color: #111; }
+    .dd-item span { font-size: 11px; color: #888; }
+    .dd-item:hover b, .dd-item.selected b { color: #1e5ad7; }
+    .dd-item:hover span, .dd-item.selected span { color: #5b89e8; }
+    .dd-item.example { font-style: italic; font-family: Georgia, serif; font-size: 12px; color: #555; }
+    .dd-item.example:hover, .dd-item.example.selected { background: #e7efff; color: #1e5ad7; }
+    .dd-title-row { position: sticky; top: 0; display: flex; align-items: center; gap: 8px; background: #1e5ad7; padding: 7px 13px; z-index: 1; }
+    .dd-title-row .dd-title { position: static; padding: 0; background: none; flex: 1; }
+    .vc-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 2px 7px 2px 5px; font-size: 10px; font-weight: 700; color: #fff; white-space: nowrap; }
+    .vc-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+    .dd-desc { font-size: 11.5px; color: #555; padding: 8px 13px 4px; border-bottom: 1px solid #f2f4f8; font-style: italic; }
+    .dd-plain { font-size: 10.5px; color: #aaa; display: block; margin-top: 1px; }
+    .dd-item:hover .dd-plain, .dd-item.selected .dd-plain { color: #7eaaff; }
+
+    /* ── Examples toggle row ── */
+    .examples-toggle {
+      display: none;
+      margin-top: 12px;
+      padding: 9px 13px;
+      background: #f7f9ff;
+      border: 1px solid #e0e7ff;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e5ad7;
+      user-select: none;
+      transition: background .15s;
+    }
+    .examples-toggle:hover { background: #e7efff; }
+    .examples-toggle.visible { display: flex; align-items: center; justify-content: space-between; }
+    .examples-toggle .chevron { font-size: 10px; transition: transform .2s; }
+    .examples-toggle.open .chevron { transform: rotate(180deg); }
+
+    .examples-panel {
+      display: none;
+      margin-top: 8px;
+      border: 1px solid #e0e7ff;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+    .examples-panel.open { display: block; }
+
+    .ex-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0 12px;
+      align-items: start;
+      padding: 9px 13px;
+      border-bottom: 1px solid #f0f3fc;
+    }
+    .ex-row:last-child { border-bottom: none; }
+    .ex-name { font-size: 12px; font-weight: 700; color: #111; }
+    .ex-path { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+    .ex-tag {
+      font-size: 10.5px; color: #444; background: #f0f3fc;
+      border-radius: 4px; padding: 2px 6px; white-space: nowrap;
+    }
+    .ex-arrow { font-size: 10px; color: #aaa; }
+
+    /* ── Shuffle button ── */
+    .shuffle-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 11px; color: #1e5ad7; font-weight: 600;
+      padding: 0 4px; margin-left: 6px;
+      opacity: 0.7; transition: opacity .15s;
+    }
+    .shuffle-btn:hover { opacity: 1; }
+
+    /* ── Bottom bar ── */
+    #bottom-bar {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: #f0f2f7; border-top: 1px solid #dde3ef;
+      padding: 10px 24px; z-index: 300; flex-wrap: wrap; gap: 6px 20px; align-items: center;
+    }
+    #bottom-bar.visible { display: flex; }
+    @media (max-width: 768px) { #bottom-bar { padding: 8px 16px; gap: 4px 14px; } }
+    .b-divider { width: 1px; height: 18px; background: #c8d0df; flex-shrink: 0; }
+    .b-entry { display: flex; gap: 6px; align-items: baseline; }
+    .b-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #aaa; }
+    .b-val   { font-size: 12px; color: #1e5ad7; font-weight: 600; }
+    #bar-vc, #bar-f { display: none; gap: 6px 20px; flex-wrap: wrap; align-items: center; }
+    #bar-vc.active, #bar-f.active { display: flex; }
+  </style>
+</head>
+<body>
+
+<!-- View toggle -->
+<div style="position:fixed;top:16px;right:16px;z-index:1000;display:flex;background:#f0f2f7;border-radius:20px;padding:3px;gap:2px;">
+  <span style="font-size:12px;font-weight:600;padding:5px 14px;border-radius:16px;background:#fff;color:#111;box-shadow:0 1px 4px rgba(0,0,0,.12);white-space:nowrap;">≡ Framework</span>
+  <a href="atlas.html" style="font-size:12px;font-weight:600;padding:5px 14px;border-radius:16px;color:#888;text-decoration:none;white-space:nowrap;">◉ Atlas</a>
+</div>
+
+<div id="page">
+<div id="panel-header">
+  <h1>Startup Creation Framework</h1>
+  <p style="font-size:14px;color:#555;margin-bottom:8px;line-height:1.5;">Two ways to find a startup idea. Pick the one that fits where you are — then click through each step.</p>
+  <a href="why.html">Why these two models? →</a>
+</div>
+
+<!-- VC panel -->
+<div class="panel" id="panel-vc">
+  <div class="panel-top">
+    <h2>Market-first (VC perspective)</h2>
+    <div class="progress-dots">
+      <div class="dot" data-dot="vc-0"></div><div class="dot" data-dot="vc-1"></div>
+      <div class="dot" data-dot="vc-2"></div><div class="dot" data-dot="vc-3"></div>
+      <div class="dot" data-dot="vc-4"></div>
+    </div>
+    <button class="reset-btn" id="reset-vc">↺ Reset</button>
+  </div>
+  <div class="card-inner" id="card-vc">
+    <div class="flow-row">
+      <div class="flow-step" data-reveal="vc-0">
+        <div class="node clickable" data-card="vc" data-idx="0" data-dd="dd-vc-0">Large Market</div>
+        <div class="node-label" id="lbl-vc-0"></div>
+        <div class="dropdown" id="dd-vc-0" style="width:260px">
+          <div class="dd-title-row">
+            <span class="dd-title">Large Market</span>
+            <span class="vc-badge"><span class="vc-badge-dot"></span>1B+ / 2B+ VC</span>
+          </div>
+          <div class="dd-section">Definition</div>
+          <div class="dd-desc">Industries where large amounts of money flow.</div>
+          <div class="dd-section">Market Indicators</div>
+          <div class="dd-item" data-val="Large spending">• Large spending</div>
+          <div class="dd-item" data-val="Growing demand">• Growing demand</div>
+          <div class="dd-item" data-val="Fragmented solutions">• Fragmented solutions</div>
+          <div class="dd-item" data-val="Inefficient incumbents">• Inefficient incumbents</div>
+          <div class="dd-section">Markets (43 total)</div>
+          <div class="dd-item" data-val="Real Estate">Real Estate</div>
+          <div class="dd-item" data-val="Construction &amp; Infrastructure">Construction &amp; Infrastructure</div>
+          <div class="dd-item" data-val="Food &amp; Beverage">Food &amp; Beverage</div>
+          <div class="dd-item" data-val="Agriculture">Agriculture</div>
+          <div class="dd-item" data-val="Energy">Energy</div>
+          <div class="dd-item" data-val="Utilities">Utilities</div>
+          <div class="dd-item" data-val="Transportation &amp; Mobility">Transportation &amp; Mobility</div>
+          <div class="dd-item" data-val="Automotive">Automotive</div>
+          <div class="dd-item" data-val="Manufacturing">Manufacturing</div>
+          <div class="dd-item" data-val="Consumer Goods (CPG)">Consumer Goods (CPG)</div>
+          <div class="dd-item" data-val="Retail &amp; E-commerce">Retail &amp; E-commerce</div>
+          <div class="dd-item" data-val="Wholesale &amp; Distribution">Wholesale &amp; Distribution</div>
+          <div class="dd-item" data-val="Healthcare">Healthcare</div>
+          <div class="dd-item" data-val="Pharmaceuticals &amp; Biotech">Pharmaceuticals &amp; Biotech</div>
+          <div class="dd-item" data-val="Medical Devices">Medical Devices</div>
+          <div class="dd-item" data-val="Financial Services">Financial Services</div>
+          <div class="dd-item" data-val="Banking">Banking</div>
+          <div class="dd-item" data-val="Insurance">Insurance</div>
+          <div class="dd-item" data-val="Payments">Payments</div>
+          <div class="dd-item" data-val="Capital Markets / Investing">Capital Markets / Investing</div>
+          <div class="dd-item" data-val="Technology (Broad)">Technology (Broad)</div>
+          <div class="dd-item" data-val="Software">Software</div>
+          <div class="dd-item" data-val="Hardware">Hardware</div>
+          <div class="dd-item" data-val="Telecommunications">Telecommunications</div>
+          <div class="dd-item" data-val="Media &amp; Entertainment">Media &amp; Entertainment</div>
+          <div class="dd-item" data-val="Gaming">Gaming</div>
+          <div class="dd-item" data-val="Advertising &amp; Marketing">Advertising &amp; Marketing</div>
+          <div class="dd-item" data-val="Education">Education</div>
+          <div class="dd-item" data-val="Professional Services">Professional Services</div>
+          <div class="dd-item" data-val="Legal">Legal</div>
+          <div class="dd-item" data-val="HR &amp; Recruiting">HR &amp; Recruiting</div>
+          <div class="dd-item" data-val="Security &amp; Defense">Security &amp; Defense</div>
+          <div class="dd-item" data-val="Government / Public Sector">Government / Public Sector</div>
+          <div class="dd-item" data-val="Tourism &amp; Hospitality">Tourism &amp; Hospitality</div>
+          <div class="dd-item" data-val="Fashion &amp; Apparel">Fashion &amp; Apparel</div>
+          <div class="dd-item" data-val="Logistics &amp; Supply Chain">Logistics &amp; Supply Chain</div>
+          <div class="dd-item" data-val="Chemicals &amp; Materials">Chemicals &amp; Materials</div>
+          <div class="dd-item" data-val="Mining">Mining</div>
+          <div class="dd-item" data-val="Aerospace">Aerospace</div>
+          <div class="dd-item" data-val="Environmental / Climate">Environmental / Climate</div>
+          <div class="dd-item" data-val="Non-profit / Social">Non-profit / Social</div>
+          <div class="dd-item" data-val="Religion / Faith">Religion / Faith</div>
+          <div class="dd-item" data-val="Sports &amp; Fitness">Sports &amp; Fitness</div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="vc-1">→</span>
+      <div class="flow-step hidden" data-reveal="vc-1">
+        <div class="node clickable" data-card="vc" data-idx="1" data-dd="dd-vc-1">Signals</div>
+        <div class="node-label" id="lbl-vc-1"></div>
+        <div class="dropdown" id="dd-vc-1">
+          <div class="dd-title">Signals</div>
+          <div class="dd-section">Evidence of pain</div>
+          <div class="dd-item" data-val="Reviews"><b>Reviews</b><span>Recurring complaints in ratings &amp; reviews</span></div>
+          <div class="dd-item" data-val="Complaints"><b>Complaints</b><span>Support tickets, forums, social rants</span></div>
+          <div class="dd-item" data-val="Search"><b>Search</b><span>High-volume queries with no great answer</span></div>
+          <div class="dd-item" data-val="Friction"><b>Friction</b><span>Workarounds, hacks &amp; manual effort people use</span></div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="vc-2">→</span>
+      <div class="flow-step hidden" data-reveal="vc-2">
+        <div class="node clickable" data-card="vc" data-idx="2" data-dd="dd-vc-2">Problem</div>
+        <div class="node-label" id="lbl-vc-2"></div>
+        <div class="dropdown" id="dd-vc-2" style="width:244px">
+          <div class="dd-title">12 Problem Archetypes</div>
+          <div class="dd-item" data-val="Coordination problem"><b>Coordination problem</b><span>Supply and demand don't meet</span></div>
+          <div class="dd-item" data-val="Discovery problem"><b>Discovery problem</b><span>Users can't find what already exists</span></div>
+          <div class="dd-item" data-val="Information asymmetry"><b>Information asymmetry</b><span>One party has more information</span></div>
+          <div class="dd-item" data-val="Trust problem"><b>Trust problem</b><span>Lack of trust between parties</span></div>
+          <div class="dd-item" data-val="Infrastructure gap"><b>Infrastructure gap</b><span>Missing technical infrastructure</span></div>
+          <div class="dd-item" data-val="Process inefficiency"><b>Process inefficiency</b><span>Slow or expensive process</span></div>
+          <div class="dd-item" data-val="Automation opportunity"><b>Automation opportunity</b><span>Manual process that can be automated</span></div>
+          <div class="dd-item" data-val="Aggregation problem"><b>Aggregation problem</b><span>Fragmented supply or demand</span></div>
+          <div class="dd-item" data-val="Access limitation"><b>Access limitation</b><span>Only a few can access it</span></div>
+          <div class="dd-item" data-val="Cost reduction"><b>Cost reduction</b><span>Too expensive</span></div>
+          <div class="dd-item" data-val="Speed problem"><b>Speed problem</b><span>Too slow</span></div>
+          <div class="dd-item" data-val="New tech capability"><b>New tech capability</b><span>New technology enables a solution</span></div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="vc-3">→</span>
+      <div class="flow-step hidden" data-reveal="vc-3">
+        <div class="node clickable" data-card="vc" data-idx="3" data-dd="dd-vc-3">Solution</div>
+        <div class="node-label" id="lbl-vc-3"></div>
+        <div class="dropdown" id="dd-vc-3">
+          <div class="dd-title">How will you solve it?</div>
+          <div class="dd-item" data-val="Marketplace">Marketplace<span class="dd-plain">Connect buyers &amp; sellers (e.g. Airbnb, Uber)</span></div>
+          <div class="dd-item" data-val="SaaS">SaaS<span class="dd-plain">Software subscription (e.g. Notion, Figma)</span></div>
+          <div class="dd-item" data-val="Platform">Platform<span class="dd-plain">Ecosystem others build on (e.g. Shopify)</span></div>
+          <div class="dd-item" data-val="Infrastructure">Infrastructure<span class="dd-plain">Backend layer for developers (e.g. Stripe)</span></div>
+          <div class="dd-item" data-val="Automation">Automation<span class="dd-plain">Replace a manual task with software</span></div>
+          <div class="dd-item" data-val="Data network">Data network<span class="dd-plain">Value grows with more data / users</span></div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="vc-4">→</span>
+      <div class="flow-step hidden" data-reveal="vc-4">
+        <div class="node clickable" data-card="vc" data-idx="4" data-dd="dd-vc-4">Product</div>
+        <div class="node-label" id="lbl-vc-4"></div>
+        <div class="dropdown" id="dd-vc-4">
+          <div class="dd-title">What will people use?</div>
+          <div class="dd-item" data-val="Mobile app">Mobile app<span class="dd-plain">App on their phone (iOS / Android)</span></div>
+          <div class="dd-item" data-val="Web app">Web app<span class="dd-plain">Opens in a browser, no install needed</span></div>
+          <div class="dd-item" data-val="API">API<span class="dd-plain">Other software connects to yours</span></div>
+          <div class="dd-item" data-val="AI tool">AI tool<span class="dd-plain">Powered by AI / LLMs</span></div>
+          <div class="dd-item" data-val="Platform">Platform<span class="dd-plain">Multiple tools in one place</span></div>
+          <div class="dd-item" data-val="Hardware">Hardware<span class="dd-plain">A physical device</span></div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="vc-5">→</span>
+      <div class="flow-step hidden" data-reveal="vc-5"><div class="node">Company</div></div>
+    </div>
+    <div class="complete-badge" id="complete-vc">✓ Complete</div>
+
+    <!-- Examples toggle -->
+    <div class="examples-toggle" id="ex-toggle-vc">
+      <span>Real company examples <button class="shuffle-btn" id="shuffle-vc" title="Show different examples">Shuffle ↺</button></span><span class="chevron">▼</span>
+    </div>
+    <div class="examples-panel" id="ex-panel-vc"></div>
+  </div>
+</div>
+
+<!-- Founder panel -->
+<div class="panel" id="panel-founder">
+  <div class="panel-top">
+    <h2>Problem-first (Founder perspective)</h2>
+    <div class="progress-dots">
+      <div class="dot" data-dot="f-0"></div><div class="dot" data-dot="f-1"></div><div class="dot" data-dot="f-2"></div>
+    </div>
+    <button class="reset-btn" id="reset-f">↺ Reset</button>
+  </div>
+  <div class="card-inner" id="card-f">
+    <div class="flow-row">
+      <div class="flow-step" data-reveal="f-0">
+        <div class="node clickable" data-card="f" data-idx="0" data-dd="dd-f-0">Problem</div>
+        <div class="node-label" id="lbl-f-0"></div>
+        <div class="dropdown" id="dd-f-0" style="width:244px">
+          <div class="dd-title">12 Problem Archetypes</div>
+          <div class="dd-item" data-val="Coordination problem"><b>Coordination problem</b><span>Supply and demand don't meet</span></div>
+          <div class="dd-item" data-val="Discovery problem"><b>Discovery problem</b><span>Users can't find what already exists</span></div>
+          <div class="dd-item" data-val="Information asymmetry"><b>Information asymmetry</b><span>One party has more information</span></div>
+          <div class="dd-item" data-val="Trust problem"><b>Trust problem</b><span>Lack of trust between parties</span></div>
+          <div class="dd-item" data-val="Infrastructure gap"><b>Infrastructure gap</b><span>Missing technical infrastructure</span></div>
+          <div class="dd-item" data-val="Process inefficiency"><b>Process inefficiency</b><span>Slow or expensive process</span></div>
+          <div class="dd-item" data-val="Automation opportunity"><b>Automation opportunity</b><span>Manual process that can be automated</span></div>
+          <div class="dd-item" data-val="Aggregation problem"><b>Aggregation problem</b><span>Fragmented supply or demand</span></div>
+          <div class="dd-item" data-val="Access limitation"><b>Access limitation</b><span>Only a few can access it</span></div>
+          <div class="dd-item" data-val="Cost reduction"><b>Cost reduction</b><span>Too expensive</span></div>
+          <div class="dd-item" data-val="Speed problem"><b>Speed problem</b><span>Too slow</span></div>
+          <div class="dd-item" data-val="New tech capability"><b>New tech capability</b><span>New technology enables a solution</span></div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="f-1">→</span>
+      <div class="flow-step hidden" data-reveal="f-1">
+        <div class="node passive">Users / Market</div>
+        <div class="passive-tip">Defined by the problem</div>
+      </div>
+      <span class="arrow hidden" data-reveal="f-1">→</span>
+      <div class="flow-step hidden" data-reveal="f-1">
+        <div class="node clickable" data-card="f" data-idx="1" data-dd="dd-f-1">Solution</div>
+        <div class="node-label" id="lbl-f-1"></div>
+        <div class="dropdown" id="dd-f-1">
+          <div class="dd-title">How will you solve it?</div>
+          <div class="dd-item" data-val="Marketplace">Marketplace<span class="dd-plain">Connect buyers &amp; sellers (e.g. Airbnb, Uber)</span></div>
+          <div class="dd-item" data-val="SaaS">SaaS<span class="dd-plain">Software subscription (e.g. Notion, Figma)</span></div>
+          <div class="dd-item" data-val="Platform">Platform<span class="dd-plain">Ecosystem others build on (e.g. Shopify)</span></div>
+          <div class="dd-item" data-val="Infrastructure">Infrastructure<span class="dd-plain">Backend layer for developers (e.g. Stripe)</span></div>
+          <div class="dd-item" data-val="Automation">Automation<span class="dd-plain">Replace a manual task with software</span></div>
+          <div class="dd-item" data-val="Data network">Data network<span class="dd-plain">Value grows with more data / users</span></div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="f-2">→</span>
+      <div class="flow-step hidden" data-reveal="f-2">
+        <div class="node clickable" data-card="f" data-idx="2" data-dd="dd-f-2">Product</div>
+        <div class="node-label" id="lbl-f-2"></div>
+        <div class="dropdown" id="dd-f-2">
+          <div class="dd-title">What will people use?</div>
+          <div class="dd-item" data-val="Mobile app">Mobile app<span class="dd-plain">App on their phone (iOS / Android)</span></div>
+          <div class="dd-item" data-val="Web app">Web app<span class="dd-plain">Opens in a browser, no install needed</span></div>
+          <div class="dd-item" data-val="API">API<span class="dd-plain">Other software connects to yours</span></div>
+          <div class="dd-item" data-val="AI tool">AI tool<span class="dd-plain">Powered by AI / LLMs</span></div>
+          <div class="dd-item" data-val="Platform">Platform<span class="dd-plain">Multiple tools in one place</span></div>
+          <div class="dd-item" data-val="Hardware">Hardware<span class="dd-plain">A physical device</span></div>
+        </div>
+      </div>
+      <span class="arrow hidden" data-reveal="f-3">→</span>
+      <div class="flow-step hidden" data-reveal="f-3"><div class="node">Company</div></div>
+    </div>
+    <div class="complete-badge" id="complete-f">✓ Complete</div>
+
+    <!-- Examples toggle -->
+    <div class="examples-toggle" id="ex-toggle-f">
+      <span>Real company examples <button class="shuffle-btn" id="shuffle-f" title="Show different examples">Shuffle ↺</button></span><span class="chevron">▼</span>
+    </div>
+    <div class="examples-panel" id="ex-panel-f"></div>
+  </div>
+</div>
+
+</div><!-- /#page -->
+
+<!-- Bottom bar -->
+<div id="bottom-bar">
+  <div id="bar-vc">
+    <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#888">VC</span>
+    <div class="b-entry"><span class="b-label">Market</span><span class="b-val" id="b-vc-0"></span></div>
+    <div class="b-entry"><span class="b-label">Signals</span><span class="b-val" id="b-vc-1"></span></div>
+    <div class="b-entry"><span class="b-label">Problem</span><span class="b-val" id="b-vc-2"></span></div>
+    <div class="b-entry"><span class="b-label">Solution</span><span class="b-val" id="b-vc-3"></span></div>
+    <div class="b-entry"><span class="b-label">Product</span><span class="b-val" id="b-vc-4"></span></div>
+  </div>
+  <div id="bar-f">
+    <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#888">Founder</span>
+    <div class="b-entry"><span class="b-label">Problem</span><span class="b-val" id="b-f-0"></span></div>
+    <div class="b-entry"><span class="b-label">Solution</span><span class="b-val" id="b-f-1"></span></div>
+    <div class="b-entry"><span class="b-label">Product</span><span class="b-val" id="b-f-2"></span></div>
+  </div>
+</div>
+
+<style>
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 1px solid #e8ecf2;
+    padding: 56px 40px 32px;
+    margin-top: 40px;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    max-width: 880px;
+    margin: 0 auto 40px;
+  }
+  .footer-col-label {
+    font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: #aaa; margin-bottom: 14px;
+  }
+  .footer-col-desc { font-size: 13.5px; color: #999; line-height: 1.6; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 9px; }
+  .footer-links a { font-size: 13.5px; color: #aaa; text-decoration: none; transition: color .15s; }
+  .footer-links a:hover { color: #111; }
+  .footer-about-item { font-size: 13.5px; color: #111; margin-bottom: 8px; }
+  .footer-other { max-width: 880px; margin: 0 auto 36px; }
+  .footer-other .footer-col-label { margin-bottom: 10px; }
+  .footer-other a { font-size: 13.5px; color: #aaa; text-decoration: none; }
+  .footer-other a:hover { color: #111; }
+  .footer-bottom {
+    max-width: 880px; margin: 0 auto;
+    border-top: 1px solid #f0f2f7;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 12.5px; color: #bbb;
+  }
+  @media (max-width: 640px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .site-footer { padding: 40px 20px 24px; }
+  }
+</style>
+<script>
+  const SEQ = { vc: [0,1,2,3,4], f: [0,1,2] };
+
+  // ── Examples data ──
+  const EXAMPLES_VC = [
+    { name:'Uber',         tags:['Transportation',    'Coordination problem', 'Marketplace', 'Mobile app'] },
+    { name:'Stripe',       tags:['Payments',          'Infrastructure gap',   'Infrastructure', 'API'] },
+    { name:'Airbnb',       tags:['Commerce',          'Aggregation problem',  'Marketplace', 'Web app'] },
+    { name:'Oscar Health', tags:['Healthcare',        'Process inefficiency', 'Platform',    'Web app'] },
+    { name:'Palantir',     tags:['Large spending',    'Information asymmetry','Platform',    'Web app'] },
+    { name:'Zoom',         tags:['Communications',    'Speed problem',        'SaaS',        'Web app'] },
+    { name:'Shopify',      tags:['Commerce',          'Access limitation',    'Platform',    'Web app'] },
+    { name:'Robinhood',    tags:['Finance',           'Access limitation',    'SaaS',        'Mobile app'] },
+    { name:'Figma',        tags:['Design tools',      'Process inefficiency', 'SaaS',        'Web app'] },
+    { name:'Notion',       tags:['Productivity',      'Process inefficiency', 'SaaS',        'Web app'] },
+    { name:'Plaid',        tags:['Fintech',           'Infrastructure gap',   'Infrastructure', 'API'] },
+    { name:'Snowflake',    tags:['Enterprise data',   'Information asymmetry','SaaS',        'Web app'] },
+    { name:'Twilio',       tags:['Communications',    'Infrastructure gap',   'Infrastructure', 'API'] },
+    { name:'Canva',        tags:['Design',            'Access limitation',    'SaaS',        'Web app'] },
+    { name:'DoorDash',     tags:['Food delivery',     'Coordination problem', 'Marketplace', 'Mobile app'] },
+    { name:'SpaceX',       tags:['Aerospace',         'Cost reduction',       'Infrastructure', 'Hardware'] },
+    { name:'Wealthfront',  tags:['Finance',           'Access limitation',    'SaaS',        'Web app'] },
+    { name:'Instacart',    tags:['Grocery',           'Coordination problem', 'Marketplace', 'Mobile app'] },
+    { name:'Cloudflare',   tags:['Internet infra',    'Infrastructure gap',   'Infrastructure', 'Web app'] },
+    { name:'MongoDB',      tags:['Enterprise data',   'Process inefficiency', 'Infrastructure', 'API'] },
+    { name:'Datadog',      tags:['DevOps',            'Information asymmetry','SaaS',        'Web app'] },
+    { name:'Brex',         tags:['Finance',           'Access limitation',    'SaaS',        'Web app'] },
+    { name:'Rippling',     tags:['HR / Payroll',      'Process inefficiency', 'SaaS',        'Web app'] },
+    { name:'Gusto',        tags:['HR / Payroll',      'Process inefficiency', 'SaaS',        'Web app'] },
+    { name:'Airtable',     tags:['Productivity',      'Process inefficiency', 'Platform',    'Web app'] },
+    { name:'Intercom',     tags:['Customer support',  'Process inefficiency', 'SaaS',        'Web app'] },
+    { name:'Segment',      tags:['Marketing data',    'Aggregation problem',  'Infrastructure', 'API'] },
+    { name:'Webflow',      tags:['Web design',        'Access limitation',    'SaaS',        'Web app'] },
+    { name:'Retool',       tags:['Internal tools',    'Process inefficiency', 'Platform',    'Web app'] },
+    { name:'Vercel',       tags:['Developer tools',   'Speed problem',        'Platform',    'Web app'] },
+  ];
+
+  const EXAMPLES_F = [
+    { name:'Airbnb',      tags:['Coordination problem', 'Hosts & travelers',   'Marketplace',    'Web app'] },
+    { name:'Dropbox',     tags:['Access limitation',    'Knowledge workers',   'SaaS',           'Web app'] },
+    { name:'Slack',       tags:['Process inefficiency', 'Teams',               'SaaS',           'Web app'] },
+    { name:'Uber',        tags:['Coordination problem', 'Drivers & riders',    'Marketplace',    'Mobile app'] },
+    { name:'Notion',      tags:['Process inefficiency', 'Knowledge workers',   'SaaS',           'Web app'] },
+    { name:'WhatsApp',    tags:['Speed problem',        'Mobile users',        'SaaS',           'Mobile app'] },
+    { name:'Figma',       tags:['Process inefficiency', 'Design teams',        'SaaS',           'Web app'] },
+    { name:'Canva',       tags:['Access limitation',    'Non-designers',       'SaaS',           'Web app'] },
+    { name:'Stripe',      tags:['Infrastructure gap',   'Developers',          'Infrastructure', 'API'] },
+    { name:'GitHub',      tags:['Coordination problem', 'Developers',          'Platform',       'Web app'] },
+    { name:'Zoom',        tags:['Speed problem',        'Remote workers',      'SaaS',           'Web app'] },
+    { name:'Linear',      tags:['Process inefficiency', 'Engineering teams',   'SaaS',           'Web app'] },
+    { name:'Loom',        tags:['Speed problem',        'Remote teams',        'SaaS',           'Web app'] },
+    { name:'Superhuman',  tags:['Speed problem',        'Professionals',       'SaaS',           'Web app'] },
+    { name:'Vercel',      tags:['Speed problem',        'Developers',          'Platform',       'Web app'] },
+    { name:'Notion',      tags:['Process inefficiency', 'Knowledge workers',   'SaaS',           'Web app'] },
+    { name:'Duolingo',    tags:['Access limitation',    'Language learners',   'SaaS',           'Mobile app'] },
+    { name:'Calm',        tags:['Access limitation',    'Stressed adults',     'SaaS',           'Mobile app'] },
+    { name:'Headspace',   tags:['Access limitation',    'Wellness seekers',    'SaaS',           'Mobile app'] },
+    { name:'Robinhood',   tags:['Access limitation',    'Retail investors',    'SaaS',           'Mobile app'] },
+    { name:'Monzo',       tags:['Process inefficiency', 'Bank customers',      'SaaS',           'Mobile app'] },
+    { name:'Revolut',     tags:['Cost reduction',       'Travelers',           'SaaS',           'Mobile app'] },
+    { name:'Clubhouse',   tags:['Discovery problem',    'Audio listeners',     'Marketplace',    'Mobile app'] },
+    { name:'Substack',    tags:['Access limitation',    'Writers',             'Platform',       'Web app'] },
+    { name:'Beehiiv',     tags:['Access limitation',    'Newsletter creators', 'Platform',       'Web app'] },
+    { name:'Webflow',     tags:['Access limitation',    'Non-developers',      'SaaS',           'Web app'] },
+    { name:'Airtable',    tags:['Process inefficiency', 'Operations teams',    'Platform',       'Web app'] },
+    { name:'Miro',        tags:['Coordination problem', 'Remote teams',        'SaaS',           'Web app'] },
+    { name:'Typeform',    tags:['Process inefficiency', 'Marketers',           'SaaS',           'Web app'] },
+    { name:'Calendly',    tags:['Process inefficiency', 'Professionals',       'SaaS',           'Web app'] },
+    { name:'Hotjar',      tags:['Information asymmetry','Product teams',       'SaaS',           'Web app'] },
+  ];
+
+  function pickRandom(arr, n) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, n);
+  }
+
+  function renderExamples(panelId, data) {
+    const panel = document.getElementById(panelId);
+    const five = pickRandom(data, 5);
+    panel.innerHTML = five.map(ex => {
+      const path = ex.tags.map((t, i) =>
+        `<span class="ex-tag">${t}</span>${i < ex.tags.length - 1 ? '<span class="ex-arrow">→</span>' : ''}`
+      ).join('');
+      return `<div class="ex-row"><span class="ex-name">${ex.name}</span><div class="ex-path">${path}</div></div>`;
+    }).join('');
+  }
+
+  // Initial render (will be called when panel completes, but pre-render now)
+  renderExamples('ex-panel-vc', EXAMPLES_VC);
+  renderExamples('ex-panel-f', EXAMPLES_F);
+
+  // Shuffle buttons
+  document.getElementById('shuffle-vc').addEventListener('click', e => {
+    e.stopPropagation();
+    renderExamples('ex-panel-vc', EXAMPLES_VC);
+  });
+  document.getElementById('shuffle-f').addEventListener('click', e => {
+    e.stopPropagation();
+    renderExamples('ex-panel-f', EXAMPLES_F);
+  });
+
+  /* ── Reveal ── */
+  function reveal(key) {
+    document.querySelectorAll(`[data-reveal="${key}"]`).forEach(el => el.classList.remove('hidden'));
+  }
+
+  /* ── Close card ── */
+  function closeCard(id) {
+    document.querySelectorAll(`.node[data-card="${id}"]`).forEach(n => n.classList.remove('active'));
+    SEQ[id].forEach(i => { const d = document.getElementById(`dd-${id}-${i}`); if(d) d.classList.remove('open'); });
+  }
+
+  function openNodeDD(id, idx) {
+    const n = document.querySelector(`.node[data-card="${id}"][data-idx="${idx}"]`);
+    const d = document.getElementById(`dd-${id}-${idx}`);
+    if (n && d) { n.classList.add('active'); d.classList.add('open'); }
+  }
+
+  /* ── Reset ── */
+  function resetCard(id) {
+    closeCard(id);
+    SEQ[id].forEach(i => {
+      const n = document.querySelector(`.node[data-card="${id}"][data-idx="${i}"]`);
+      if (n) n.classList.remove('done','active');
+      const d = document.getElementById(`dd-${id}-${i}`);
+      if (d) d.querySelectorAll('.dd-item').forEach(it => it.classList.remove('selected'));
+      const b = document.getElementById(`b-${id}-${i}`);
+      if (b) b.textContent = '';
+      const lbl = document.getElementById(`lbl-${id}-${i}`);
+      if (lbl) lbl.textContent = '';
+      const dot = document.querySelector(`.dot[data-dot="${id}-${i}"]`);
+      if (dot) dot.classList.remove('done');
+    });
+    document.querySelectorAll(`[data-reveal]`).forEach(el => {
+      if (el.dataset.reveal?.startsWith(id+'-') && el.dataset.reveal !== id+'-0') el.classList.add('hidden');
+    });
+    document.getElementById(`card-${id}`).classList.remove('complete');
+    document.getElementById(`complete-${id}`).classList.remove('visible');
+    document.getElementById(`reset-${id}`).classList.remove('visible');
+    document.getElementById(`ex-toggle-${id}`).classList.remove('visible','open');
+    document.getElementById(`ex-panel-${id}`).classList.remove('open');
+    // hide bottom bar section
+    document.getElementById(`bar-${id}`).classList.remove('active');
+    const anyActive = document.querySelector('.b-bar-section.active, #bar-vc.active, #bar-f.active');
+    if (!anyActive) document.getElementById('bottom-bar').classList.remove('visible');
+  }
+
+  document.getElementById('reset-vc').addEventListener('click', e => { e.stopPropagation(); resetCard('vc'); });
+  document.getElementById('reset-f').addEventListener('click',  e => { e.stopPropagation(); resetCard('f'); });
+
+  /* ── Examples toggle ── */
+  ['vc','f'].forEach(id => {
+    document.getElementById(`ex-toggle-${id}`).addEventListener('click', e => {
+      e.stopPropagation();
+      const tog = document.getElementById(`ex-toggle-${id}`);
+      const pan = document.getElementById(`ex-panel-${id}`);
+      tog.classList.toggle('open');
+      pan.classList.toggle('open');
+    });
+  });
+
+  /* ── Node click ── */
+  document.querySelectorAll('.node.clickable').forEach(node => {
+    node.addEventListener('click', e => {
+      e.stopPropagation();
+      const card = node.dataset.card, idx = parseInt(node.dataset.idx);
+      const dd = document.getElementById(node.dataset.dd);
+      const isOpen = dd.classList.contains('open');
+      closeCard(card);
+      if (!isOpen) openNodeDD(card, idx);
+    });
+  });
+
+  /* ── Item click ── */
+  document.querySelectorAll('.dd-item').forEach(item => {
+    item.addEventListener('click', e => {
+      e.stopPropagation();
+      const dd   = item.closest('.dropdown');
+      const node = item.closest('.flow-step').querySelector('.node[data-card]');
+      if (!node) return;
+      const card = node.dataset.card, idx = parseInt(node.dataset.idx), val = item.dataset.val;
+
+      dd.querySelectorAll('.dd-item').forEach(i => i.classList.remove('selected'));
+      item.classList.add('selected');
+
+      // bottom bar — show only this card's section
+      document.getElementById(`bar-vc`).classList.remove('active');
+      document.getElementById(`bar-f`).classList.remove('active');
+      document.getElementById(`bar-${card}`).classList.add('active');
+      document.getElementById('bottom-bar').classList.add('visible');
+      const bEl = document.getElementById(`b-${card}-${idx}`);
+      if (bEl) bEl.textContent = val;
+      const lbl = document.getElementById(`lbl-${card}-${idx}`);
+      if (lbl) lbl.textContent = val;
+
+      // dot
+      document.querySelector(`.dot[data-dot="${card}-${idx}"]`).classList.add('done');
+
+      node.classList.remove('active'); node.classList.add('done');
+      dd.classList.remove('open');
+      document.getElementById(`reset-${card}`).classList.add('visible');
+
+      setTimeout(() => {
+        reveal(`${card}-${idx + 1}`);
+        const seq = SEQ[card];
+        const nextIdx = seq[seq.indexOf(idx) + 1];
+        if (nextIdx !== undefined) {
+          setTimeout(() => openNodeDD(card, nextIdx), 80);
+        } else {
+          document.getElementById(`card-${card}`).classList.add('complete');
+          document.getElementById(`complete-${card}`).classList.add('visible');
+          // Re-randomize examples on each completion
+          const dataMap = { vc: EXAMPLES_VC, f: EXAMPLES_F };
+          renderExamples(`ex-panel-${card}`, dataMap[card]);
+          document.getElementById(`ex-toggle-${card}`).classList.add('visible');
+        }
+      }, 100);
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.flow-step')) Object.keys(SEQ).forEach(closeCard);
+  });
+</script>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-col-label">Problem Taxonomy</div>
+      <div class="footer-col-desc">A structured methodology for discovering startup opportunities — from market inefficiencies to product decisions.</div>
+    </div>
+    <div>
+      <div class="footer-col-label">Explore</div>
+      <ul class="footer-links">
+        <li><a href="startup-framework.html">↗ Framework</a></li>
+        <li><a href="atlas.html">↗ Discovery Atlas</a></li>
+        <li><a href="problems.html">↗ 12 Problem Archetypes</a></li>
+        <li><a href="why.html">↗ Why these two models?</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-label">About</div>
+      <div class="footer-about-item">12 Problem archetypes</div>
+      <div class="footer-about-item">6 Solution models</div>
+      <div class="footer-about-item">6 Product types</div>
+      <div class="footer-about-item">2 Startup entry points</div>
+    </div>
+  </div>
+  <div class="footer-other">
+    <div class="footer-col-label">Links</div>
+    <a href="why.html">Methodology &amp; Sources</a>
+  </div>
+  <div class="footer-bottom">
+    <script>document.write(new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}));</script>
+    &nbsp;—&nbsp; Richard Kennedy &nbsp;·&nbsp; v0.1 &nbsp;—&nbsp; Mar 2026
+  </div>
+</footer>
+</body>
+</html>
