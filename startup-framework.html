@@ -886,8 +886,67 @@
   });
   document.addEventListener('click', e => {
     if (Date.now() - _lastNodeClick < 300) return;
-    if (!e.target.closest('.flow-step')) Object.keys(SEQ).forEach(closeCard);
+    if (!e.target.closest('.flow-step') && !e.target.closest('.dd-search')) Object.keys(SEQ).forEach(closeCard);
   });
+
+  // ── Market search ──
+  document.getElementById('search-markets').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('#dd-vc-0 .dd-item').forEach(item => {
+      item.style.display = !q || item.dataset.val.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+  document.getElementById('search-markets').addEventListener('click', e => e.stopPropagation());
+
+  // ── Restore state from localStorage ──
+  (function restoreState() {
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem('pt-state')); } catch(e) {}
+    if (!saved) return;
+    ['vc', 'f'].forEach(card => {
+      const s = saved[card];
+      if (!s) return;
+      const idxs = Object.keys(s).map(Number).sort();
+      if (!idxs.length) return;
+      idxs.forEach(idx => {
+        const val = s[idx];
+        state[card][idx] = val;
+        // Reveal this step and next
+        document.querySelectorAll(`[data-reveal="${card}-${idx}"]`).forEach(el => el.classList.remove('hidden'));
+        document.querySelectorAll(`[data-reveal="${card}-${idx+1}"]`).forEach(el => el.classList.remove('hidden'));
+        // Mark node done
+        const node = document.querySelector(`.node[data-card="${card}"][data-idx="${idx}"]`);
+        if (node) { node.classList.add('done'); node.classList.remove('active'); }
+        // Label + bottom bar
+        const lbl = document.getElementById(`lbl-${card}-${idx}`);
+        if (lbl) lbl.textContent = val;
+        const bEl = document.getElementById(`b-${card}-${idx}`);
+        if (bEl) bEl.textContent = val;
+        // Dot
+        const dot = document.querySelector(`.dot[data-dot="${card}-${idx}"]`);
+        if (dot) dot.classList.add('done');
+        // Mark item selected
+        const dd = document.getElementById(`dd-${card}-${idx}`);
+        if (dd) dd.querySelectorAll('.dd-item').forEach(item => {
+          if (item.dataset.val === val) item.classList.add('selected');
+        });
+      });
+      // Bottom bar
+      document.getElementById(`reset-${card}`).classList.add('visible');
+      document.getElementById(`bar-${card}`).classList.add('active');
+      document.getElementById('bottom-bar').classList.add('visible');
+      // Check complete
+      const isComplete = SEQ[card].every(i => state[card][i] !== undefined);
+      const dataMap = { vc: EXAMPLES_VC, f: EXAMPLES_F };
+      renderExamples(`ex-panel-${card}`, dataMap[card], card);
+      if (isComplete) {
+        document.getElementById(`card-${card}`).classList.add('complete');
+        document.getElementById(`complete-${card}`).classList.add('visible');
+        document.getElementById(`ex-toggle-${card}`).classList.add('visible');
+        renderSummary(card);
+      }
+    });
+  })();
 </script>
 
 <footer class="site-footer">
