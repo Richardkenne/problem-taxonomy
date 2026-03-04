@@ -99,6 +99,18 @@ const ARCHETYPE_KEYWORDS = {
       ['out there but', 3], ['buried somewhere', 3], ['exists somewhere', 2],
       ['no one knows about it', 4], ['nobody finds it', 4],
 
+      // gerund / natural language variants
+      ['issues finding', 3], ['issues in finding', 3], ['problems finding', 3],
+      ['trouble finding', 3], ['difficulty finding', 3], ['struggle finding', 3],
+      ['hard time finding', 3], ['hard time searching', 3],
+      ['finding information', 3], ['finding the right', 3], ['finding a good', 3],
+      ['finding what they need', 4], ['finding what you need', 4],
+      ['finding a place', 3], ['finding a cafe', 3], ['finding a restaurant', 3],
+      ['finding a service', 3], ['finding a product', 3], ['finding a provider', 3],
+      ['looking for information', 3], ['looking for a cafe', 3], ['looking for a place', 3],
+      ['no information available', 3], ['lack of information', 2],
+      ['people have issues', 2], ['users have issues', 2],
+
       // search / browse
       ['search', 1], ['discovery', 2], ['discover', 2], ['explore', 1],
       ['browse', 1], ['search results', 2], ['poor search', 3], ['bad search', 3],
