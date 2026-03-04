@@ -432,8 +432,33 @@ defs.innerHTML = `<filter id="glow" x="-20%" y="-20%" width="140%" height="140%"
 </filter>`;
 svg.appendChild(defs);
 
-// Center circle
+// ── Wheel group (spins) ──
+const wheel = document.createElementNS(ns, 'g');
+wheel.id = 'wheel';
+wheel.style.transformOrigin = `${CX}px ${CY}px`;
+wheel.style.transition = 'transform 0s';
+svg.appendChild(wheel);
+
+// ── Spin state ──
+let totalDeg = 0;
+let spinning = false;
+
+function spinWheel() {
+  if (spinning) return;
+  spinning = true;
+  const spins = 2 + Math.random() * 2;           // 2–4 full turns
+  const extra = Math.random() * 360;              // random landing angle
+  const delta = spins * 360 + extra;
+  totalDeg += delta;
+  const duration = 1800 + Math.random() * 600;   // 1.8–2.4 s
+  wheel.style.transition = `transform ${duration}ms cubic-bezier(0.17, 0.67, 0.2, 1)`;
+  wheel.style.transform = `rotate(${totalDeg}deg)`;
+  setTimeout(() => { spinning = false; }, duration);
+}
+
+// ── Center circle (stays fixed, on top) ──
 const cg = document.createElementNS(ns, 'g');
+cg.style.cursor = 'pointer';
 const cc = document.createElementNS(ns, 'circle');
 cc.setAttribute('cx', CX); cc.setAttribute('cy', CY); cc.setAttribute('r', '76');
 cc.setAttribute('fill', '#0f1d3a');
@@ -447,6 +472,17 @@ cg.appendChild(cc);
   t.textContent = txt;
   cg.appendChild(t);
 });
+// Spin icon hint
+const spinHint = document.createElementNS(ns, 'text');
+spinHint.setAttribute('x', CX); spinHint.setAttribute('y', String(CY + 30));
+spinHint.setAttribute('text-anchor','middle'); spinHint.setAttribute('dominant-baseline','middle');
+spinHint.setAttribute('fill','rgba(255,255,255,0.35)'); spinHint.setAttribute('font-size','10');
+spinHint.setAttribute('font-family','system-ui,sans-serif');
+spinHint.textContent = '↻ spin';
+cg.appendChild(spinHint);
+cg.addEventListener('click', spinWheel);
+cg.addEventListener('mouseenter', () => { cc.setAttribute('fill', '#1e3a8a'); });
+cg.addEventListener('mouseleave', () => { cc.setAttribute('fill', '#0f1d3a'); });
 svg.appendChild(cg);
 
 // Roadmap state: one selection per ring
