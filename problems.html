@@ -954,11 +954,29 @@ function toggleSection(id) {
 
 renderAll();
 
-// Open section if URL hash is present (e.g. problems.html#coordination)
+// Open section if URL hash is present
 if (window.location.hash) {
   const hashId = window.location.hash.slice(1);
   setTimeout(() => toggleSection(hashId), 100);
 }
+
+// Click outside grid/sections → close open section
+document.addEventListener('click', e => {
+  if (!_activeSection) return;
+  const grid = document.getElementById('grid');
+  const sections = document.getElementById('sections');
+  const classifier = document.getElementById('classifier');
+  if (
+    !grid.contains(e.target) &&
+    !sections.contains(e.target) &&
+    !(classifier && classifier.contains(e.target))
+  ) {
+    const el = document.getElementById(_activeSection);
+    if (el) el.classList.remove('open');
+    document.querySelectorAll('.grid-card').forEach(c => c.classList.remove('card-active'));
+    _activeSection = null;
+  }
+});
 </script>
 </body>
 </html>
