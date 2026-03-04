@@ -245,6 +245,14 @@ const ARCHETYPE_KEYWORDS = {
       ['dark funnel', 3], ['anonymous visitor', 3], ['lead intelligence', 3],
       ['sales intelligence', 3], ['data enrichment', 3],
 
+      // food / nutrition awareness
+      ['junk food', 3], ['eat junk food', 4], ['unhealthy eating', 4], ['bad diet', 3],
+      ['people don\'t know what they eat', 4], ['hidden ingredients', 3], ['food labels', 2],
+      ['nutrition labels', 3], ['hidden sugar', 3], ['hidden calories', 3],
+      ['don\'t know what\'s in their food', 4], ['unaware of nutrition', 3],
+      ['processed food', 2], ['ultra-processed', 3], ['food transparency', 3],
+      ['misleading food labels', 4], ['calories hidden', 3], ['nutritional value', 2],
+
       // Italian equivalents
       ['non si sa quanto costa', 4], ['prezzi nascosti', 3], ['non c\'è trasparenza', 3],
       ['non so se è affidabile', 3], ['una parte sa più dell\'altra', 4],
