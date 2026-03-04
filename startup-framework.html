@@ -46,17 +46,18 @@
     .card-inner {
       background: #fff; border-radius: 10px; padding: 16px 20px 18px;
       border: 1.5px solid transparent; transition: border 0.3s, box-shadow 0.3s;
-      overflow-x: auto;
     }
     .card-inner.complete { border-color: #34c27a; box-shadow: 0 0 0 3px rgba(52,194,122,.1); }
 
     /* ── Flow row ── */
-    .flow-row { display: flex; align-items: flex-start; gap: 14px; }
+    .flow-row { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
     @media (max-width: 600px) { .flow-row { gap: 8px; } }
-    .flow-step { display: flex; flex-direction: column; align-items: center; position: relative; transition: opacity .28s; }
-    .flow-step.hidden { opacity: 0; pointer-events: none; }
-    .arrow { flex-shrink: 0; color: #8a95a8; font-size: 15px; padding-top: 8px; line-height: 1; transition: opacity .28s; }
-    .arrow.hidden { opacity: 0; }
+    .flow-step { display: flex; flex-direction: column; align-items: center; position: relative; }
+    .flow-step.hidden { display: none; }
+    .arrow { flex-shrink: 0; color: #8a95a8; font-size: 15px; padding-top: 8px; line-height: 1; }
+    .arrow.hidden { display: none; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+    .flow-step.revealing, .arrow.revealing { animation: fadeIn .25s ease forwards; }
 
     /* ── Node ── */
     .node {
