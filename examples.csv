@@ -88,3 +88,63 @@ Founder,Pinterest,Media & Entertainment,Visual Discovery,Discovery problem,Platf
 Founder,Bumble,Media & Entertainment,Dating,Coordination problem,Marketplace,Mobile app
 Founder,Tinder,Media & Entertainment,Dating,Coordination problem,Marketplace,Mobile app
 Founder,Remote,HR & Recruiting,Remote Employment,Process inefficiency,SaaS,Web app
+VC,HubSpot,Software,CRM / Marketing Automation,Process inefficiency,SaaS,Web app
+VC,Zendesk,Software,Customer Support,Process inefficiency,SaaS,Web app
+VC,Atlassian,Software,Team Collaboration,Process inefficiency,Platform,Web app
+VC,DocuSign,Software,Document Signing,Process inefficiency,SaaS,Web app
+VC,Okta,Software,Identity Management,Infrastructure gap,Infrastructure,Web app
+VC,Crowdstrike,Security & Defense,Endpoint Security,Infrastructure gap,SaaS,Web app
+VC,UiPath,Software,Process Automation,Automation opportunity,Platform,Web app
+VC,Monday.com,Software,Project Management,Process inefficiency,SaaS,Web app
+VC,Asana,Software,Project Management,Process inefficiency,SaaS,Web app
+VC,Toast,Food & Beverage,Restaurant Tech,Process inefficiency,Platform,Hardware
+VC,Procore,Construction & Infrastructure,Construction Project Management,Process inefficiency,SaaS,Web app
+VC,Samsara,Transportation & Mobility,Fleet Management,Information asymmetry,SaaS,Web app
+VC,Klaviyo,Advertising & Marketing,Email Marketing,Process inefficiency,SaaS,Web app
+VC,Braze,Advertising & Marketing,Customer Engagement,Process inefficiency,SaaS,Web app
+VC,Gong,Software,Revenue Intelligence,Information asymmetry,SaaS,Web app
+VC,ZoomInfo,Software,Sales Intelligence,Information asymmetry,SaaS,Web app
+VC,Confluent,Software,Data Streaming,Infrastructure gap,Infrastructure,API
+VC,Elastic,Software,Search & Analytics,Information asymmetry,Infrastructure,API
+VC,PagerDuty,Software,Incident Management,Process inefficiency,SaaS,Web app
+VC,Dynatrace,Software,Application Monitoring,Information asymmetry,SaaS,Web app
+VC,Veeva Systems,Pharmaceuticals & Biotech,Life Sciences CRM,Process inefficiency,SaaS,Web app
+VC,Bill.com,Financial Services,AP/AR Automation,Process inefficiency,SaaS,Web app
+VC,Carta,Financial Services,Equity Management,Process inefficiency,SaaS,Web app
+VC,Box,Software,Cloud Storage,Access limitation,SaaS,Web app
+VC,ClickUp,Software,Project Management,Process inefficiency,SaaS,Web app
+VC,HashiCorp,Software,Infrastructure Automation,Process inefficiency,Platform,API
+VC,Coupa,Professional Services,Spend Management,Process inefficiency,SaaS,Web app
+VC,Descript,Media & Entertainment,Audio / Video Editing,Process inefficiency,SaaS,Web app
+VC,Ramp,Financial Services,Corporate Spend Management,Process inefficiency,SaaS,Web app
+VC,Affinity,Software,Relationship Intelligence,Information asymmetry,SaaS,Web app
+Founder,Instagram,Media & Entertainment,Photo Sharing,Discovery problem,Platform,Mobile app
+Founder,Snapchat,Media & Entertainment,Ephemeral Messaging,Discovery problem,Platform,Mobile app
+Founder,Reddit,Media & Entertainment,Community Forums,Aggregation problem,Platform,Web app
+Founder,LinkedIn,Professional Services,Professional Network,Coordination problem,Platform,Web app
+Founder,Venmo,Financial Services,P2P Payments,Speed problem,SaaS,Mobile app
+Founder,Cash App,Financial Services,P2P Payments,Access limitation,SaaS,Mobile app
+Founder,Wise,Financial Services,International Transfers,Cost reduction,SaaS,Mobile app
+Founder,Nubank,Banking,Digital Bank,Access limitation,SaaS,Mobile app
+Founder,Klarna,Financial Services,Buy Now Pay Later,Access limitation,SaaS,Mobile app
+Founder,Affirm,Financial Services,Buy Now Pay Later,Access limitation,SaaS,Mobile app
+Founder,Chime,Banking,Neobank,Access limitation,SaaS,Mobile app
+Founder,Deliveroo,Food & Beverage,Food Delivery,Coordination problem,Marketplace,Mobile app
+Founder,Grab,Transportation & Mobility,Super App,Coordination problem,Marketplace,Mobile app
+Founder,Todoist,Software,Task Management,Process inefficiency,SaaS,Mobile app
+Founder,Obsidian,Software,Knowledge Management,Process inefficiency,SaaS,Web app
+Founder,Readwise,Software,Reading & Learning,Information asymmetry,SaaS,Web app
+Founder,Arc Browser,Software,Web Browser,Process inefficiency,Platform,Web app
+Founder,Raycast,Software,Productivity Launcher,Speed problem,SaaS,Web app
+Founder,Pitch,Software,Presentations,Process inefficiency,SaaS,Web app
+Founder,Otter.ai,Software,Meeting Transcription,Process inefficiency,SaaS,Web app
+Founder,Perplexity,Software,AI Search,Discovery problem,Platform,Web app
+Founder,Replit,Software,Online IDE,Access limitation,Platform,Web app
+Founder,Cursor,Software,AI Code Editor,Speed problem,SaaS,Web app
+Founder,v0,Software,AI UI Generation,Process inefficiency,Platform,Web app
+Founder,Lovable,Software,AI App Builder,Access limitation,Platform,Web app
+Founder,ElevenLabs,Software,AI Voice,New tech capability,Infrastructure,API
+Founder,Midjourney,Media & Entertainment,AI Image Generation,New tech capability,Platform,Web app
+Founder,Runway,Media & Entertainment,AI Video Generation,New tech capability,SaaS,Web app
+Founder,Descript,Media & Entertainment,Audio / Video Editing,Process inefficiency,SaaS,Web app
+Founder,Figma (FigJam),Software,Online Whiteboard,Coordination problem,SaaS,Web app
