@@ -841,7 +841,7 @@ function renderAll() {
     a.innerHTML = `
       <div class="grid-num" style="color:${p.textDark}">${p.num}</div>
       <div class="grid-name" style="color:${p.color}">${t(p,'name')}</div>
-      <div class="grid-short" style="color:${p.color}">${t(p,'short')}</div>
+      <div class="grid-short" style="color:#666">${t(p,'short')}</div>
     `;
     a.addEventListener('click', () => toggleSection(p.id));
     grid.appendChild(a);
