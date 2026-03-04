@@ -1149,7 +1149,7 @@ function updateRoadmap() {
   const inner = document.getElementById('roadmap-inner');
   inner.innerHTML = '';
   let hasAny = false;
-  [0, 1, 2].forEach((ri, i) => {
+  [0, 1, 2].forEach((ri) => {
     const si = roadmapState[ri];
     if (si === null) return;
     const seg = SEGS[si];
@@ -1167,13 +1167,7 @@ function updateRoadmap() {
     inner.appendChild(chip);
     hasAny = true;
   });
-  if (hasAny) {
-    const btn = document.createElement('button');
-    btn.id = 'rm-reset';
-    btn.textContent = '✕ reset';
-    btn.addEventListener('click', resetRoadmap);
-    inner.appendChild(btn);
-  }
+  document.getElementById('rm-reset').classList.toggle('visible', hasAny);
 }
 
 function resetRoadmap() {
