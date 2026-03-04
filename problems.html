@@ -571,58 +571,96 @@ const PROBLEMS = [
   },
 ];
 
-// ── Render grid ──
-const grid = document.getElementById('grid');
-PROBLEMS.forEach(p => {
-  const a = document.createElement('a');
-  a.href = `#${p.id}`;
-  a.className = 'grid-card';
-  a.style.background = p.light;
-  a.innerHTML = `
-    <div class="grid-num" style="color:${p.textDark}">${p.num}</div>
-    <div class="grid-name" style="color:${p.color}">${p.name}</div>
-    <div class="grid-short" style="color:${p.color}">${p.short}</div>
-  `;
-  grid.appendChild(a);
-});
+// ── Helpers ──
+function t(p, key) { return LANG === 'it' ? (p['it_' + key] || p[key]) : p[key]; }
+function ui(key) { return UI[LANG][key]; }
 
-// ── Render sections ──
-const sections = document.getElementById('sections');
-PROBLEMS.forEach((p, i) => {
-  const div = document.createElement('div');
-  div.className = 'problem-section';
-  div.id = p.id;
+// ── Render ──
+function renderAll() {
+  const L = LANG;
+  // static text
+  document.querySelector('.back').innerHTML = ui('back');
+  document.querySelector('.page-title').innerHTML = ui('title');
+  document.querySelector('.page-sub').textContent = ui('sub');
+  document.querySelector('.footer-col-desc').textContent = ui('footerDesc');
 
-  const exHTML = p.examples.map(e => `
-    <li>
-      <span class="ex-co"><a href="${e.url}" target="_blank">${e.name}</a></span>
-      <span class="ex-desc">${e.desc}</span>
-    </li>`).join('');
+  // grid
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  PROBLEMS.forEach(p => {
+    const a = document.createElement('a');
+    a.href = `#${p.id}`;
+    a.className = 'grid-card';
+    a.style.background = p.light;
+    a.innerHTML = `
+      <div class="grid-num" style="color:${p.textDark}">${p.num}</div>
+      <div class="grid-name" style="color:${p.color}">${t(p,'name')}</div>
+      <div class="grid-short" style="color:${p.color}">${t(p,'short')}</div>
+    `;
+    grid.appendChild(a);
+  });
 
-  const sigHTML = p.signals.map(s => `<span class="signal-chip">${s}</span>`).join('');
-  const askHTML = p.questions.map(q => `<li>${q}</li>`).join('');
+  // sections
+  const sections = document.getElementById('sections');
+  sections.innerHTML = '';
+  PROBLEMS.forEach((p, i) => {
+    const examples = t(p, 'examples');
+    const signals  = t(p, 'signals');
+    const questions= t(p, 'questions');
 
-  div.innerHTML = `
-    <div class="problem-header">
-      <div class="problem-badge" style="background:${p.light};color:${p.color}">${p.num}</div>
-      <div>
-        <div class="problem-title">${p.name}</div>
-        <div class="problem-tagline">${p.tagline}</div>
+    const exHTML  = examples.map(e => `
+      <li>
+        <span class="ex-co"><a href="${e.url}" target="_blank">${e.name}</a></span>
+        <span class="ex-desc">${e.desc}</span>
+      </li>`).join('');
+    const sigHTML = signals.map(s => `<span class="signal-chip">${s}</span>`).join('');
+    const askHTML = questions.map(q => `<li>${q}</li>`).join('');
+
+    const div = document.createElement('div');
+    div.className = 'problem-section';
+    div.id = p.id;
+    div.innerHTML = `
+      <div class="problem-header">
+        <div class="problem-badge" style="background:${p.light};color:${p.color}">${p.num}</div>
+        <div>
+          <div class="problem-title">${t(p,'name')}</div>
+          <div class="problem-tagline">${t(p,'tagline')}</div>
+        </div>
       </div>
-    </div>
-    <div class="problem-def">${p.def}</div>
-    <div class="block-label">Signals — how to recognize it</div>
-    <div class="signals">${sigHTML}</div>
-    <div class="ask-box">
-      <div class="block-label">Questions to ask</div>
-      <ul class="ask-list">${askHTML}</ul>
-    </div>
-    <div class="block-label" style="margin-top:20px">Real examples</div>
-    <ul class="examples-list">${exHTML}</ul>
-    ${i < PROBLEMS.length - 1 ? '<hr class="section-divider">' : ''}
-  `;
-  sections.appendChild(div);
-});
+      <div class="problem-def">${t(p,'def')}</div>
+      <div class="block-label">${ui('signalsLabel')}</div>
+      <div class="signals">${sigHTML}</div>
+      <div class="ask-box">
+        <div class="block-label">${ui('questionsLabel')}</div>
+        <ul class="ask-list">${askHTML}</ul>
+      </div>
+      <div class="block-label" style="margin-top:20px">${ui('examplesLabel')}</div>
+      <ul class="examples-list">${exHTML}</ul>
+      ${i < PROBLEMS.length - 1 ? '<hr class="section-divider">' : ''}
+    `;
+    sections.appendChild(div);
+  });
+
+  // button state
+  const btn = document.getElementById('lang-btn');
+  if (L === 'it') {
+    btn.textContent = 'EN';
+    btn.classList.add('it-active');
+    document.documentElement.lang = 'it';
+  } else {
+    btn.textContent = 'IT';
+    btn.classList.remove('it-active');
+    document.documentElement.lang = 'en';
+  }
+}
+
+function toggleLang() {
+  LANG = LANG === 'en' ? 'it' : 'en';
+  localStorage.setItem('problems-lang', LANG);
+  renderAll();
+}
+
+renderAll();
 </script>
 </body>
 </html>
