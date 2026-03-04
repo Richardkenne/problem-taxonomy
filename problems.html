@@ -883,7 +883,7 @@ function renderAll() {
           <div class="problem-tagline">${t(p,'tagline')}</div>
         </div>
       </div>
-      <div class="problem-def">${t(p,'def')}</div>
+      <div class="problem-def">${highlightDef(t(p,'def'))}</div>
       <div class="block-label">${ui('signalsLabel')}</div>
       <div class="signals">${sigHTML}</div>
       <div class="ask-box">
