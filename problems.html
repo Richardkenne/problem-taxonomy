@@ -386,12 +386,12 @@ function appendResultCard(text, resultEl) {
     'capability': 'capability', 'new capability': 'capability',
   };
 
-  const archId = labelMap[label] ||
-    Object.keys(labelMap).find(k => label.includes(k) || k.includes(label.split(' ')[0]));
+  const id = labelMap[label] ||
+    labelMap[Object.keys(labelMap).find(k => label.includes(k))] ||
+    labelMap[Object.keys(labelMap).find(k => k.includes(label.split(' ')[0]))];
 
-  if (!archId) return;
-  const id = labelMap[archId] || archId;
-  const arch = ARCHETYPE_KEYWORDS[id] || Object.values(ARCHETYPE_KEYWORDS).find(a => a.id === id);
+  if (!id) return;
+  const arch = ARCHETYPE_KEYWORDS[id];
   if (!arch) return;
 
   const prob = PROBLEMS.find(p => p.id === arch.id);
