@@ -841,6 +841,10 @@
       dd.querySelectorAll('.dd-item').forEach(i => i.classList.remove('selected'));
       item.classList.add('selected');
 
+      // save to state
+      state[card][idx] = val;
+      saveState();
+
       // bottom bar — show only this card's section
       document.getElementById(`bar-vc`).classList.remove('active');
       document.getElementById(`bar-f`).classList.remove('active');
@@ -867,10 +871,10 @@
         } else {
           document.getElementById(`card-${card}`).classList.add('complete');
           document.getElementById(`complete-${card}`).classList.add('visible');
-          // Re-randomize examples on each completion
           const dataMap = { vc: EXAMPLES_VC, f: EXAMPLES_F };
-          renderExamples(`ex-panel-${card}`, dataMap[card]);
+          renderExamples(`ex-panel-${card}`, dataMap[card], card);
           document.getElementById(`ex-toggle-${card}`).classList.add('visible');
+          renderSummary(card);
         }
       }, 100);
     });
