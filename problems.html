@@ -820,7 +820,6 @@ function ui(key) { return UI[LANG][key]; }
 function renderAll() {
   const L = LANG;
   // static text
-  document.querySelector('.back').innerHTML = ui('back');
   document.querySelector('.page-title').innerHTML = ui('title');
   document.querySelector('.page-sub').textContent = ui('sub');
   document.querySelector('.footer-col-desc').textContent = ui('footerDesc');
