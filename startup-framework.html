@@ -942,11 +942,16 @@
     nodeSignals.classList.toggle('active', !isOpen);
   });
 
-  document.getElementById('signals-next').addEventListener('click', e => {
+  function openProblemFromSignals(e) {
     e.stopPropagation();
     ddSignals.classList.remove('open');
     nodeSignals.classList.remove('active');
     openNodeDD('f', 0);
+  }
+
+  document.getElementById('signals-next').addEventListener('click', openProblemFromSignals);
+  document.querySelectorAll('.signals-trigger').forEach(el => {
+    el.addEventListener('click', openProblemFromSignals);
   });
 
   // ── Market search ──
