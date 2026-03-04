@@ -492,4 +492,201 @@ const COMBOS = {
     {name:'Midjourney', url:'https://midjourney.com', desc:'image model improves from millions of user ratings'},
     {name:'Duolingo',   url:'https://duolingo.com',   desc:'AI learning model trained on 500M learner sessions'},
   ],
+
+  // ── ADDITIONAL COMBOS ────────────────────────────────────────
+
+  // ── 0 COORDINATION (extra) ──
+  '0-15-20': [ // Infrastructure + API
+    {name:'Twilio',    url:'https://twilio.com',    desc:'messaging infrastructure coordinating notifications between parties'},
+    {name:'Socket.io', url:'https://socket.io',     desc:'real-time bidirectional event infrastructure for coordination'},
+  ],
+  '0-16-18': [ // Automation + Mobile App
+    {name:'Calendly',  url:'https://calendly.com',  desc:'automated scheduling removing the back-and-forth on mobile'},
+    {name:'HireVue',   url:'https://hirevue.com',   desc:'automated interview coordination at scale'},
+  ],
+
+  // ── 1 DISCOVERY (extra) ──
+  '1-12-19': [ // Marketplace + Web App
+    {name:'Booking.com',    url:'https://booking.com',    desc:'discover and book hotels across 220+ countries'},
+    {name:'HotelTonight',   url:'https://hoteltonight.com', desc:'discover last-minute hotel deals nearby'},
+    {name:'Houzz',          url:'https://houzz.com',       desc:'discover home design ideas and local professionals'},
+    {name:'AngelList',      url:'https://angellist.com',   desc:'discover startups and investment opportunities'},
+  ],
+  '1-15-20': [ // Infrastructure + API
+    {name:'Algolia',  url:'https://algolia.com', desc:'search API making any product discoverable instantly'},
+    {name:'Elastic',  url:'https://elastic.co',  desc:'search and analytics infrastructure for data discovery'},
+  ],
+  '1-16-19': [ // Automation + Web App
+    {name:'Feedly',   url:'https://feedly.com',  desc:'automated content discovery aggregated from thousands of sources'},
+    {name:'Zapier',   url:'https://zapier.com',   desc:'automated triggers surfacing relevant data from connected apps'},
+  ],
+
+  // ── 2 INFORMATION ASYMMETRY (extra) ──
+  '2-12-18': [ // Marketplace + Mobile App
+    {name:'Carfax',    url:'https://carfax.com',    desc:'vehicle history data surfaced at point of purchase'},
+    {name:'OfferUp',   url:'https://offerup.com',   desc:'price transparency for secondhand goods'},
+    {name:'Carvana',   url:'https://carvana.com',   desc:'transparent car pricing vs. dealership opacity'},
+  ],
+  '2-12-19': [ // Marketplace + Web App
+    {name:'Zillow',    url:'https://zillow.com',    desc:'public home price data ending real estate opacity'},
+    {name:'Redfin',    url:'https://redfin.com',    desc:'MLS data and agent commissions made transparent'},
+    {name:'Crunchbase', url:'https://crunchbase.com', desc:'startup funding data once only available to insiders'},
+  ],
+  '2-13-21': [ // SaaS + AI Tool
+    {name:'Gong',      url:'https://gong.io',      desc:'AI reveals what top reps actually say vs. what managers think'},
+    {name:'Crayon',    url:'https://crayon.com',   desc:'AI competitive intelligence — know what rivals are doing'},
+    {name:'Klue',      url:'https://klue.com',     desc:'AI-powered battlecards closing the competitive intel gap'},
+  ],
+
+  // ── 3 TRUST (extra) ──
+  '3-14-18': [ // Platform + Mobile App
+    {name:'PayPal',    url:'https://paypal.com',   desc:'trusted payment platform on mobile — buyer protection'},
+    {name:'Apple Pay', url:'https://apple.com/apple-pay', desc:'device-level trust making contactless payments safe'},
+    {name:'Google Pay', url:'https://pay.google.com', desc:'trusted Android payment layer across merchants'},
+  ],
+  '3-16-19': [ // Automation + Web App
+    {name:'Checkr',    url:'https://checkr.com',   desc:'automated background checks building trust at scale'},
+    {name:'Persona',   url:'https://withpersona.com', desc:'automated KYC/AML verification for any onboarding flow'},
+  ],
+
+  // ── 4 INFRASTRUCTURE GAP (extra) ──
+  '4-16-19': [ // Automation + Web App
+    {name:'Terraform',  url:'https://terraform.io',  desc:'infrastructure-as-code automating cloud provisioning'},
+    {name:'Ansible',    url:'https://ansible.com',   desc:'automated server configuration across thousands of nodes'},
+    {name:'Pulumi',     url:'https://pulumi.com',    desc:'cloud infrastructure automation using real programming languages'},
+  ],
+  '4-17-19': [ // Data Network + Web App
+    {name:'Segment',    url:'https://segment.com',   desc:'data network — more sources connected = richer customer profiles'},
+    {name:'mParticle',  url:'https://mparticle.com', desc:'customer data platform growing more valuable with each integration'},
+  ],
+
+  // ── 5 PROCESS INEFFICIENCY (extra) ──
+  '5-12-19': [ // Marketplace + Web App
+    {name:'Fiverr',     url:'https://fiverr.com',   desc:'instant access to creative work, no agency overhead'},
+    {name:'Upwork',     url:'https://upwork.com',   desc:'hire global talent in hours vs. weeks of recruiting'},
+    {name:'Toptal',     url:'https://toptal.com',   desc:'pre-vetted developers reducing hiring process from months to days'},
+  ],
+  '5-12-18': [ // Marketplace + Mobile App
+    {name:'TaskRabbit', url:'https://taskrabbit.com', desc:'task outsourcing replacing DIY inefficiency'},
+    {name:'Handy',      url:'https://handy.com',     desc:'book home cleaners and handymen in 60 seconds'},
+  ],
+  '5-15-20': [ // Infrastructure + API
+    {name:'DocuSign',   url:'https://docusign.com',  desc:'e-signature API eliminating print-sign-scan loops'},
+    {name:'HelloSign',  url:'https://hellosign.com', desc:'lightweight e-signature API for developer workflows'},
+    {name:'Merge.dev',  url:'https://merge.dev',     desc:'unified API eliminating custom integration work for every SaaS'},
+  ],
+  '5-17-19': [ // Data Network + Web App
+    {name:'Mixpanel',   url:'https://mixpanel.com',  desc:'product analytics that gets smarter as you track more events'},
+    {name:'Amplitude',  url:'https://amplitude.com', desc:'behavioral data compounds — more events = better product decisions'},
+    {name:'FullStory',  url:'https://fullstory.com', desc:'session replay data making UX issues visible'},
+  ],
+
+  // ── 6 AUTOMATION (extra) ──
+  '6-17-19': [ // Data Network + Web App
+    {name:'Clearbit',    url:'https://clearbit.com',   desc:'data network that auto-enriches every lead as they arrive'},
+    {name:'6sense',      url:'https://6sense.com',     desc:'intent data network automating outbound targeting'},
+    {name:'Bombora',     url:'https://bombora.com',    desc:'B2B intent data automating who to contact and when'},
+  ],
+  '6-14-21': [ // Platform + AI Tool
+    {name:'Zapier AI',   url:'https://zapier.com',     desc:'natural language interface to 5,000+ app automations'},
+    {name:'Make AI',     url:'https://make.com',       desc:'AI scenario builder for complex automated workflows'},
+    {name:'Vertex AI',   url:'https://cloud.google.com/vertex-ai', desc:'ML automation platform for building and deploying models'},
+  ],
+
+  // ── 7 AGGREGATION (extra) ──
+  '7-13-18': [ // SaaS + Mobile App
+    {name:'Spotify',     url:'https://spotify.com',   desc:'all music aggregated into one subscription on mobile'},
+    {name:'Netflix',     url:'https://netflix.com',   desc:'TV and film library aggregated into one monthly fee'},
+    {name:'Apple News+', url:'https://apple.com/apple-news', desc:'hundreds of magazines aggregated into one subscription'},
+  ],
+  '7-15-20': [ // Infrastructure + API
+    {name:'Plaid',       url:'https://plaid.com',     desc:'aggregates banking data from thousands of institutions via API'},
+    {name:'MX',          url:'https://mx.com',        desc:'financial data aggregation API for wealth and banking apps'},
+    {name:'Yodlee',      url:'https://yodlee.com',    desc:'account aggregation infrastructure for fintech'},
+  ],
+  '7-14-21': [ // Platform + AI Tool
+    {name:'Perplexity',  url:'https://perplexity.ai', desc:'aggregates the entire web into a single AI-powered answer'},
+    {name:'Consensus',   url:'https://consensus.app', desc:'AI aggregating academic research into direct answers'},
+  ],
+
+  // ── 8 ACCESS LIMITATION (extra) ──
+  '8-14-18': [ // Platform + Mobile App
+    {name:'TikTok',     url:'https://tiktok.com',    desc:'anyone can reach millions — access to distribution once only for studios'},
+    {name:'YouTube',    url:'https://youtube.com',   desc:'broadcast yourself — publishing access once only for TV networks'},
+    {name:'Spotify',    url:'https://spotify.com',   desc:'any artist can distribute music globally, free'},
+  ],
+  '8-15-20': [ // Infrastructure + API
+    {name:'Stripe',     url:'https://stripe.com',    desc:'payment processing once requiring bank partnerships, now 7 lines of code'},
+    {name:'Twilio',     url:'https://twilio.com',    desc:'telecom access once requiring carrier deals, now an API'},
+    {name:'Firebase',   url:'https://firebase.google.com', desc:'backend infrastructure once requiring a full engineering team'},
+  ],
+  '8-16-19': [ // Automation + Web App
+    {name:'Webflow',    url:'https://webflow.com',   desc:'professional websites without engineers — access automation'},
+    {name:'Bubble',     url:'https://bubble.io',     desc:'full-stack apps without code — programming access for everyone'},
+    {name:'Zapier',     url:'https://zapier.com',    desc:'API integrations without developers'},
+  ],
+
+  // ── 9 COST REDUCTION (extra) ──
+  '9-12-18': [ // Marketplace + Mobile App
+    {name:'Turo',       url:'https://turo.com',      desc:'car rental at 30-50% below traditional rental companies'},
+    {name:'Airbnb',     url:'https://airbnb.com',    desc:'accommodation at 40% below comparable hotels on average'},
+    {name:'Poshmark',   url:'https://poshmark.com',  desc:'secondhand fashion at fraction of retail price'},
+  ],
+  '9-14-18': [ // Platform + Mobile App
+    {name:'Spotify',    url:'https://spotify.com',   desc:'$10/mo vs. $15/album — 90% cost reduction for music access'},
+    {name:'Netflix',    url:'https://netflix.com',   desc:'$15/mo replacing $80+/mo cable subscription'},
+    {name:'Calm',       url:'https://calm.com',      desc:'therapy-adjacent tools at $70/yr vs. $200/hr therapists'},
+  ],
+  '9-16-19': [ // Automation + Web App
+    {name:'Zapier',     url:'https://zapier.com',    desc:'replace $50K/yr developer with $50/mo automation'},
+    {name:'Make',       url:'https://make.com',      desc:'no-code automation replacing expensive custom integrations'},
+    {name:'n8n',        url:'https://n8n.io',        desc:'open-source automation at near-zero cost vs. enterprise middleware'},
+  ],
+  '9-17-19': [ // Data Network + Web App
+    {name:'Waze',       url:'https://waze.com',      desc:'free navigation vs. $200 GPS devices — data network kills hardware cost'},
+    {name:'Google Maps', url:'https://maps.google.com', desc:'enterprise mapping data free to consumers via ad-funded model'},
+  ],
+
+  // ── 10 SPEED (extra) ──
+  '10-12-19': [ // Marketplace + Web App
+    {name:'HotelTonight', url:'https://hoteltonight.com', desc:'same-day hotel booking in 3 taps'},
+    {name:'Expedia',      url:'https://expedia.com',      desc:'book full trip in minutes vs. hours of agent calls'},
+    {name:'OpenTable',    url:'https://opentable.com',    desc:'restaurant reservation in 10 seconds vs. phone hold'},
+  ],
+  '10-14-18': [ // Platform + Mobile App
+    {name:'Uber',         url:'https://uber.com',         desc:'car in < 5 min vs. 20–45 min taxi wait'},
+    {name:'DoorDash',     url:'https://doordash.com',     desc:'food in 30 min vs. 60 min — platform orchestrates the speed'},
+    {name:'Instacart',    url:'https://instacart.com',    desc:'groceries in 1 hour vs. 2-hour store trip'},
+  ],
+  '10-17-18': [ // Data Network + Mobile App
+    {name:'Waze',         url:'https://waze.com',         desc:'fastest route calculated in real time from crowd data'},
+    {name:'Google Maps',  url:'https://maps.google.com',  desc:'traffic predictions from billions of location pings'},
+  ],
+
+  // ── 11 NEW TECH CAPABILITY (extra) ──
+  '11-12-19': [ // Marketplace + Web App
+    {name:'OpenSea',      url:'https://opensea.io',       desc:'NFT marketplace enabled by Ethereum smart contracts'},
+    {name:'Coinbase Pro',  url:'https://coinbase.com',    desc:'crypto trading enabled by blockchain infrastructure'},
+    {name:'Foundation',   url:'https://foundation.app',   desc:'digital art marketplace enabled by NFT provenance'},
+  ],
+  '11-16-19': [ // Automation + Web App
+    {name:'GitHub Actions', url:'https://github.com/features/actions', desc:'CI/CD automation enabled by containerization + cloud'},
+    {name:'Vercel',         url:'https://vercel.com',     desc:'automated deploy pipeline enabled by edge computing'},
+    {name:'Render',         url:'https://render.com',     desc:'automated cloud deployment enabled by modern infrastructure'},
+  ],
+  '11-13-18': [ // SaaS + Mobile App
+    {name:'Duolingo Max',   url:'https://duolingo.com',   desc:'AI tutor on mobile enabled by GPT-4 roleplay capability'},
+    {name:'Lensa',          url:'https://lensa.app',      desc:'AI portrait generation enabled by diffusion models on device'},
+    {name:'Photoroom',      url:'https://photoroom.com',  desc:'instant background removal enabled by on-device ML'},
+  ],
+  '11-16-21': [ // Automation + AI Tool
+    {name:'GitHub Copilot', url:'https://github.com/features/copilot', desc:'AI automates code generation — previously impossible'},
+    {name:'Cursor',         url:'https://cursor.com',     desc:'AI-powered automated refactoring and codebase understanding'},
+    {name:'Devin',          url:'https://cognition.ai',   desc:'AI software engineer autonomously completing coding tasks'},
+  ],
+  '11-12-21': [ // Marketplace + AI Tool
+    {name:'Midjourney',     url:'https://midjourney.com', desc:'AI image marketplace enabled by diffusion models'},
+    {name:'Runway',         url:'https://runwayml.com',   desc:'AI video generation market enabled by transformer architecture'},
+    {name:'Adobe Firefly',  url:'https://adobe.com/firefly', desc:'generative AI creative tools embedded in design marketplace'},
+  ],
 };
