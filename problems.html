@@ -212,6 +212,24 @@
       .classifier-row { flex-direction: column; }
       .classifier-btn { width: 100%; }
     }
+/* ── Accordion sections ── */
+.problem-section { display: none; }
+.problem-section.open { display: block; }
+#sections-hr { display: none; }
+
+/* ── Active grid card ── */
+.grid-card.card-active { outline: 2.5px solid currentColor; outline-offset: 2px; }
+
+/* ── CTA buttons ── */
+.problem-ctas { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  text-decoration: none; transition: opacity .15s;
+}
+.cta-btn:hover { opacity: .8; }
+.cta-framework { background: #1e5ad7; color: #fff; }
+.cta-atlas { background: #0f1d3a; color: #fff; }
   </style>
 </head>
 <body>
