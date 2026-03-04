@@ -395,7 +395,7 @@ function appendResultCard(text, resultEl) {
   if (!arch) return;
 
   const prob = PROBLEMS.find(p => p.id === arch.id);
-  const name = prob ? prob.label : arch.label;
+  const name = prob ? prob.name : arch.label;
 
   const card = document.createElement('div');
   card.id = 'cr-card';
