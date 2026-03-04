@@ -966,7 +966,7 @@ function spinWheel() {
   const extra = Math.random() * 360;              // random landing angle
   const delta = spins * 360 + extra;
   totalDeg += delta;
-  const duration = 4000 + Math.random() * 2000;  // 4–6 s
+  const duration = 8000 + Math.random() * 4000;  // 8–12 s
   wheel.style.transition = `transform ${duration}ms cubic-bezier(0.05, 0.8, 0.2, 1)`;
   wheel.style.transform = `rotate(${totalDeg}deg)`;
   setTimeout(() => { spinning = false; }, duration);
