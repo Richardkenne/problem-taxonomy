@@ -154,6 +154,20 @@ const ARCHETYPE_KEYWORDS = {
       ['find a book', 2], ['find content', 2], ['find a podcast', 2],
       ['find a creator', 2], ['find a community', 2], ['find an app', 2],
 
+      // social media / content visibility / virality
+      ['go viral', 4], ['get viral', 4], ['want to go viral', 4], ['trying to go viral', 4],
+      ['viral content', 3], ['viral reach', 3], ['viral post', 3],
+      ['social media reach', 3], ['social media visibility', 3], ['social media growth', 3],
+      ['social media', 2], ['grow on social', 3], ['grow on instagram', 3],
+      ['get more followers', 3], ['get followers', 2], ['gain followers', 2],
+      ['content not reaching', 4], ['no one sees my content', 4], ['content ignored', 3],
+      ['no views', 3], ['low reach', 3], ['reach problem', 3], ['zero reach', 4],
+      ['organic reach', 2], ['reach more people', 3], ['reach a wider audience', 3],
+      ['audience discovery', 3], ['grow an audience', 3], ['build an audience', 2],
+      ['content visibility', 3], ['post visibility', 3], ['get seen', 2], ['be seen', 2],
+      ['algorithm', 2], ['beat the algorithm', 3], ['fight the algorithm', 3],
+      ['tiktok', 2], ['instagram reach', 3], ['youtube discovery', 3],
+
       // platform examples / signals
       ['search-first', 3], ['indexed', 1], ['searchable', 2], ['aggregation of content', 3],
       ['content database', 2], ['directory', 2], ['registry', 2], ['catalog', 2],
