@@ -937,6 +937,35 @@
     }
   });
 
+  // ── Pre-select problem from URL param (?problem=coordination etc.) ──
+  const PROBLEM_ID_MAP = {
+    'coordination': 'Coordination problem',
+    'discovery':    'Discovery problem',
+    'information':  'Information asymmetry',
+    'trust':        'Trust problem',
+    'infrastructure':'Infrastructure gap',
+    'process':      'Process inefficiency',
+    'automation':   'Automation opportunity',
+    'aggregation':  'Aggregation problem',
+    'access':       'Access limitation',
+    'cost':         'Cost reduction',
+    'speed':        'Speed problem',
+    'capability':   'New tech capability',
+  };
+  (function applyURLProblem() {
+    const param = new URLSearchParams(window.location.search).get('problem');
+    if (!param || !PROBLEM_ID_MAP[param]) return;
+    const val = PROBLEM_ID_MAP[param];
+    // Clear any saved founder state so URL param takes precedence
+    state.f = {};
+    saveState();
+    // Find the matching item and click it
+    const item = document.querySelector(`#dd-f-0 .dd-item[data-val="${val}"]`);
+    if (item) item.click();
+    // Scroll founder panel into view
+    document.getElementById('panel-founder').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  })();
+
   // ── Signals entry point ──
   const nodeSignals = document.getElementById('node-signals');
   const ddSignals   = document.getElementById('dd-signals');
