@@ -926,7 +926,11 @@
   });
   document.addEventListener('click', e => {
     if (Date.now() - _lastNodeClick < 300) return;
-    if (!e.target.closest('.flow-step') && !e.target.closest('.dd-search')) Object.keys(SEQ).forEach(closeCard);
+    if (!e.target.closest('.flow-step') && !e.target.closest('.dd-search')) {
+      Object.keys(SEQ).forEach(closeCard);
+      ddSignals.classList.remove('open');
+      nodeSignals.classList.remove('active');
+    }
   });
 
   // ── Signals entry point ──
