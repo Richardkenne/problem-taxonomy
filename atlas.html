@@ -1102,6 +1102,8 @@ SEGS.forEach((seg, si) => {
     path.setAttribute('fill', lighten(seg.color, 55));
     path.setAttribute('stroke-width','3');
     path.setAttribute('filter','url(#glow)');
+    // Show right panel on first click
+    document.getElementById('container').classList.add('panel-open');
     // Dim all other segments in the same ring
     dimRing(ri, si);
     // Show combo if all 3 rings selected
