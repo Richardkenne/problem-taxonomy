@@ -792,10 +792,15 @@
     document.getElementById(`reset-${id}`).classList.remove('visible');
     document.getElementById(`ex-toggle-${id}`).classList.remove('visible','open');
     document.getElementById(`ex-panel-${id}`).classList.remove('open');
+    const conceptEl = document.getElementById(`concept-${id}`);
+    if (conceptEl) { conceptEl.classList.remove('visible'); conceptEl.innerHTML = ''; }
     // hide bottom bar section
     document.getElementById(`bar-${id}`).classList.remove('active');
     const anyActive = document.querySelector('.b-bar-section.active, #bar-vc.active, #bar-f.active');
     if (!anyActive) document.getElementById('bottom-bar').classList.remove('visible');
+    // clear state
+    state[id] = {};
+    saveState();
   }
 
   document.getElementById('reset-vc').addEventListener('click', e => { e.stopPropagation(); resetCard('vc'); });
