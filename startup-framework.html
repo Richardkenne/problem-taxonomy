@@ -171,6 +171,33 @@
       border-radius: 4px; padding: 2px 6px; white-space: nowrap;
     }
     .ex-arrow { font-size: 10px; color: #aaa; }
+    .ex-tag.ex-match { background: #dbeafe; color: #1e5ad7; font-weight: 600; }
+    .ex-row.ex-top .ex-name { color: #1e5ad7; }
+
+    /* ── Search input ── */
+    .dd-search {
+      display: block; width: calc(100% - 24px); margin: 8px 12px 4px;
+      padding: 6px 10px; border: 1px solid #dde3ef; border-radius: 6px;
+      font-size: 12px; color: #222; outline: none;
+    }
+    .dd-search:focus { border-color: #1e5ad7; }
+
+    /* ── Concept summary card ── */
+    .concept-card {
+      display: none; margin-top: 12px; padding: 14px 18px;
+      background: #f7f9ff; border: 1px solid #c7d7ff;
+      border-radius: 9px;
+    }
+    .concept-card.visible { display: block; }
+    .concept-label { font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: #1e5ad7; margin-bottom: 6px; }
+    .concept-text { font-size: 13px; color: #222; line-height: 1.6; }
+    .concept-copy {
+      margin-top: 10px; padding: 4px 12px; font-size: 11px; font-weight: 600;
+      background: #1e5ad7; color: #fff; border: none; border-radius: 5px;
+      cursor: pointer; transition: opacity .15s;
+    }
+    .concept-copy:hover { opacity: .8; }
 
     /* ── Shuffle button ── */
     .shuffle-btn {
