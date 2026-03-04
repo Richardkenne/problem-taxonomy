@@ -879,6 +879,10 @@ function renderAll() {
       </div>
       <div class="block-label" style="margin-top:20px">${ui('examplesLabel')}</div>
       <ul class="examples-list">${exHTML}</ul>
+      <div class="problem-ctas">
+        <a href="startup-framework.html?problem=${p.id}" class="cta-btn cta-framework">→ Open in Framework</a>
+        <a href="atlas.html?problem=${p.id}" class="cta-btn cta-atlas">◉ Explore in Atlas</a>
+      </div>
       ${i < PROBLEMS.length - 1 ? '<hr class="section-divider">' : ''}
     `;
     sections.appendChild(div);
