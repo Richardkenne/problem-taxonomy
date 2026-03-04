@@ -317,42 +317,113 @@ function classifyInput() {
 
   if (!input) { resultEl.style.display = 'none'; return; }
 
-  const scores = scoreInput(input);
+  const allScores = scoreInput(input); // all archetypes with score > 0, sorted
   const L = typeof LANG !== 'undefined' ? LANG : 'en';
 
-  if (scores.length === 0) {
-    resultEl.style.display = 'block';
-    resultEl.innerHTML = `<div class="cr-no-match">No strong match found. Try describing the core friction or pain point more specifically.</div>`;
-    return;
+  // Extract themes from input (simple word list, filter stopwords)
+  const stopwords = new Set(['the','a','an','is','are','was','were','be','been','being','have','has','had',
+    'do','does','did','will','would','could','should','may','might','must','can','i','we','they','he',
+    'she','it','you','my','our','their','this','that','these','those','and','or','but','in','on','at',
+    'to','for','of','with','by','from','into','through','about','every','people','person','users','user']);
+  const themes = [...new Set(
+    input.toLowerCase().replace(/[^a-z\s]/g,'').split(/\s+/).filter(w => w.length > 2 && !stopwords.has(w))
+  )].slice(0, 8);
+
+  // Build trace lines
+  const traceLines = [];
+
+  // Line 1: themes
+  if (themes.length > 0) {
+    traceLines.push({ text: `Themes detected: ${themes.join(', ')}`, cls: 'highlight' });
   }
 
-  const top = scores[0];
-  const alts = scores.slice(1, 3);
+  // Lines 2+: all archetypes considered (with score), then skipped ones
+  const considered = allScores.slice(0, 6); // top 6 with score
+  // Also show a few zero-score archetypes as "evaluated but not matched"
+  const allKeys = Object.keys(ARCHETYPE_KEYWORDS);
+  const consideredIds = new Set(considered.map(s => s.id));
+  const skipped = allKeys
+    .map(k => ARCHETYPE_KEYWORDS[k])
+    .filter(a => !consideredIds.has(a.id))
+    .slice(0, 4);
 
-  // find the problem object for the top match (for IT name if needed)
-  const topProblem = PROBLEMS.find(p => p.id === top.id);
-  const topName = L === 'it' && topProblem ? (topProblem.it_name || top.label) : top.label;
+  if (considered.length > 0) {
+    traceLines.push({ text: `Archetypes evaluated:`, cls: '' });
+    for (const s of considered) {
+      const prob = PROBLEMS.find(p => p.id === s.id);
+      const name = L === 'it' && prob ? (prob.it_name || s.label) : s.label;
+      const kwSample = s.matched.slice(0, 2).map(k => `"${k}"`).join(', ');
+      traceLines.push({ text: `→ ${name} — score ${s.score}${kwSample ? ` · matched ${kwSample}` : ''}`, cls: 'indent' });
+    }
+    for (const a of skipped) {
+      const prob = PROBLEMS.find(p => p.id === a.id);
+      const name = L === 'it' && prob ? (prob.it_name || a.label) : a.label;
+      traceLines.push({ text: `→ ${name} — no match`, cls: 'indent' });
+    }
+  }
 
-  const altsHTML = alts.map((a, i) => {
-    const prob = PROBLEMS.find(p => p.id === a.id);
-    const name = L === 'it' && prob ? (prob.it_name || a.label) : a.label;
-    return `<span class="cr-alt"><span class="cr-alt-rank">${i === 0 ? '②' : '③'}</span>${name}</span>`;
-  }).join('');
+  // Final line
+  if (allScores.length === 0) {
+    traceLines.push({ text: `No archetype matched — input too generic or ambiguous`, cls: 'highlight' });
+  } else {
+    const top = allScores[0];
+    const prob = PROBLEMS.find(p => p.id === top.id);
+    const name = L === 'it' && prob ? (prob.it_name || top.label) : top.label;
+    traceLines.push({ text: `Best match → ${name}`, cls: 'match-best' });
+  }
 
-  const kwHTML = top.matched.map(kw => `<span class="cr-kw">${kw}</span>`).join('');
+  // Render trace (lines hidden, then reveal one by one)
+  const traceHTML = traceLines.map((l, i) =>
+    `<span class="cr-trace-line ${l.cls}" data-idx="${i}">${l.text}</span>`
+  ).join('\n');
+
+  // Render result card (hidden until trace finishes)
+  let resultHTML = '';
+  if (allScores.length === 0) {
+    resultHTML = `<div class="cr-no-match" id="cr-card" style="display:none">No strong match found. Try describing the core friction or pain point more specifically.</div>`;
+  } else {
+    const top = allScores[0];
+    const alts = allScores.slice(1, 3);
+    const prob = PROBLEMS.find(p => p.id === top.id);
+    const topName = L === 'it' && prob ? (prob.it_name || top.label) : top.label;
+    const altsHTML = alts.map((a, i) => {
+      const ap = PROBLEMS.find(p => p.id === a.id);
+      const name = L === 'it' && ap ? (ap.it_name || a.label) : a.label;
+      return `<span class="cr-alt"><span class="cr-alt-rank">${i === 0 ? '②' : '③'}</span>${name}</span>`;
+    }).join('');
+    const kwHTML = top.matched.map(kw => `<span class="cr-kw">${kw}</span>`).join('');
+    resultHTML = `
+      <div id="cr-card" style="display:none">
+        <div class="cr-top">
+          <div>
+            <div class="cr-top-label">① Top match</div>
+            <div class="cr-top-name"><a class="cr-top-link" href="#${top.id}">→ ${topName}</a></div>
+            <div class="cr-top-score">score ${top.score} · ${top.matched.length} keyword${top.matched.length !== 1 ? 's' : ''} matched</div>
+          </div>
+        </div>
+        ${alts.length ? `<div class="cr-alts">${altsHTML}</div>` : ''}
+        ${kwHTML ? `<div class="cr-keywords-label">Keywords matched</div><div class="cr-keywords">${kwHTML}</div>` : ''}
+      </div>`;
+  }
 
   resultEl.style.display = 'block';
-  resultEl.innerHTML = `
-    <div class="cr-top">
-      <div>
-        <div class="cr-top-label">① Top match</div>
-        <div class="cr-top-name"><a class="cr-top-link" href="#${top.id}">→ ${topName}</a></div>
-        <div class="cr-top-score">score ${top.score} · ${top.matched.length} keyword${top.matched.length !== 1 ? 's' : ''} matched</div>
-      </div>
-    </div>
-    ${alts.length ? `<div class="cr-alts">${altsHTML}</div>` : ''}
-    ${kwHTML ? `<div class="cr-keywords-label">Keywords matched</div><div class="cr-keywords">${kwHTML}</div>` : ''}
-  `;
+  resultEl.innerHTML = `<div class="cr-trace" id="cr-trace">${traceHTML}</div>${resultHTML}`;
+
+  // Animate lines one by one
+  const delay = 90; // ms between lines
+  traceLines.forEach((_, i) => {
+    setTimeout(() => {
+      const el = resultEl.querySelector(`.cr-trace-line[data-idx="${i}"]`);
+      if (el) el.classList.add('visible');
+      // After last line, show result card
+      if (i === traceLines.length - 1) {
+        setTimeout(() => {
+          const card = document.getElementById('cr-card');
+          if (card) card.style.display = '';
+        }, 250);
+      }
+    }, i * delay);
+  });
 }
 
 // Allow Enter to classify (Shift+Enter for newline)
