@@ -339,12 +339,10 @@ async function classifyInput() {
   const resultEl = document.getElementById('classifier-result');
   if (!input) { resultEl.style.display = 'none'; return; }
 
-  // Show trace box with blinking cursor while streaming
   resultEl.style.display = 'block';
-  resultEl.innerHTML = `<div class="cr-trace" id="cr-trace"><span class="cr-cursor">▋</span></div>`;
+  resultEl.innerHTML = `<div class="cr-loading">Classifying<span class="cr-cursor">▋</span></div>`;
 
   let fullText = '';
-  const traceEl = document.getElementById('cr-trace');
 
   try {
     const res = await fetch(WORKER_URL, {
@@ -357,21 +355,16 @@ async function classifyInput() {
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
       fullText += decoder.decode(value, { stream: true });
-      // Render text with cursor at end
-      traceEl.innerHTML = renderTrace(fullText) + '<span class="cr-cursor">▋</span>';
     }
 
-    // Final render without cursor + show result card
-    traceEl.innerHTML = renderTrace(fullText);
-    appendResultCard(fullText, resultEl);
+    renderClassifierResult(fullText, resultEl);
 
   } catch (e) {
-    traceEl.innerHTML = `<span class="cr-trace-line visible" style="color:#c00">Error: ${e.message}. Check console.</span>`;
+    resultEl.innerHTML = `<div class="cr-error">Could not classify — ${e.message}</div>`;
   }
 }
 
