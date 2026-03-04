@@ -668,6 +668,13 @@
     { name:'Shazam',      tags:['Media & Entertainment (Music Recognition)',       'New tech capability',   'Platform',       'Mobile app'] },
   ];
 
+  // ── State & persistence ──
+  const state = { vc: {}, f: {} };
+
+  function saveState() {
+    localStorage.setItem('pt-state', JSON.stringify(state));
+  }
+
   function pickRandom(arr, n) {
     const copy = arr.slice();
     for (let i = copy.length - 1; i > 0; i--) {
@@ -677,29 +684,68 @@
     return copy.slice(0, n);
   }
 
-  function renderExamples(panelId, data) {
+  // ── Smart example filtering ──
+  // VC tags: [market, problem, solution, product] → selections: [vc-0, vc-2, vc-3, vc-4]
+  // F  tags: [market, problem, solution, product] → selections: [null, f-0, f-1, f-2]
+  function getFilters(card) {
+    const s = state[card];
+    if (card === 'vc') return [s[0]||null, s[2]||null, s[3]||null, s[4]||null];
+    return [null, s[0]||null, s[1]||null, s[2]||null];
+  }
+
+  function scoreEx(ex, filters) {
+    return ex.tags.reduce((sc, tag, i) => sc + (filters[i] && tag.startsWith(filters[i]) ? 1 : 0), 0);
+  }
+
+  function renderExamples(panelId, data, card) {
     const panel = document.getElementById(panelId);
-    const five = pickRandom(data, 5);
-    panel.innerHTML = five.map(ex => {
-      const path = ex.tags.map((t, i) =>
-        `<span class="ex-tag">${t}</span>${i < ex.tags.length - 1 ? '<span class="ex-arrow">→</span>' : ''}`
-      ).join('');
-      return `<div class="ex-row"><span class="ex-name">${ex.name}</span><div class="ex-path">${path}</div></div>`;
+    const filters = card ? getFilters(card) : [];
+    const hasFilters = filters.some(Boolean);
+    let examples;
+    if (hasFilters) {
+      const scored = data.map(ex => ({ ex, sc: scoreEx(ex, filters) }));
+      scored.sort((a, b) => b.sc - a.sc || Math.random() - 0.5);
+      examples = scored.slice(0, 5).map(x => x.ex);
+    } else {
+      examples = pickRandom(data, 5);
+    }
+    panel.innerHTML = examples.map(ex => {
+      const sc = scoreEx(ex, filters);
+      const path = ex.tags.map((t, i) => {
+        const matched = filters[i] && t.startsWith(filters[i]);
+        return `<span class="ex-tag${matched ? ' ex-match' : ''}">${t}</span>${i < ex.tags.length-1 ? '<span class="ex-arrow">→</span>' : ''}`;
+      }).join('');
+      return `<div class="ex-row${sc > 0 ? ' ex-top' : ''}"><span class="ex-name">${ex.name}</span><div class="ex-path">${path}</div></div>`;
     }).join('');
   }
 
-  // Initial render (will be called when panel completes, but pre-render now)
-  renderExamples('ex-panel-vc', EXAMPLES_VC);
-  renderExamples('ex-panel-f', EXAMPLES_F);
+  // ── Concept summary ──
+  function renderSummary(card) {
+    const el = document.getElementById(`concept-${card}`);
+    if (!el) return;
+    const s = state[card];
+    let text;
+    if (card === 'vc') {
+      text = `A ${s[4]||'product'} using a ${s[3]||'?'} model, solving a "${s[2]||'?'}" in ${s[0]||'?'} — signalled by ${s[1]||'?'}.`;
+    } else {
+      text = `A ${s[2]||'product'} using a ${s[1]||'?'} model, solving a "${s[0]||'?'}".`;
+    }
+    el.innerHTML = `<div class="concept-label">Your startup concept</div><p class="concept-text">${text}</p><button class="concept-copy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent).then(()=>{this.textContent='Copied ✓';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button>`;
+    el.classList.add('visible');
+  }
+
+  // Initial render
+  renderExamples('ex-panel-vc', EXAMPLES_VC, 'vc');
+  renderExamples('ex-panel-f', EXAMPLES_F, 'f');
 
   // Shuffle buttons
   document.getElementById('shuffle-vc').addEventListener('click', e => {
     e.stopPropagation();
-    renderExamples('ex-panel-vc', EXAMPLES_VC);
+    renderExamples('ex-panel-vc', EXAMPLES_VC, 'vc');
   });
   document.getElementById('shuffle-f').addEventListener('click', e => {
     e.stopPropagation();
-    renderExamples('ex-panel-f', EXAMPLES_F);
+    renderExamples('ex-panel-f', EXAMPLES_F, 'f');
   });
 
   /* ── Reveal ── */
