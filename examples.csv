@@ -88,6 +88,24 @@ Founder,Pinterest,Media & Entertainment,Visual Discovery,Discovery problem,Platf
 Founder,Bumble,Media & Entertainment,Dating,Coordination problem,Marketplace,Mobile app
 Founder,Tinder,Media & Entertainment,Dating,Coordination problem,Marketplace,Mobile app
 Founder,Remote,HR & Recruiting,Remote Employment,Process inefficiency,SaaS,Web app
+VC,PayPal,Financial Services,Digital Payments,Trust problem,Platform,Web app
+VC,Square / Block,Financial Services,SMB Payments,Access limitation,Platform,Mobile app
+VC,Coinbase,Financial Services,Crypto Exchange,Access limitation,Platform,Mobile app
+VC,Lyft,Transportation & Mobility,Ride-hailing,Coordination problem,Marketplace,Mobile app
+VC,Booking.com,Tourism & Hospitality,Online Travel,Aggregation problem,Marketplace,Web app
+VC,Peloton,Sports & Fitness,Connected Fitness,New tech capability,Platform,Hardware
+VC,Coursera,Education,Online Learning,Access limitation,Platform,Web app
+VC,Udemy,Education,Online Courses,Access limitation,Marketplace,Web app
+VC,WeWork,Real Estate,Coworking,Access limitation,Marketplace,Web app
+VC,Waze,Transportation & Mobility,Navigation,Data network,Platform,Mobile app
+VC,Shazam,Media & Entertainment,Music Recognition,New tech capability,Platform,Mobile app
+Founder,PayPal,Financial Services,Digital Payments,Trust problem,Platform,Web app
+Founder,Lyft,Transportation & Mobility,Ride-hailing,Coordination problem,Marketplace,Mobile app
+Founder,Coinbase,Financial Services,Crypto Exchange,Access limitation,Platform,Mobile app
+Founder,Coursera,Education,Online Learning,Access limitation,Platform,Web app
+Founder,WeWork,Real Estate,Coworking,Access limitation,Marketplace,Web app
+Founder,Waze,Transportation & Mobility,Navigation,Data network,Platform,Mobile app
+Founder,Shazam,Media & Entertainment,Music Recognition,New tech capability,Platform,Mobile app
 VC,HubSpot,Software,CRM / Marketing Automation,Process inefficiency,SaaS,Web app
 VC,Zendesk,Software,Customer Support,Process inefficiency,SaaS,Web app
 VC,Atlassian,Software,Team Collaboration,Process inefficiency,Platform,Web app
