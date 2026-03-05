@@ -1156,16 +1156,26 @@ SEGS.forEach((seg, si) => {
   wheel.appendChild(g);
 });
 
-// ── Pre-select problem from URL param (?problem=coordination etc.) ──
+// ── Pre-select problem and solution from URL params ──
 (function() {
   const PROB_IDX = { coordination:0, discovery:1, information:2, trust:3, infrastructure:4, process:5, automation:6, aggregation:7, access:8, cost:9, speed:10, capability:11 };
-  const param = new URLSearchParams(window.location.search).get('problem');
-  if (param !== null && PROB_IDX[param] !== undefined) {
-    const si = PROB_IDX[param];
-    // Find the segElement for this problem (ring 0)
+  const SOL_MAP = { 'Marketplace':12, 'SaaS':13, 'Platform':14, 'Infrastructure':15, 'Automation':16, 'Data network':17 };
+  const urlParams = new URLSearchParams(window.location.search);
+  const problemParam = urlParams.get('problem');
+  const solutionParam = urlParams.get('solution');
+  if (problemParam !== null && PROB_IDX[problemParam] !== undefined) {
+    const si = PROB_IDX[problemParam];
     const probSeg = segElements.find(el => el.seg.ring === 0 && segElements.indexOf(el) === si);
     if (probSeg) {
       setTimeout(() => probSeg.g.dispatchEvent(new MouseEvent('click', { bubbles: true })), 200);
+    }
+    // Auto-select solution if provided
+    if (solutionParam && SOL_MAP[solutionParam] !== undefined) {
+      const solIdx = SOL_MAP[solutionParam];
+      const solSeg = segElements[solIdx];
+      if (solSeg) {
+        setTimeout(() => solSeg.g.dispatchEvent(new MouseEvent('click', { bubbles: true })), 600);
+      }
     }
   }
 })();
