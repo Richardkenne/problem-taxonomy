@@ -22,7 +22,6 @@
     #lang-btn:hover { color: #333; }
     #lang-btn.it-active { background: #fff; color: #111; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
 
-    /* ── View toggle ── */
     .view-toggle {
       display: flex; background: #f0f2f7; border-radius: 20px; padding: 3px; gap: 2px;
     }
@@ -37,46 +36,71 @@
     /* ── Page ── */
     .page { max-width: 780px; margin: 0 auto; padding: 56px 24px 80px; }
 
-    .back { font-size: 13px; color: #1e5ad7; text-decoration: none; display: inline-block; margin-bottom: 36px; }
-    .back:hover { text-decoration: underline; }
-
-    .page-title { font-size: 32px; font-weight: 800; color: #0f1d3a; line-height: 1.1; margin-bottom: 10px; white-space: nowrap; text-align: center; }
+    .page-title { font-size: 32px; font-weight: 800; color: #0f1d3a; line-height: 1.1; margin-bottom: 10px; text-align: center; }
     .page-sub { font-size: 15px; color: #666; margin-bottom: 40px; max-width: 560px; text-align: center; margin-left: auto; margin-right: auto; }
+
+    /* ── Classifier ── */
+    .classifier {
+      background: #f7f9ff; border: 1.5px solid #dde3ef; border-radius: 14px;
+      padding: 24px 28px; margin-bottom: 56px;
+    }
+    .classifier-title {
+      font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      color: #1e5ad7; margin-bottom: 14px;
+    }
+    .classifier-row { display: flex; gap: 10px; align-items: flex-start; }
+    .classifier-input {
+      flex: 1; font-size: 14px; font-family: inherit;
+      border: 1.5px solid #d0d8ef; border-radius: 8px;
+      padding: 10px 14px; outline: none; color: #111;
+      background: #fff; resize: none; line-height: 1.5;
+      transition: border .15s;
+    }
+    .classifier-input:focus { border-color: #1e5ad7; }
+    .classifier-input::placeholder { color: #aab; }
+    .classifier-btn {
+      background: #1e5ad7; color: #fff; border: none;
+      border-radius: 8px; font-size: 13px; font-weight: 700;
+      padding: 10px 18px; cursor: pointer; white-space: nowrap;
+      font-family: inherit; transition: background .15s; flex-shrink: 0;
+    }
+    .classifier-btn:hover { background: #1749b8; }
+    .classifier-result { margin-top: 20px; display: none; }
+    .cr-loading { font-size: 14px; color: #888; padding: 12px 0; }
+    .cr-cursor { animation: blink .7s step-end infinite; color: #1e5ad7; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cr-no-match { font-size: 14px; color: #888; padding: 10px 0; }
+    .cr-error { font-size: 13px; color: #c00; padding: 8px 0; }
+    @media (max-width: 540px) {
+      .classifier-row { flex-direction: column; }
+      .classifier-btn { width: 100%; }
+    }
 
     /* ── Grid ── */
     .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 72px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 10px; margin-bottom: 72px;
     }
     @media (max-width: 680px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 400px) { .grid { grid-template-columns: 1fr 1fr; } }
 
     .grid-card {
-      border-radius: 10px;
-      padding: 14px 16px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform .15s, box-shadow .15s;
-      display: block;
+      border-radius: 10px; padding: 14px 16px; cursor: pointer;
+      text-decoration: none; transition: transform .15s, box-shadow .15s;
+      display: block; background: #fff; border: 1.5px solid #e8ecf2;
     }
     .grid-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+    .grid-card.card-active { border-color: #1e5ad7 !important; box-shadow: 0 0 0 3px rgba(30,90,215,.15); }
     .grid-num { font-size: 10px; font-weight: 700; opacity: .5; letter-spacing: .06em; margin-bottom: 6px; }
     .grid-name { font-size: 13px; font-weight: 700; line-height: 1.3; }
     .grid-short { font-size: 11.5px; opacity: .75; margin-top: 4px; line-height: 1.35; }
 
-    /* ── Divider ── */
-    .section-divider { border: none; border-top: 1px solid #e8ecf2; margin: 64px 0; }
-
-    /* ── Problem section ── */
-    .problem-section { margin-bottom: 72px; scroll-margin-top: 32px; }
+    /* ── Problem sections ── */
+    .problem-section { display: none; margin-bottom: 72px; scroll-margin-top: 32px; }
+    .problem-section.open { display: block; }
 
     .problem-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
     .problem-badge {
-      flex-shrink: 0;
-      width: 40px; height: 40px;
-      border-radius: 10px;
+      flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-size: 13px; font-weight: 800;
     }
@@ -85,10 +109,8 @@
 
     .problem-def {
       font-size: 15.5px; color: #333; line-height: 1.75;
-      margin-bottom: 24px;
-      padding: 18px 22px;
-      background: #f7f9ff;
-      border-left: 3px solid #1e5ad7;
+      margin-bottom: 24px; padding: 18px 22px;
+      background: #f7f9ff; border-left: 3px solid #1e5ad7;
       border-radius: 0 8px 8px 0;
     }
 
@@ -121,7 +143,95 @@
     .ask-box .block-label { margin-bottom: 8px; }
     .ask-list { list-style: none; }
     .ask-list li { font-size: 14px; color: #333; padding: 4px 0 4px 18px; position: relative; }
-    .ask-list li::before { content: '→'; position: absolute; left: 0; color: #1e5ad7; font-weight: 700; font-size: 12px; top: 5px; }
+    .ask-list li::before { content: '\2192'; position: absolute; left: 0; color: #1e5ad7; font-weight: 700; font-size: 12px; top: 5px; }
+
+    /* ── How was it solved? ── */
+    .solve-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 28px; padding: 14px 20px;
+      background: #0f1d3a; color: #fff; border-radius: 10px;
+      cursor: pointer; transition: background .15s; user-select: none;
+    }
+    .solve-toggle:hover { background: #1a2b50; }
+    .solve-toggle h3 { font-size: 14px; font-weight: 700; }
+    .solve-toggle .chevron { font-size: 12px; transition: transform .2s; }
+    .solve-toggle.open .chevron { transform: rotate(180deg); }
+
+    .solve-panel {
+      display: none; margin-top: 12px;
+      border: 1.5px solid #e0e5ef; border-radius: 10px;
+      overflow: hidden;
+    }
+    .solve-panel.open { display: block; }
+
+    .solve-group {
+      padding: 16px 20px; border-bottom: 1px solid #f0f3f8;
+    }
+    .solve-group:last-child { border-bottom: none; }
+    .solve-group-title {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; color: #1e5ad7; margin-bottom: 10px;
+    }
+    .solve-company {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; margin-bottom: 6px;
+      background: #f7f9ff; border: 1.5px solid transparent;
+      border-radius: 8px; cursor: pointer; transition: all .15s;
+    }
+    .solve-company:hover { border-color: #1e5ad7; background: #eef2ff; }
+    .solve-company.selected { border-color: #1e5ad7; background: #e7efff; }
+    .solve-company .sc-name { font-size: 14px; font-weight: 700; color: #111; }
+    .solve-company .sc-market { font-size: 12px; color: #888; }
+    .solve-company .sc-desc { font-size: 12px; color: #666; margin-top: 2px; }
+    .solve-company .sc-check {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid #d0d8ef; display: flex; align-items: center;
+      justify-content: center; font-size: 11px; color: transparent;
+      transition: all .15s;
+    }
+    .solve-company.selected .sc-check {
+      background: #1e5ad7; border-color: #1e5ad7; color: #fff;
+    }
+
+    /* ── Selection bar ── */
+    .selection-bar {
+      display: none; margin-top: 20px; padding: 16px 20px;
+      background: #f0fdf4; border: 1.5px solid #86efac;
+      border-radius: 10px;
+    }
+    .selection-bar.visible { display: block; }
+    .selection-bar .sb-title {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: #059669; margin-bottom: 10px;
+    }
+    .selection-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .s-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;
+    }
+    .s-chip .s-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; opacity: .6; }
+    .s-chip-problem { background: #e7efff; color: #1e5ad7; }
+    .s-chip-solution { background: #d1fae5; color: #065f46; }
+    .s-chip-market { background: #fef3c7; color: #92400e; }
+    .s-chip-company { background: #f3e8ff; color: #6b21a8; }
+
+    /* ── CTA buttons ── */
+    .problem-ctas {
+      display: none; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .problem-ctas.visible { display: flex; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 24px; border-radius: 10px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.18); }
+    .cta-framework { background: #1e5ad7; color: #fff; }
+    .cta-atlas { background: #0f1d3a; color: #fff; }
+    .cta-prompt { background: #059669; color: #fff; }
+
+    .section-divider { border: none; border-top: 1px solid #e8ecf2; margin: 64px 0; }
 
     /* ── Footer ── */
     .site-footer { border-top: 1px solid #e8ecf2; padding: 56px 40px 32px; margin-top: 40px; }
@@ -135,107 +245,6 @@
     .footer-about-item { font-size: 13.5px; color: #111; margin-bottom: 8px; }
     .footer-bottom { max-width: 880px; margin: 0 auto; border-top: 1px solid #f0f2f7; padding-top: 20px; text-align: center; font-size: 12.5px; color: #bbb; }
     @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } .site-footer { padding: 40px 20px 24px; } }
-
-    /* ── Classifier ── */
-    .classifier {
-      background: #f7f9ff; border: 1.5px solid #dde3ef; border-radius: 14px;
-      padding: 24px 28px; margin-bottom: 56px;
-    }
-    .classifier-title {
-      font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-      color: #1e5ad7; margin-bottom: 14px;
-    }
-    .classifier-row {
-      display: flex; gap: 10px; align-items: flex-start;
-    }
-    .classifier-input {
-      flex: 1; font-size: 14px; font-family: inherit;
-      border: 1.5px solid #d0d8ef; border-radius: 8px;
-      padding: 10px 14px; outline: none; color: #111;
-      background: #fff; resize: none; line-height: 1.5;
-      transition: border .15s;
-    }
-    .classifier-input:focus { border-color: #1e5ad7; }
-    .classifier-input::placeholder { color: #aab; }
-    .classifier-btn {
-      background: #1e5ad7; color: #fff; border: none;
-      border-radius: 8px; font-size: 13px; font-weight: 700;
-      padding: 10px 18px; cursor: pointer; white-space: nowrap;
-      font-family: inherit; transition: background .15s; flex-shrink: 0;
-    }
-    .classifier-btn:hover { background: #1749b8; }
-    .classifier-result { margin-top: 20px; display: none; }
-    .cr-top {
-      display: flex; align-items: center; gap: 12px;
-      background: #fff; border: 1.5px solid #1e5ad7;
-      border-radius: 10px; padding: 14px 18px; margin-bottom: 12px;
-    }
-    .cr-top-label { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #1e5ad7; }
-    .cr-top-name { font-size: 18px; font-weight: 800; color: #0f1d3a; margin-top: 2px; }
-    .cr-top-link { color: inherit; text-decoration: none; }
-    .cr-top-link:hover { color: #1e5ad7; text-decoration: underline; text-underline-offset: 2px; }
-    .cr-top-score { font-size: 11px; color: #aaa; margin-top: 1px; }
-    .cr-alts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-    .cr-alt {
-      background: #f0f2f7; border-radius: 20px;
-      padding: 5px 14px; font-size: 12.5px; font-weight: 600; color: #555;
-    }
-    .cr-alt-rank { font-size: 10px; color: #aaa; margin-right: 4px; }
-    .cr-keywords-label {
-      font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-      color: #aaa; margin-bottom: 7px;
-    }
-    .cr-keywords { display: flex; flex-wrap: wrap; gap: 6px; }
-    .cr-kw {
-      background: #fff3cd; color: #7a5800; border-radius: 4px;
-      font-size: 12px; font-weight: 600; padding: 3px 8px;
-    }
-    .cr-no-match {
-      font-size: 14px; color: #888; padding: 10px 0;
-    }
-    /* ── Reasoning trace ── */
-    .cr-trace {
-      font-family: inherit;
-      font-size: 13.5px; color: #667; line-height: 2;
-      margin-bottom: 16px; padding: 14px 16px;
-      background: #f3f4f8; border-radius: 8px;
-      border-left: 3px solid #c8cfdf;
-    }
-    .cr-trace-line { display: block; opacity: 0; transition: opacity .25s; }
-    .cr-trace-line.visible { opacity: 1; }
-    .cr-trace-line.indent { padding-left: 18px; color: #889; }
-    .cr-trace-line.highlight { color: #1e5ad7; font-weight: 600; }
-    .cr-trace-line.match-best { color: #1a7a3c; font-weight: 700; }
-    .cr-cursor { animation: blink .7s step-end infinite; color: #1e5ad7; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    @media (max-width: 540px) {
-      .classifier-row { flex-direction: column; }
-      .classifier-btn { width: 100%; }
-    }
-/* ── Accordion sections ── */
-.problem-section { display: none; }
-.problem-section.open { display: block; }
-#sections-hr { display: none; }
-
-/* ── Active grid card ── */
-.grid-card.card-active { border-color: #1e5ad7 !important; box-shadow: 0 0 0 3px rgba(30,90,215,.15); }
-
-/* ── CTA buttons ── */
-.problem-ctas {
-  display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap;
-  padding-top: 28px; border-top: 1.5px solid #e8ecf2;
-}
-.cta-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 28px; border-radius: 10px; font-size: 14px; font-weight: 700;
-  text-decoration: none; transition: transform .15s, box-shadow .15s;
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
-}
-.cta-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.18); }
-.cta-framework { background: #1e5ad7; color: #fff; }
-.cta-atlas { background: #0f1d3a; color: #fff; }
-    .cr-loading { font-size: 14px; color: #888; padding: 12px 0; }
-    .cr-error { font-size: 13px; color: #c00; padding: 8px 0; }
   </style>
 </head>
 <body>
@@ -243,31 +252,31 @@
 <div id="top-right">
   <button id="lang-btn" onclick="toggleLang()">IT</button>
   <div class="view-toggle">
-    <span class="t-active">⬡ Problems</span>
-    <a href="startup-framework.html">≡ Framework</a>
-    <a href="atlas.html">◉ Atlas</a>
+    <span class="t-active">Problems</span>
+    <a href="startup-framework.html">Framework</a>
+    <a href="atlas.html">Atlas</a>
   </div>
 </div>
 
 <div class="page">
   <h1 class="page-title">12 Problem<br>Archetypes</h1>
-  <p class="page-sub">Every startup solves one of these structural problems. Understanding them helps you identify real opportunities — and avoid building solutions in search of a problem.</p>
+  <p class="page-sub">Every startup solves one of these structural problems. Click any problem to explore how it's been solved — then proceed to Framework, Atlas, or generate an MVP prompt.</p>
 
-  <!-- ── CLASSIFIER ── -->
+  <!-- Classifier -->
   <div class="classifier" id="classifier">
-    <div class="classifier-title">⬡ Problem Classifier</div>
+    <div class="classifier-title">Problem Classifier</div>
     <div class="classifier-row">
       <textarea class="classifier-input" id="classifier-input" rows="2"
-        placeholder="Describe a problem or idea… e.g. 'People waste hours waiting in hospitals'"></textarea>
-      <button class="classifier-btn" onclick="classifyInput()">Classify →</button>
+        placeholder="Describe a problem or idea... e.g. 'People waste hours waiting in hospitals'"></textarea>
+      <button class="classifier-btn" onclick="classifyInput()">Classify</button>
     </div>
     <div class="classifier-result" id="classifier-result"></div>
   </div>
 
-  <!-- ── GRID ── -->
+  <!-- Grid -->
   <div class="grid" id="grid"></div>
 
-  <!-- ── DETAIL SECTIONS ── -->
+  <!-- Detail sections -->
   <div id="sections"></div>
 </div>
 
@@ -280,10 +289,9 @@
     <div>
       <div class="footer-col-label">Explore</div>
       <ul class="footer-links">
-        <li><a href="startup-framework.html">↗ Framework</a></li>
-        <li><a href="atlas.html">↗ Discovery Atlas</a></li>
-        <li><a href="startup-framework.html">↗ Startup Framework</a></li>
-        <li><a href="why.html">↗ Why these two models?</a></li>
+        <li><a href="startup-framework.html">Framework</a></li>
+        <li><a href="atlas.html">Discovery Atlas</a></li>
+        <li><a href="why.html">Why these two models?</a></li>
       </ul>
     </div>
     <div>
@@ -291,47 +299,652 @@
       <div class="footer-about-item">12 Problem archetypes</div>
       <div class="footer-about-item">6 Solution models</div>
       <div class="footer-about-item">6 Product types</div>
-      <div class="footer-about-item">2 Startup entry points</div>
     </div>
   </div>
   <div class="footer-bottom">
     <script>document.write(new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'}));</script>
-    &nbsp;—&nbsp; Richard Kennedy &nbsp;·&nbsp; v0.1 &nbsp;—&nbsp; Mar 2026
+    &nbsp;—&nbsp; Richard Kennedy &nbsp;&middot;&nbsp; v0.2
   </div>
 </footer>
 
 <script src="archetypes-keywords.js"></script>
 <script>
+// ── Language ──
+let LANG = localStorage.getItem('problems-lang') || 'en';
+
+const UI = {
+  en: {
+    title: '12 Problem<br>Archetypes',
+    sub: 'Every startup solves one of these structural problems. Click any problem to explore how it\'s been solved — then proceed to Framework, Atlas, or generate an MVP prompt.',
+    signalsLabel: 'Signals — how to recognize it',
+    questionsLabel: 'Questions to ask',
+    examplesLabel: 'Real examples',
+    howSolved: 'How was this problem solved?',
+    selected: 'Your selection',
+    goFramework: 'Proceed with Framework',
+    goAtlas: 'Proceed with Atlas',
+    goPrompt: 'Generate MVP Prompt',
+  },
+  it: {
+    title: '12 Archetipi<br>di Problema',
+    sub: 'Ogni startup risolve uno di questi problemi strutturali. Clicca su un problema per esplorare come è stato risolto — poi procedi con Framework, Atlas, o genera un prompt MVP.',
+    signalsLabel: 'Segnali — come riconoscerlo',
+    questionsLabel: 'Domande da fare',
+    examplesLabel: 'Esempi reali',
+    howSolved: 'Come è stato risolto questo problema?',
+    selected: 'La tua selezione',
+    goFramework: 'Procedi con Framework',
+    goAtlas: 'Procedi con Atlas',
+    goPrompt: 'Genera Prompt MVP',
+  }
+};
+
+function ui(key) { return UI[LANG][key]; }
+function t(p, key) { return LANG === 'it' ? (p['it_' + key] || p[key]) : p[key]; }
+
+// ── Problem data ──
+const PROBLEMS = [
+  {
+    id: 'coordination', num: '01',
+    name: 'Coordination Problem', short: 'Supply & demand don\'t meet',
+    tagline: 'Value exists on both sides — but they can\'t find each other.',
+    color: '#0d1b4b', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A coordination problem exists when supply and demand are present but fail to connect efficiently. The friction in matching destroys value for both sides. The opportunity is to build the bridge — a platform, marketplace, or tool that makes coordination frictionless.',
+    signals: ['Buyers and sellers exist but use inefficient channels', 'High search costs on either side', 'Word-of-mouth is the main discovery method', 'Transactions happen but slowly or randomly'],
+    questions: ['Who is trying to find whom?', 'What prevents them from connecting today?', 'How much value is lost because they can\'t match efficiently?'],
+    examples: [
+      { name: 'Uber', url: 'https://uber.com', desc: 'Riders and drivers existed — but hailing a cab was unreliable and slow.' },
+      { name: 'Airbnb', url: 'https://airbnb.com', desc: 'Spare rooms existed and travelers needed them — no efficient bridge existed.' },
+      { name: 'DoorDash', url: 'https://doordash.com', desc: 'Restaurants and hungry customers — coordination was the bottleneck.' },
+      { name: 'Upwork', url: 'https://upwork.com', desc: 'Freelancers and companies — coordination was fragmented across job boards.' },
+    ],
+    howSolved: [
+      { solution: 'Marketplace', companies: [
+        { name: 'Uber', market: 'Transportation & Mobility', desc: 'Real-time driver-rider matching via GPS' },
+        { name: 'Airbnb', market: 'Retail & E-commerce', desc: 'Host-guest matching for short-term stays' },
+        { name: 'DoorDash', market: 'Food & Beverage', desc: 'Restaurant-courier-customer coordination' },
+        { name: 'Faire', market: 'Wholesale & Distribution', desc: 'Independent brands matched to boutique retailers' },
+        { name: 'Upwork', market: 'Professional Services', desc: 'Freelancer-company matching across 90+ categories' },
+      ]},
+      { solution: 'Platform', companies: [
+        { name: 'LinkedIn', market: 'Professional Services', desc: 'Professional network enabling job & talent discovery' },
+        { name: 'GitHub', market: 'Software', desc: 'Open-source collaboration matching contributors to projects' },
+      ]},
+      { solution: 'SaaS', companies: [
+        { name: 'Calendly', market: 'Professional Services', desc: 'Automated scheduling removes back-and-forth friction' },
+        { name: 'Miro', market: 'Software', desc: 'Real-time collaboration whiteboard for distributed teams' },
+      ]},
+    ],
+    it_name: 'Problema di Coordinamento', it_short: 'Domanda e offerta non si incontrano',
+    it_tagline: 'Il valore esiste su entrambi i lati — ma non riescono a trovarsi.',
+    it_def: 'Un problema di coordinamento esiste quando domanda e offerta sono presenti ma non riescono a connettersi in modo efficiente. L\'attrito nel matching distrugge valore per entrambe le parti. L\'opportunità è costruire il ponte — una piattaforma, marketplace o strumento che rende il coordinamento senza attrito.',
+    it_signals: ['Compratori e venditori esistono ma usano canali inefficienti', 'Alti costi di ricerca su entrambi i lati', 'Il passaparola è il metodo principale di scoperta', 'Le transazioni avvengono ma lentamente o casualmente'],
+    it_questions: ['Chi sta cercando chi?', 'Cosa impedisce loro di connettersi oggi?', 'Quanto valore si perde perché non riescono a incontrarsi efficientemente?'],
+  },
+  {
+    id: 'discovery', num: '02',
+    name: 'Discovery Problem', short: 'Can\'t find what already exists',
+    tagline: 'The answer exists — but users can\'t find it.',
+    color: '#112266', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A discovery problem occurs when valuable things exist but are invisible or hard to find. Users waste time searching, rely on word of mouth, or simply give up. The opportunity is better search, curation, recommendation, or aggregation.',
+    signals: ['Users describe finding things as "hard" or "hit or miss"', 'Recommendations come mostly from friends', 'Existing search tools return poor results', 'High discovery costs relative to transaction value'],
+    questions: ['What are people trying to find that\'s hard to find?', 'Why does current search fail them?', 'What signals could enable better discovery?'],
+    examples: [
+      { name: 'Google', url: 'https://google.com', desc: 'The web existed — but finding anything required knowing the exact URL.' },
+      { name: 'TikTok', url: 'https://tiktok.com', desc: 'Great content existed — but discovery was limited to your social graph.' },
+      { name: 'Yelp', url: 'https://yelp.com', desc: 'Local businesses existed — but discovering good ones was word-of-mouth only.' },
+      { name: 'Product Hunt', url: 'https://producthunt.com', desc: 'New products launched daily — but discovering them was fragmented.' },
+    ],
+    howSolved: [
+      { solution: 'Platform', companies: [
+        { name: 'TikTok', market: 'Media & Entertainment', desc: 'Algorithmic short-video discovery engine' },
+        { name: 'Pinterest', market: 'Media & Entertainment', desc: 'Visual discovery engine for ideas and products' },
+        { name: 'Reddit', market: 'Media & Entertainment', desc: 'Community-curated discovery of content and links' },
+        { name: 'Perplexity', market: 'Software', desc: 'AI-native answer engine replacing keyword search' },
+      ]},
+      { solution: 'SaaS', companies: [
+        { name: 'Yelp', market: 'Professional Services', desc: 'Discover and evaluate local businesses via reviews' },
+        { name: 'Glassdoor', market: 'HR & Recruiting', desc: 'Discover what it\'s really like to work somewhere' },
+        { name: 'Spotify', market: 'Media & Entertainment', desc: 'Discover music via algorithm, playlists, and social' },
+      ]},
+      { solution: 'Marketplace', companies: [
+        { name: 'Airbnb', market: 'Tourism & Hospitality', desc: 'Discover unique accommodations worldwide' },
+      ]},
+    ],
+    it_name: 'Problema di Scoperta', it_short: 'Non riesci a trovare ciò che già esiste',
+    it_tagline: 'La risposta esiste — ma gli utenti non riescono a trovarla.',
+    it_def: 'Un problema di scoperta si verifica quando cose di valore esistono ma sono invisibili o difficili da trovare. Gli utenti perdono tempo cercando, si affidano al passaparola, o semplicemente rinunciano. L\'opportunità è una migliore ricerca, curation, raccomandazione o aggregazione.',
+    it_signals: ['Gli utenti descrivono trovare le cose come "difficile" o "casuale"', 'Le raccomandazioni vengono principalmente dagli amici', 'Gli strumenti di ricerca esistenti restituiscono risultati scarsi', 'Alti costi di scoperta rispetto al valore della transazione'],
+    it_questions: ['Cosa stanno cercando le persone che è difficile trovare?', 'Perché la ricerca attuale le delude?', 'Quali segnali potrebbero abilitare una migliore scoperta?'],
+  },
+  {
+    id: 'information', num: '03',
+    name: 'Information Asymmetry', short: 'One side knows more than the other',
+    tagline: 'Unequal information distorts markets and blocks trust.',
+    color: '#1a2e7a', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'Information asymmetry occurs when one party in a transaction has significantly more or better information than the other. This distorts pricing, creates distrust, and often prevents transactions from happening at all. The opportunity is to make information transparent, accessible, and actionable.',
+    signals: ['Buyers feel they can\'t trust sellers', 'Prices are opaque or vary wildly', 'Experts hold information that consumers need but can\'t access', 'Fraud or deception is common'],
+    questions: ['Who has information that others need?', 'What decisions are made poorly because of missing information?', 'What would change if both sides had equal information?'],
+    examples: [
+      { name: 'Glassdoor', url: 'https://glassdoor.com', desc: 'Job seekers had no insight into salaries or company culture before joining.' },
+      { name: 'Zillow', url: 'https://zillow.com', desc: 'Home buyers couldn\'t access pricing data that agents had.' },
+      { name: 'Clearbit', url: 'https://clearbit.com', desc: 'Sales teams had no data on who was visiting their website.' },
+      { name: 'Datadog', url: 'https://datadoghq.com', desc: 'Engineering teams couldn\'t see what was happening inside their systems.' },
+    ],
+    howSolved: [
+      { solution: 'SaaS', companies: [
+        { name: 'Glassdoor', market: 'HR & Recruiting', desc: 'Reveals salary ranges and company culture hidden from candidates' },
+        { name: 'Datadog', market: 'Software', desc: 'Makes infrastructure and application performance visible' },
+        { name: 'Gong', market: 'Software', desc: 'Records and analyzes sales calls to surface winning patterns' },
+        { name: 'Hotjar', market: 'Software', desc: 'Shows exactly how users interact with websites' },
+        { name: 'Mixpanel', market: 'Software', desc: 'Tracks user behavior to reveal product usage patterns' },
+      ]},
+      { solution: 'Platform', companies: [
+        { name: 'Zillow', market: 'Real Estate', desc: 'Made real estate pricing data transparent to everyone' },
+        { name: 'Palantir', market: 'Government / Public Sector', desc: 'Makes hidden patterns in massive datasets visible' },
+      ]},
+    ],
+    it_name: 'Asimmetria Informativa', it_short: 'Un lato sa più dell\'altro',
+    it_tagline: 'L\'informazione diseguale distorce i mercati e blocca la fiducia.',
+    it_def: 'L\'asimmetria informativa si verifica quando una parte in una transazione ha informazioni significativamente migliori dell\'altra. Questo distorce i prezzi, crea sfiducia e spesso impedisce del tutto le transazioni. L\'opportunità è rendere le informazioni trasparenti, accessibili e azionabili.',
+    it_signals: ['I compratori sentono di non potersi fidare dei venditori', 'I prezzi sono opachi o variano enormemente', 'Gli esperti detengono informazioni di cui i consumatori hanno bisogno', 'Frodi o inganni sono comuni'],
+    it_questions: ['Chi ha informazioni di cui gli altri hanno bisogno?', 'Quali decisioni vengono prese male a causa di informazioni mancanti?', 'Cosa cambierebbe se entrambe le parti avessero informazioni uguali?'],
+  },
+  {
+    id: 'trust', num: '04',
+    name: 'Trust Problem', short: 'Parties won\'t transact without verification',
+    tagline: 'Willingness exists — but lack of trust blocks the transaction.',
+    color: '#1e3a8a', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A trust problem exists when two parties are willing to transact but are blocked by insufficient verification, reputation, or guarantees. Trust is the invisible infrastructure of commerce. When it\'s missing, markets freeze or operate at a fraction of their potential.',
+    signals: ['High rates of fraud or scams', 'Users hesitate to share payment info', 'Transactions require long legal processes', 'Intermediaries exist solely to provide trust'],
+    questions: ['What prevents people from transacting even when both sides want to?', 'What verification or guarantee would unlock the market?', 'Who currently provides trust — and at what cost?'],
+    examples: [
+      { name: 'PayPal', url: 'https://paypal.com', desc: 'Online buyers and sellers couldn\'t trust each other with payments.' },
+      { name: 'DocuSign', url: 'https://docusign.com', desc: 'Contracts required physical signatures — digital wasn\'t trusted.' },
+      { name: 'Trustpilot', url: 'https://trustpilot.com', desc: 'Consumers couldn\'t verify whether online businesses were legitimate.' },
+    ],
+    howSolved: [
+      { solution: 'Platform', companies: [
+        { name: 'PayPal', market: 'Financial Services', desc: 'Built buyer/seller protection that enabled online commerce trust' },
+        { name: 'Coinbase', market: 'Financial Services', desc: 'Made crypto exchange trustworthy with regulated, insured platform' },
+      ]},
+      { solution: 'SaaS', companies: [
+        { name: 'DocuSign', market: 'Software', desc: 'Made digital signatures legally binding and universally trusted' },
+        { name: 'Trustpilot', market: 'Retail & E-commerce', desc: 'Created a transparent review ecosystem for verifying businesses' },
+      ]},
+    ],
+    it_name: 'Problema di Fiducia', it_short: 'Le parti non transano senza verifica',
+    it_tagline: 'La volontà esiste — ma la mancanza di fiducia blocca la transazione.',
+    it_def: 'Un problema di fiducia esiste quando due parti sono disposte a transare ma sono bloccate da verifica, reputazione o garanzie insufficienti. La fiducia è l\'infrastruttura invisibile del commercio. Quando manca, i mercati si bloccano o operano a una frazione del loro potenziale.',
+    it_signals: ['Alti tassi di frode o truffe', 'Gli utenti esitano a condividere dati di pagamento', 'Le transazioni richiedono lunghi processi legali', 'Esistono intermediari esclusivamente per fornire fiducia'],
+    it_questions: ['Cosa impedisce alle persone di transare anche quando entrambe le parti vogliono?', 'Quale verifica o garanzia sbloccherebbe il mercato?', 'Chi fornisce fiducia oggi — e a quale costo?'],
+  },
+  {
+    id: 'infrastructure', num: '05',
+    name: 'Infrastructure Gap', short: 'Missing layer that everything else needs',
+    tagline: 'Higher-value products can\'t be built because the foundation doesn\'t exist.',
+    color: '#1d4ed8', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An infrastructure gap exists when the foundational technical layer needed to build higher-order products is missing or too expensive to build from scratch. The company that fills this gap becomes critical infrastructure — invisible but essential.',
+    signals: ['Every player rebuilds the same basic component', 'High fixed costs to enter the market', 'Companies avoid entering because the foundation is too hard', 'Technical talent is wasted on commodity plumbing'],
+    questions: ['What do all companies in this space have to build themselves?', 'What would become possible if this infrastructure existed?', 'Who pays to build it today — and is that efficient?'],
+    examples: [
+      { name: 'AWS', url: 'https://aws.amazon.com', desc: 'Every company was building its own servers — AWS made that unnecessary.' },
+      { name: 'Stripe', url: 'https://stripe.com', desc: 'Setting up payments took weeks — Stripe reduced it to a few lines of code.' },
+      { name: 'Twilio', url: 'https://twilio.com', desc: 'Every app needed SMS/voice — Twilio turned it into a simple API.' },
+      { name: 'Plaid', url: 'https://plaid.com', desc: 'Every fintech app needed bank connectivity — Plaid became the standard pipe.' },
+    ],
+    howSolved: [
+      { solution: 'Infrastructure', companies: [
+        { name: 'Stripe', market: 'Financial Services', desc: 'Payments API that any developer can integrate in hours' },
+        { name: 'Twilio', market: 'Telecommunications', desc: 'Communications API for SMS, voice, and video' },
+        { name: 'Plaid', market: 'Financial Services', desc: 'Bank account connectivity as a service' },
+        { name: 'Confluent', market: 'Software', desc: 'Data streaming infrastructure based on Apache Kafka' },
+      ]},
+      { solution: 'SaaS', companies: [
+        { name: 'Cloudflare', market: 'Technology (Broad)', desc: 'Internet security and performance infrastructure' },
+        { name: 'Okta', market: 'Software', desc: 'Identity and access management as a service' },
+      ]},
+    ],
+    it_name: 'Gap Infrastrutturale', it_short: 'Strato mancante di cui tutto il resto ha bisogno',
+    it_tagline: 'I prodotti di valore superiore non possono essere costruiti perché le fondamenta non esistono.',
+    it_def: 'Un gap infrastrutturale esiste quando lo strato tecnico fondamentale necessario per costruire prodotti di ordine superiore è mancante o troppo costoso da costruire da zero. L\'azienda che colma questo gap diventa infrastruttura critica — invisibile ma essenziale.',
+    it_signals: ['Ogni player ricostruisce lo stesso componente di base', 'Alti costi fissi per entrare nel mercato', 'Le aziende evitano di entrare perché le fondamenta sono troppo difficili', 'Il talento tecnico viene sprecato su tubature commodity'],
+    it_questions: ['Cosa devono costruire da soli tutte le aziende in questo spazio?', 'Cosa diventerebbe possibile se questa infrastruttura esistesse?', 'Chi paga per costruirla oggi — ed è efficiente?'],
+  },
+  {
+    id: 'process', num: '06',
+    name: 'Process Inefficiency', short: 'Existing workflow is too slow or expensive',
+    tagline: 'The job gets done — but at enormous waste of time, money, or effort.',
+    color: '#2563eb', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'Process inefficiency occurs when an existing workflow is so slow, expensive, error-prone, or fragmented that the cost of doing business is unnecessarily high. People have learned to live with the friction — but they\'d switch instantly to something better. The opportunity is to redesign the process from scratch.',
+    signals: ['High reliance on email, spreadsheets, or manual steps', 'Same data entered multiple times', 'Errors and rework are common', 'Process takes days when it could take minutes'],
+    questions: ['What multi-step process could be collapsed into one?', 'Where is human time being spent on work that software could do?', 'What would this process look like if designed today from scratch?'],
+    examples: [
+      { name: 'Slack', url: 'https://slack.com', desc: 'Team communication ran on fragmented email threads.' },
+      { name: 'Notion', url: 'https://notion.so', desc: 'Knowledge was scattered across Docs, Sheets, Confluence.' },
+      { name: 'Figma', url: 'https://figma.com', desc: 'Design files emailed back and forth — Figma made it real-time.' },
+      { name: 'Rippling', url: 'https://rippling.com', desc: 'HR, payroll, and IT were three separate systems.' },
+    ],
+    howSolved: [
+      { solution: 'SaaS', companies: [
+        { name: 'Slack', market: 'Software', desc: 'Real-time searchable team messaging replacing email' },
+        { name: 'Notion', market: 'Software', desc: 'All-in-one workspace replacing 5+ separate tools' },
+        { name: 'Figma', market: 'Software', desc: 'Browser-based collaborative design tool' },
+        { name: 'Rippling', market: 'HR & Recruiting', desc: 'Unified HR, payroll, and IT management' },
+        { name: 'Linear', market: 'Software', desc: 'Speed-first project management for dev teams' },
+        { name: 'Salesforce', market: 'Software', desc: 'Cloud CRM that replaced spreadsheet-based sales tracking' },
+      ]},
+      { solution: 'Platform', companies: [
+        { name: 'Airtable', market: 'Software', desc: 'Flexible database that replaces spreadsheets for operations' },
+        { name: 'Retool', market: 'Software', desc: 'Drag-and-drop internal tool builder' },
+      ]},
+    ],
+    it_name: 'Inefficienza di Processo', it_short: 'Il flusso di lavoro esistente è troppo lento o costoso',
+    it_tagline: 'Il lavoro viene fatto — ma con un enorme spreco di tempo, denaro o sforzo.',
+    it_def: 'L\'inefficienza di processo si verifica quando un flusso di lavoro esistente è così lento, costoso o frammentato che il costo di fare business è inutilmente alto. Le persone hanno imparato a convivere con l\'attrito — ma passerebbero immediatamente a qualcosa di meglio. L\'opportunità è riprogettare il processo da zero.',
+    it_signals: ['Alta dipendenza da email, fogli di calcolo o passaggi manuali', 'Gli stessi dati inseriti più volte', 'Errori e rilavorazioni sono comuni', 'Il processo richiede giorni quando potrebbe richiedere minuti'],
+    it_questions: ['Quale processo multi-step potrebbe essere collassato in uno?', 'Dove viene speso il tempo umano su lavoro che il software potrebbe fare?', 'Come sarebbe questo processo se fosse progettato oggi da zero?'],
+  },
+  {
+    id: 'automation', num: '07',
+    name: 'Automation Opportunity', short: 'Manual work that machines could do',
+    tagline: 'Humans are doing repetitive work that software could handle better.',
+    color: '#1e5ad7', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An automation opportunity exists when a high-volume, repetitive, rule-based task is still being done manually. Automating it frees people for higher-value work and dramatically reduces cost and error rates.',
+    signals: ['Large teams dedicated to repetitive data entry', 'Same decision made thousands of times using same rules', 'Errors from manual work are common and costly', 'Process can be described as a clear sequence of steps'],
+    questions: ['What repetitive decisions could be encoded into rules?', 'Where do humans spend time executing rather than thinking?', 'What would 10x throughput look like at the same headcount?'],
+    examples: [
+      { name: 'Zapier', url: 'https://zapier.com', desc: 'Manually copying data between apps — Zapier automated it.' },
+      { name: 'UiPath', url: 'https://uipath.com', desc: 'Enterprise data entry in legacy systems — software robots replaced it.' },
+      { name: 'HubSpot', url: 'https://hubspot.com', desc: 'Marketing and sales follow-ups were manual — HubSpot automated it.' },
+    ],
+    howSolved: [
+      { solution: 'Platform', companies: [
+        { name: 'UiPath', market: 'Software', desc: 'Enterprise process automation with software robots (RPA)' },
+      ]},
+      { solution: 'SaaS', companies: [
+        { name: 'Zapier', market: 'Software', desc: 'No-code automation connecting 5000+ apps' },
+        { name: 'HubSpot', market: 'Software', desc: 'Marketing and sales automation platform' },
+      ]},
+    ],
+    it_name: 'Opportunità di Automazione', it_short: 'Lavoro manuale che le macchine potrebbero fare',
+    it_tagline: 'Gli umani fanno lavoro ripetitivo che il software potrebbe gestire meglio.',
+    it_def: 'Un\'opportunità di automazione esiste quando un task ad alto volume, ripetitivo e basato su regole viene ancora svolto manualmente. Automatizzarlo libera le persone per lavoro di valore superiore e riduce drasticamente costi e tassi di errore.',
+    it_signals: ['Grandi team dedicati all\'inserimento dati ripetitiva', 'La stessa decisione viene presa migliaia di volte', 'Gli errori da lavoro manuale sono comuni e costosi', 'Il processo può essere descritto come una sequenza di passaggi'],
+    it_questions: ['Quali decisioni ripetitive potrebbero essere codificate in regole?', 'Dove gli umani trascorrono tempo eseguendo invece che pensando?', 'Come sarebbe un throughput 10x con lo stesso headcount?'],
+  },
+  {
+    id: 'aggregation', num: '08',
+    name: 'Aggregation Problem', short: 'Supply is fragmented across too many small players',
+    tagline: 'The supply exists — but it\'s scattered and hard to access at scale.',
+    color: '#3b5fc0', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An aggregation problem exists when supply or demand is so fragmented that neither side can efficiently find or transact with the other. The solution is to aggregate one side and create a single point of access. The aggregator captures value by owning the customer relationship.',
+    signals: ['Market served by thousands of small providers', 'Customers must contact many vendors to compare', 'No single player has significant market share', 'Quality and pricing vary wildly'],
+    questions: ['Who are the fragmented suppliers?', 'What would a single access point unlock?', 'Which side is harder to aggregate?'],
+    examples: [
+      { name: 'Booking.com', url: 'https://booking.com', desc: 'Hotels were sold individually — Booking aggregated global inventory.' },
+      { name: 'Netflix', url: 'https://netflix.com', desc: 'Content was fragmented across channels — Netflix aggregated it.' },
+      { name: 'Instacart', url: 'https://instacart.com', desc: 'Grocery stores each had their own delivery — Instacart aggregated them.' },
+      { name: 'Reddit', url: 'https://reddit.com', desc: 'Online discussions were scattered — Reddit aggregated communities.' },
+    ],
+    howSolved: [
+      { solution: 'Marketplace', companies: [
+        { name: 'Booking.com', market: 'Tourism & Hospitality', desc: 'Aggregated hotel inventory from millions of properties worldwide' },
+        { name: 'Instacart', market: 'Retail & E-commerce', desc: 'Aggregated local grocery store inventory for delivery' },
+        { name: 'Etsy', market: 'Retail & E-commerce', desc: 'Aggregated independent craft sellers into one marketplace' },
+      ]},
+      { solution: 'Platform', companies: [
+        { name: 'Netflix', market: 'Media & Entertainment', desc: 'Aggregated content from hundreds of studios into one subscription' },
+        { name: 'Reddit', market: 'Media & Entertainment', desc: 'Aggregated community discussions into themed subreddits' },
+        { name: 'Databricks', market: 'Software', desc: 'Unified data lakes and data warehouses into one platform' },
+      ]},
+    ],
+    it_name: 'Problema di Aggregazione', it_short: 'L\'offerta è frammentata tra troppi piccoli player',
+    it_tagline: 'L\'offerta esiste — ma è dispersa e difficile da accedere su scala.',
+    it_def: 'Un problema di aggregazione esiste quando l\'offerta o la domanda è così frammentata che nessuno dei due lati riesce a trovarsi. La soluzione è aggregare un lato e creare un unico punto di accesso. L\'aggregatore cattura valore possedendo la relazione con il cliente.',
+    it_signals: ['Mercato servito da migliaia di piccoli fornitori', 'I clienti devono contattare molti fornitori per confrontare', 'Nessun player ha quota di mercato significativa', 'Qualità e prezzi variano enormemente'],
+    it_questions: ['Chi sono i fornitori frammentati?', 'Cosa sblocherebbe un unico punto di accesso?', 'Quale lato è più difficile da aggregare?'],
+  },
+  {
+    id: 'access', num: '09',
+    name: 'Access Limitation', short: 'Only a few can access it — most are excluded',
+    tagline: 'A valuable resource is available to some — but locked away from most.',
+    color: '#2d4db3', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'An access limitation exists when something valuable — a financial product, a skill, an education, a service — is only available to a privileged few due to cost, geography, or gatekeepers. The opportunity is democratization: making it available to the many.',
+    signals: ['Premium version is dramatically better than what most use', 'Geographic or income barriers exclude large groups', 'Gatekeepers are the only access point', 'Self-service version doesn\'t exist'],
+    questions: ['Who has access today — and who doesn\'t?', 'What are the barriers: cost, geography, complexity?', 'What would change if access were universal?'],
+    examples: [
+      { name: 'Robinhood', url: 'https://robinhood.com', desc: 'Investing required brokers and high minimums — Robinhood made it free.' },
+      { name: 'Canva', url: 'https://canva.com', desc: 'Professional design required expensive software and skills.' },
+      { name: 'Coursera', url: 'https://coursera.com', desc: 'World-class education was locked behind university admissions.' },
+      { name: 'Duolingo', url: 'https://duolingo.com', desc: 'Language learning required expensive tutors or classes.' },
+    ],
+    howSolved: [
+      { solution: 'SaaS', companies: [
+        { name: 'Robinhood', market: 'Financial Services', desc: 'Commission-free stock trading via mobile app' },
+        { name: 'Canva', market: 'Media & Entertainment', desc: 'Drag-and-drop design tool for non-designers' },
+        { name: 'Duolingo', market: 'Education', desc: 'Free gamified language learning' },
+        { name: 'Webflow', market: 'Software', desc: 'Visual web design without coding' },
+      ]},
+      { solution: 'Platform', companies: [
+        { name: 'Coursera', market: 'Education', desc: 'University courses available to anyone online' },
+        { name: 'Substack', market: 'Media & Entertainment', desc: 'Anyone can start a paid newsletter business' },
+        { name: 'Shopify', market: 'Retail & E-commerce', desc: 'Anyone can launch an online store in minutes' },
+        { name: 'Replit', market: 'Software', desc: 'Browser-based coding environment for everyone' },
+      ]},
+      { solution: 'Marketplace', companies: [
+        { name: 'Spotify', market: 'Media & Entertainment', desc: 'All music accessible for a flat monthly fee' },
+      ]},
+    ],
+    it_name: 'Limitazione di Accesso', it_short: 'Solo pochi possono accedervi — la maggior parte è esclusa',
+    it_tagline: 'Una risorsa di valore è disponibile per alcuni — ma inaccessibile per la maggior parte.',
+    it_def: 'Una limitazione di accesso esiste quando qualcosa di prezioso è disponibile solo per pochi privilegiati a causa del costo, della geografia o di gatekeeper. L\'opportunità è la democratizzazione: rendere la cosa disponibile a molti.',
+    it_signals: ['La versione premium è drammaticamente migliore', 'Barriere geografiche o di reddito escludono grandi gruppi', 'I gatekeeper sono l\'unico punto di accesso', 'La versione self-service non esiste'],
+    it_questions: ['Chi ha accesso oggi — e chi no?', 'Quali sono le barriere: costo, geografia, complessità?', 'Cosa cambierebbe se l\'accesso fosse universale?'],
+  },
+  {
+    id: 'cost', num: '10',
+    name: 'Cost Reduction', short: 'The solution works — but costs 10x too much',
+    tagline: 'The existing solution is functional but prohibitively expensive.',
+    color: '#1e40af', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A cost reduction opportunity exists when the current solution works but is so expensive that most potential users are priced out. The technology or business model that reduces cost by 10x unlocks a vastly larger market.',
+    signals: ['Most customers say "too expensive"', 'Large price gap between existing and affordable', 'Premium solutions exist but no mass-market versions', 'Incumbents have high margins'],
+    questions: ['What costs 10x more than it should?', 'Which cost component could technology eliminate?', 'Who would buy this if it cost 10x less?'],
+    examples: [
+      { name: 'SpaceX', url: 'https://spacex.com', desc: 'Rocket launches cost $400M — SpaceX brought it to $67M with reusable rockets.' },
+      { name: 'Revolut', url: 'https://revolut.com', desc: 'International transfers had 3-5% fees — Revolut made them near-free.' },
+      { name: 'Wise', url: 'https://wise.com', desc: 'Banks charged hidden FX markups — Wise made it transparent and cheap.' },
+    ],
+    howSolved: [
+      { solution: 'Infrastructure', companies: [
+        { name: 'SpaceX', market: 'Aerospace', desc: 'Reusable rockets that cut launch costs by 80%' },
+      ]},
+      { solution: 'SaaS', companies: [
+        { name: 'Revolut', market: 'Banking', desc: 'Near-zero-fee international transfers and multi-currency accounts' },
+        { name: 'Wise', market: 'Financial Services', desc: 'Transparent, low-cost international money transfers' },
+        { name: 'Wealthfront', market: 'Financial Services', desc: 'Automated wealth management at 0.25% vs 1-2% traditional' },
+      ]},
+    ],
+    it_name: 'Riduzione dei Costi', it_short: 'La soluzione funziona — ma costa 10x troppo',
+    it_tagline: 'La soluzione esistente è funzionale ma proibitivamente costosa.',
+    it_def: 'Un\'opportunità di riduzione dei costi esiste quando la soluzione attuale funziona ma è così costosa che la maggior parte degli utenti non può permettersela. L\'innovazione che riduce il costo di 10x sblocca un mercato enormemente più grande.',
+    it_signals: ['La maggior parte dice "troppo costoso"', 'Grande divario di prezzo', 'Esistono soluzioni premium ma non mass-market', 'I player esistenti hanno margini elevati'],
+    it_questions: ['Cosa costa 10x più di quanto dovrebbe?', 'Quale componente di costo la tecnologia potrebbe eliminare?', 'Chi acquisterebbe questo se costasse 10x meno?'],
+  },
+  {
+    id: 'speed', num: '11',
+    name: 'Speed Problem', short: 'The current solution is too slow',
+    tagline: 'Speed itself becomes the competitive advantage.',
+    color: '#1a3699', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A speed problem exists when current solutions work but are too slow. The company that makes something 10x faster redefines the standard — and makes the old approach feel broken.',
+    signals: ['Users describe waiting as the main frustration', 'Process takes days for something that should be instant', 'Industry SLAs measured in days when users expect minutes', 'Speed gap creates downstream costs'],
+    questions: ['What takes too long — and what would change if it were instant?', 'Where does waiting create cascading costs?', 'What does 10x speed unlock that\'s currently impossible?'],
+    examples: [
+      { name: 'Zoom', url: 'https://zoom.us', desc: 'Video calls were unreliable and laggy — Zoom made them seamless.' },
+      { name: 'Vercel', url: 'https://vercel.com', desc: 'Deployments took hours — Vercel made them seconds.' },
+      { name: 'Cursor', url: 'https://cursor.com', desc: 'Writing code was slow — Cursor made it 10x faster with AI.' },
+      { name: 'Linear', url: 'https://linear.app', desc: 'Jira was slow and heavy — Linear rebuilt PM for speed.' },
+    ],
+    howSolved: [
+      { solution: 'SaaS', companies: [
+        { name: 'Zoom', market: 'Telecommunications', desc: 'Video conferencing that just works, instantly' },
+        { name: 'Linear', market: 'Software', desc: 'Keyboard-first project management, sub-50ms interactions' },
+        { name: 'Cursor', market: 'Software', desc: 'AI-powered code editor that autocompletes entire functions' },
+        { name: 'Superhuman', market: 'Software', desc: 'Fastest email experience with <100ms interactions' },
+      ]},
+      { solution: 'Platform', companies: [
+        { name: 'Vercel', market: 'Software', desc: 'Instant frontend deployments with global edge network' },
+      ]},
+    ],
+    it_name: 'Problema di Velocità', it_short: 'La soluzione attuale è troppo lenta',
+    it_tagline: 'La velocità stessa diventa il vantaggio competitivo.',
+    it_def: 'Un problema di velocità esiste quando le soluzioni attuali funzionano ma sono troppo lente. L\'azienda che rende qualcosa 10x più veloce ridefinisce lo standard — e fa sembrare rotto il vecchio approccio.',
+    it_signals: ['Gli utenti descrivono l\'attesa come frustrazione principale', 'Il processo richiede giorni per qualcosa che dovrebbe essere istantaneo', 'Gli SLA del settore sono in giorni, gli utenti aspettano minuti', 'Il gap di velocità crea costi a cascata'],
+    it_questions: ['Cosa richiede troppo tempo — e cosa cambierebbe se fosse istantaneo?', 'Dove l\'attesa crea costi a cascata?', 'Cosa sblocca una velocità 10x che è attualmente impossibile?'],
+  },
+  {
+    id: 'capability', num: '12',
+    name: 'New Tech Capability', short: 'Technology now makes the impossible possible',
+    tagline: 'A breakthrough enables solutions that simply didn\'t exist before.',
+    color: '#152b88', light: '#dbeafe', textDark: '#1e3a8a',
+    def: 'A new technology capability emerges when a breakthrough — in AI, hardware, or biology — makes a previously impossible solution suddenly viable. The opportunity is to be the first to build the right product on the new capability.',
+    signals: ['New technology dropped in cost by 10-100x', 'Researchers demonstrated something previously impossible', 'Early adopters using new tools in unexpected ways', 'Incumbents dismissing the technology as a toy'],
+    questions: ['What can now be done that couldn\'t be done 3 years ago?', 'What existing product would be disrupted if this scaled?', 'Who benefits most from this new capability?'],
+    examples: [
+      { name: 'OpenAI', url: 'https://openai.com', desc: 'LLMs made conversational AI and code generation viable.' },
+      { name: 'Midjourney', url: 'https://midjourney.com', desc: 'Diffusion models made professional image generation instant.' },
+      { name: 'Tesla', url: 'https://tesla.com', desc: 'Battery cost curves finally made electric vehicles range-competitive.' },
+      { name: 'ElevenLabs', url: 'https://elevenlabs.io', desc: 'AI made realistic voice cloning and synthesis possible.' },
+    ],
+    howSolved: [
+      { solution: 'Platform', companies: [
+        { name: 'OpenAI', market: 'Technology (Broad)', desc: 'Built GPT models and ChatGPT as consumer AI product' },
+        { name: 'Tesla', market: 'Automotive', desc: 'Built electric vehicles on battery technology breakthrough' },
+        { name: 'Midjourney', market: 'Media & Entertainment', desc: 'AI image generation via Discord interface' },
+      ]},
+      { solution: 'Infrastructure', companies: [
+        { name: 'ElevenLabs', market: 'Software', desc: 'AI voice synthesis API for developers' },
+        { name: 'Anthropic', market: 'Technology (Broad)', desc: 'AI safety research and Claude AI models' },
+      ]},
+      { solution: 'SaaS', companies: [
+        { name: 'Runway', market: 'Media & Entertainment', desc: 'AI-powered video generation and editing' },
+        { name: 'Cursor', market: 'Software', desc: 'AI-native code editor built on LLM capabilities' },
+      ]},
+    ],
+    it_name: 'Nuova Capacità Tecnologica', it_short: 'La tecnologia ora rende possibile l\'impossibile',
+    it_tagline: 'Una scoperta permette soluzioni che semplicemente non esistevano prima.',
+    it_def: 'Una nuova capacità tecnologica emerge quando una scoperta — in AI, hardware o biologia — rende una soluzione precedentemente impossibile improvvisamente fattibile. L\'opportunità è essere i primi a costruire il prodotto giusto sulla nuova capacità.',
+    it_signals: ['Nuova tecnologia ha ridotto i costi di 10-100x', 'Ricercatori hanno dimostrato qualcosa di impossibile prima', 'Early adopter usano nuovi strumenti in modi inaspettati', 'I player esistenti liquidano la tecnologia come giocattolo'],
+    it_questions: ['Cosa si può fare ora che non si poteva fare 3 anni fa?', 'Quale prodotto sarebbe sconvolto se questa tecnologia scalasse?', 'Chi beneficia di più di questa nuova capacità?'],
+  },
+];
+
+// ── Selection state ──
+let _selection = { problem: '', solution: '', market: '', company: '' };
+let _activeSection = null;
+
+// ── Render ──
+function renderAll() {
+  document.querySelector('.page-title').innerHTML = ui('title');
+  document.querySelector('.page-sub').textContent = ui('sub');
+
+  // Grid
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  PROBLEMS.forEach(p => {
+    const a = document.createElement('a');
+    a.href = 'javascript:void(0)';
+    a.className = 'grid-card';
+    a.dataset.id = p.id;
+    a.innerHTML = `
+      <div class="grid-num" style="color:${p.textDark}">${p.num}</div>
+      <div class="grid-name" style="color:${p.color}">${t(p,'name')}</div>
+      <div class="grid-short" style="color:#666">${t(p,'short')}</div>
+    `;
+    a.addEventListener('click', () => toggleSection(p.id));
+    grid.appendChild(a);
+  });
+
+  // Sections
+  const sections = document.getElementById('sections');
+  sections.innerHTML = '';
+  PROBLEMS.forEach((p, i) => {
+    const examples = t(p, 'examples');
+    const signals = t(p, 'signals');
+    const questions = t(p, 'questions');
+
+    const exHTML = examples.map(e => `
+      <li><span class="ex-co"><a href="${e.url}" target="_blank">${e.name}</a></span><span class="ex-desc">${e.desc}</span></li>
+    `).join('');
+    const sigHTML = signals.map(s => `<span class="signal-chip">${s}</span>`).join('');
+    const askHTML = questions.map(q => `<li>${q}</li>`).join('');
+
+    // How was it solved? groups
+    let solveHTML = '';
+    if (p.howSolved) {
+      solveHTML = p.howSolved.map(group => {
+        const companiesHTML = group.companies.map(c => `
+          <div class="solve-company" data-problem="${t(p,'name')}" data-solution="${group.solution}" data-market="${c.market}" data-company="${c.name}" onclick="selectCompany(this)">
+            <div class="sc-check">&#10003;</div>
+            <div>
+              <div class="sc-name">${c.name}</div>
+              <div class="sc-market">${c.market}</div>
+              <div class="sc-desc">${c.desc}</div>
+            </div>
+          </div>
+        `).join('');
+        return `
+          <div class="solve-group">
+            <div class="solve-group-title">${group.solution}</div>
+            ${companiesHTML}
+          </div>
+        `;
+      }).join('');
+    }
+
+    const div = document.createElement('div');
+    div.className = 'problem-section';
+    div.id = p.id;
+    div.innerHTML = `
+      <div class="problem-header">
+        <div class="problem-badge" style="background:${p.light};color:${p.color}">${p.num}</div>
+        <div>
+          <div class="problem-title">${t(p,'name')}</div>
+          <div class="problem-tagline">${t(p,'tagline')}</div>
+        </div>
+      </div>
+      <div class="problem-def">${highlightDef(t(p,'def'))}</div>
+      <div class="block-label">${ui('signalsLabel')}</div>
+      <div class="signals">${sigHTML}</div>
+      <div class="ask-box">
+        <div class="block-label">${ui('questionsLabel')}</div>
+        <ul class="ask-list">${askHTML}</ul>
+      </div>
+      <div class="block-label" style="margin-top:20px">${ui('examplesLabel')}</div>
+      <ul class="examples-list">${exHTML}</ul>
+
+      <div class="solve-toggle" onclick="toggleSolvePanel('${p.id}')">
+        <h3>${ui('howSolved')}</h3>
+        <span class="chevron">&#9660;</span>
+      </div>
+      <div class="solve-panel" id="solve-${p.id}">${solveHTML}</div>
+
+      <div class="selection-bar" id="sel-${p.id}">
+        <div class="sb-title">${ui('selected')}</div>
+        <div class="selection-chips" id="chips-${p.id}"></div>
+        <div class="problem-ctas visible" id="ctas-${p.id}">
+          <a class="cta-btn cta-framework" id="fw-${p.id}" href="#">${ui('goFramework')}</a>
+          <a class="cta-btn cta-atlas" id="at-${p.id}" href="#">${ui('goAtlas')}</a>
+          <a class="cta-btn cta-prompt" id="pr-${p.id}" href="#">${ui('goPrompt')}</a>
+        </div>
+      </div>
+
+      ${i < PROBLEMS.length - 1 ? '<hr class="section-divider">' : ''}
+    `;
+    sections.appendChild(div);
+  });
+
+  // Lang button
+  const btn = document.getElementById('lang-btn');
+  if (LANG === 'it') {
+    btn.textContent = 'EN'; btn.classList.add('it-active');
+    document.documentElement.lang = 'it';
+  } else {
+    btn.textContent = 'IT'; btn.classList.remove('it-active');
+    document.documentElement.lang = 'en';
+  }
+}
+
+function highlightDef(text) {
+  text = text.replace(/(The opportunity is[^.]+\.)/g, '<strong>$1</strong>');
+  text = text.replace(/(L'opportunità è[^.]+\.)/g, '<strong>$1</strong>');
+  return text;
+}
+
+function toggleLang() {
+  LANG = LANG === 'en' ? 'it' : 'en';
+  localStorage.setItem('problems-lang', LANG);
+  renderAll();
+}
+
+function toggleSection(id) {
+  document.querySelectorAll('.grid-card').forEach(c => c.classList.remove('card-active'));
+
+  if (_activeSection === id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('open');
+    _activeSection = null;
+    return;
+  }
+
+  if (_activeSection) {
+    const prev = document.getElementById(_activeSection);
+    if (prev) prev.classList.remove('open');
+  }
+
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('open');
+    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
+
+  const card = document.querySelector(`.grid-card[data-id="${id}"]`);
+  if (card) card.classList.add('card-active');
+
+  _activeSection = id;
+}
+
+function toggleSolvePanel(id) {
+  const panel = document.getElementById('solve-' + id);
+  const toggle = panel.previousElementSibling;
+  panel.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+function selectCompany(el) {
+  // Deselect all in this section
+  const section = el.closest('.problem-section');
+  section.querySelectorAll('.solve-company').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+
+  const problem = el.dataset.problem;
+  const solution = el.dataset.solution;
+  const market = el.dataset.market;
+  const company = el.dataset.company;
+
+  _selection = { problem, solution, market, company };
+
+  // Show selection bar
+  const sectionId = section.id;
+  const selBar = document.getElementById('sel-' + sectionId);
+  selBar.classList.add('visible');
+
+  // Update chips
+  const chips = document.getElementById('chips-' + sectionId);
+  chips.innerHTML = `
+    <span class="s-chip s-chip-problem"><span class="s-label">Problem</span> ${problem}</span>
+    <span class="s-chip s-chip-solution"><span class="s-label">Solution</span> ${solution}</span>
+    <span class="s-chip s-chip-market"><span class="s-label">Market</span> ${market}</span>
+    <span class="s-chip s-chip-company"><span class="s-label">Reference</span> ${company}</span>
+  `;
+
+  // Update CTA links
+  const params = new URLSearchParams({ problem, solution, market, company });
+  const fwLink = document.getElementById('fw-' + sectionId);
+  const atLink = document.getElementById('at-' + sectionId);
+  const prLink = document.getElementById('pr-' + sectionId);
+
+  fwLink.href = 'startup-framework.html?' + params.toString();
+  atLink.href = 'atlas.html?' + params.toString();
+  prLink.href = 'prompt.html?' + params.toString();
+
+  // Smooth scroll to selection bar
+  setTimeout(() => selBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+}
+
 // ── Classifier ──
 function normalise(text) {
   return text.toLowerCase().replace(/['']/g, "'").replace(/[^a-z0-9\s']/g, ' ').replace(/\s+/g, ' ').trim();
-}
-
-function scoreInput(input) {
-  const norm = normalise(input);
-  const results = [];
-
-  for (const key of Object.keys(ARCHETYPE_KEYWORDS)) {
-    const arch = ARCHETYPE_KEYWORDS[key];
-    let score = 0;
-    const matched = [];
-
-    for (const [phrase, weight] of arch.keywords) {
-      const np = normalise(phrase);
-      // Short keywords (≤3 chars) must match as whole words to avoid false substring hits
-      const matches = np.length <= 3
-        ? new RegExp('(?<![a-z0-9])' + np.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![a-z0-9])').test(norm)
-        : norm.includes(np);
-      if (matches) {
-        score += weight;
-        if (!matched.includes(phrase)) matched.push(phrase);
-      }
-    }
-
-    if (score > 0) results.push({ id: arch.id, label: arch.label, score, matched });
-  }
-
-  return results.sort((a, b) => b.score - a.score);
 }
 
 const WORKER_URL = 'https://problem-classifier.richardbotsiokennedy.workers.dev';
@@ -342,7 +955,7 @@ async function classifyInput() {
   if (!input) { resultEl.style.display = 'none'; return; }
 
   resultEl.style.display = 'block';
-  resultEl.innerHTML = `<div class="cr-loading">Classifying<span class="cr-cursor">▋</span></div>`;
+  resultEl.innerHTML = '<div class="cr-loading">Classifying<span class="cr-cursor">|</span></div>';
 
   let fullText = '';
 
@@ -353,7 +966,7 @@ async function classifyInput() {
       body: JSON.stringify({ text: input })
     });
 
-    if (!res.ok) throw new Error(`Worker error ${res.status}`);
+    if (!res.ok) throw new Error('Worker error ' + res.status);
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
@@ -364,9 +977,8 @@ async function classifyInput() {
     }
 
     renderClassifierResult(fullText, resultEl);
-
   } catch (e) {
-    resultEl.innerHTML = `<div class="cr-error">Could not classify — ${e.message}</div>`;
+    resultEl.innerHTML = '<div class="cr-error">Could not classify — ' + e.message + '</div>';
   }
 }
 
@@ -395,39 +1007,32 @@ function resolveId(rawLabel) {
 function renderClassifierResult(text, resultEl) {
   const match = text.match(/Best match:\s*(.+)/i);
   if (!match) {
-    resultEl.innerHTML = `<div class="cr-no-match">Could not identify a clear archetype. Try describing the problem more specifically.</div>`;
+    resultEl.innerHTML = '<div class="cr-no-match">Could not identify a clear archetype. Try describing the problem more specifically.</div>';
     return;
   }
 
   const id = resolveId(match[1]);
   if (!id) {
-    resultEl.innerHTML = `<div class="cr-no-match">Matched: <strong>${match[1].trim()}</strong> — not found in archetypes.</div>`;
+    resultEl.innerHTML = '<div class="cr-no-match">Matched: <strong>' + match[1].trim() + '</strong> — not found in archetypes.</div>';
     return;
   }
 
-  const arch = ARCHETYPE_KEYWORDS[id];
   const prob = PROBLEMS.find(p => p.id === id);
   if (!prob) return;
 
-  // Extract reasoning line if present
   const reasonLine = text.match(/(?:because|reasoning|reason|why)[:\s]+([^\n]+)/i);
   const reason = reasonLine ? reasonLine[1].trim() : '';
 
   resultEl.innerHTML = `
-    <div class="cr-result-card" style="margin-top:16px; background:#fff; border:1.5px solid #1e5ad7; border-radius:12px; padding:20px 24px;">
+    <div style="margin-top:16px; background:#fff; border:1.5px solid #1e5ad7; border-radius:12px; padding:20px 24px;">
       <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1e5ad7;margin-bottom:8px;">Best match</div>
-      <div style="font-size:22px;font-weight:800;color:#0f1d3a;margin-bottom:4px;">${prob.name}</div>
-      <div style="font-size:13.5px;color:#666;margin-bottom:${reason ? '12px' : '20px'};font-style:italic;">${prob.tagline}</div>
-      ${reason ? `<div style="font-size:13px;color:#555;background:#f7f9ff;border-radius:8px;padding:10px 14px;margin-bottom:20px;">💡 ${reason}</div>` : ''}
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <a href="startup-framework.html?problem=${id}" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#1e5ad7;color:#fff;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;">→ Open in Framework</a>
-        <a href="atlas.html?problem=${id}" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#0f1d3a;color:#fff;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;">◉ Explore in Atlas</a>
-        <button onclick="toggleSection('${id}')" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#f0f2f7;color:#333;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">↓ Read more</button>
-      </div>
+      <div style="font-size:22px;font-weight:800;color:#0f1d3a;margin-bottom:4px;">${t(prob,'name')}</div>
+      <div style="font-size:13.5px;color:#666;margin-bottom:${reason ? '12px' : '20px'};font-style:italic;">${t(prob,'tagline')}</div>
+      ${reason ? '<div style="font-size:13px;color:#555;background:#f7f9ff;border-radius:8px;padding:10px 14px;margin-bottom:20px;">' + reason + '</div>' : ''}
+      <button onclick="toggleSection('${id}')" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#1e5ad7;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">Explore this problem</button>
     </div>`;
 }
 
-// Allow Enter to classify (Shift+Enter for newline)
 document.addEventListener('DOMContentLoaded', () => {
   const inp = document.getElementById('classifier-input');
   if (inp) inp.addEventListener('keydown', e => {
@@ -435,548 +1040,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ── Language ──
-let LANG = localStorage.getItem('problems-lang') || 'en';
-
-const UI = {
-  en: {
-    back: '← Back to Framework',
-    title: '12 Problem<br>Archetypes',
-    sub: 'Every startup solves one of these structural problems. Understanding them helps you identify real opportunities — and avoid building solutions in search of a problem.',
-    signalsLabel: 'Signals — how to recognize it',
-    questionsLabel: 'Questions to ask',
-    examplesLabel: 'Real examples',
-    footerDesc: 'A structured methodology for discovering startup opportunities — from market inefficiencies to product decisions.',
-    footerExplore: 'Explore',
-    footerAbout: 'About',
-  },
-  it: {
-    back: '← Torna al Framework',
-    title: '12 Archetipi<br>di Problema',
-    sub: 'Ogni startup risolve uno di questi problemi strutturali. Comprenderli ti aiuta a identificare opportunità reali — e a evitare di costruire soluzioni in cerca di un problema.',
-    signalsLabel: 'Segnali — come riconoscerlo',
-    questionsLabel: 'Domande da fare',
-    examplesLabel: 'Esempi reali',
-    footerDesc: 'Una metodologia strutturata per scoprire opportunità di startup — dalle inefficienze di mercato alle decisioni di prodotto.',
-    footerExplore: 'Esplora',
-    footerAbout: 'Info',
-  }
-};
-
-const PROBLEMS = [
-  {
-    id: 'coordination',
-    num: '01',
-    name: 'Coordination Problem',
-    short: 'Supply & demand don\'t meet',
-    tagline: 'Value exists on both sides — but they can\'t find each other.',
-    color: '#0d1b4b', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'A coordination problem exists when supply and demand are present but fail to connect efficiently. The friction in matching destroys value for both sides. The opportunity is to build the bridge — a platform, marketplace, or tool that makes coordination frictionless.',
-    signals: ['Buyers and sellers exist but use inefficient channels', 'High search costs on either side', 'Word-of-mouth is the main discovery method', 'Transactions happen but slowly or randomly'],
-    questions: ['Who is trying to find whom?', 'What prevents them from connecting today?', 'How much value is lost because they can\'t match efficiently?'],
-    examples: [
-      { name: 'Uber', url: 'https://uber.com', desc: 'Riders and drivers existed — but hailing a cab was unreliable and slow.' },
-      { name: 'Airbnb', url: 'https://airbnb.com', desc: 'Spare rooms existed and travelers needed them — no efficient bridge existed.' },
-      { name: 'TaskRabbit', url: 'https://taskrabbit.com', desc: 'Local workers and local tasks — no reliable matching layer.' },
-      { name: 'Upwork', url: 'https://upwork.com', desc: 'Freelancers and companies — coordination was fragmented across job boards.' },
-    ],
-    it_name: 'Problema di Coordinamento',
-    it_short: 'Domanda e offerta non si incontrano',
-    it_tagline: 'Il valore esiste su entrambi i lati — ma non riescono a trovarsi.',
-    it_def: 'Un problema di coordinamento esiste quando domanda e offerta sono presenti ma non riescono a connettersi in modo efficiente. L\'attrito nel matching distrugge valore per entrambe le parti. L\'opportunità è costruire il ponte — una piattaforma, marketplace o strumento che rende il coordinamento senza attrito.',
-    it_signals: ['Compratori e venditori esistono ma usano canali inefficienti', 'Alti costi di ricerca su entrambi i lati', 'Il passaparola è il metodo principale di scoperta', 'Le transazioni avvengono ma lentamente o casualmente'],
-    it_questions: ['Chi sta cercando chi?', 'Cosa impedisce loro di connettersi oggi?', 'Quanto valore si perde perché non riescono a incontrarsi efficientemente?'],
-    it_examples: [
-      { name: 'Uber', url: 'https://uber.com', desc: 'Rider e driver esistevano — ma prendere un taxi era inaffidabile e lento.' },
-      { name: 'Airbnb', url: 'https://airbnb.com', desc: 'Le stanze libere esistevano e i viaggiatori ne avevano bisogno — non esisteva un ponte efficiente.' },
-      { name: 'TaskRabbit', url: 'https://taskrabbit.com', desc: 'Lavoratori locali e attività locali — nessuno strato di matching affidabile.' },
-      { name: 'Upwork', url: 'https://upwork.com', desc: 'Freelancer e aziende — il coordinamento era frammentato tra job board.' },
-    ]
-  },
-  {
-    id: 'discovery',
-    num: '02',
-    name: 'Discovery Problem',
-    short: 'Can\'t find what already exists',
-    tagline: 'The answer exists — but users can\'t find it.',
-    color: '#112266', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'A discovery problem occurs when valuable things exist but are invisible or hard to find. Users waste time searching, rely on word of mouth, or simply give up. The opportunity is better search, curation, recommendation, or aggregation.',
-    signals: ['Users describe finding things as "hard" or "hit or miss"', 'Recommendations come mostly from friends', 'Existing search tools return poor results', 'High discovery costs relative to transaction value'],
-    questions: ['What are people trying to find that\'s hard to find?', 'Why does current search fail them?', 'What signals could enable better discovery?'],
-    examples: [
-      { name: 'Google', url: 'https://google.com', desc: 'The web existed — but finding anything required knowing the exact URL.' },
-      { name: 'Yelp', url: 'https://yelp.com', desc: 'Local businesses existed — but discovering good ones was word-of-mouth only.' },
-      { name: 'TripAdvisor', url: 'https://tripadvisor.com', desc: 'Hotels and restaurants existed — but quality was invisible to travelers.' },
-      { name: 'Product Hunt', url: 'https://producthunt.com', desc: 'New products launched daily — but discovering them was fragmented.' },
-    ],
-    it_name: 'Problema di Scoperta',
-    it_short: 'Non riesci a trovare ciò che già esiste',
-    it_tagline: 'La risposta esiste — ma gli utenti non riescono a trovarla.',
-    it_def: 'Un problema di scoperta si verifica quando cose di valore esistono ma sono invisibili o difficili da trovare. Gli utenti perdono tempo cercando, si affidano al passaparola, o semplicemente rinunciano. L\'opportunità è una migliore ricerca, curation, raccomandazione o aggregazione.',
-    it_signals: ['Gli utenti descrivono trovare le cose come "difficile" o "casuale"', 'Le raccomandazioni vengono principalmente dagli amici', 'Gli strumenti di ricerca esistenti restituiscono risultati scarsi', 'Alti costi di scoperta rispetto al valore della transazione'],
-    it_questions: ['Cosa stanno cercando le persone che è difficile trovare?', 'Perché la ricerca attuale le delude?', 'Quali segnali potrebbero abilitare una migliore scoperta?'],
-    it_examples: [
-      { name: 'Google', url: 'https://google.com', desc: 'Il web esisteva — ma trovare qualcosa richiedeva di conoscere l\'URL esatto.' },
-      { name: 'Yelp', url: 'https://yelp.com', desc: 'Le attività locali esistevano — ma scoprirne di buone era solo passaparola.' },
-      { name: 'TripAdvisor', url: 'https://tripadvisor.com', desc: 'Hotel e ristoranti esistevano — ma la qualità era invisibile ai viaggiatori.' },
-      { name: 'Product Hunt', url: 'https://producthunt.com', desc: 'Nuovi prodotti venivano lanciati ogni giorno — ma scoprirli era frammentato.' },
-    ]
-  },
-  {
-    id: 'information',
-    num: '03',
-    name: 'Information Asymmetry',
-    short: 'One side knows more than the other',
-    tagline: 'Unequal information distorts markets and blocks trust.',
-    color: '#1a2e7a', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'Information asymmetry occurs when one party in a transaction has significantly more or better information than the other. This distorts pricing, creates distrust, and often prevents transactions from happening at all. The opportunity is to make information transparent, accessible, and actionable.',
-    signals: ['Buyers feel they can\'t trust sellers', 'Prices are opaque or vary wildly', 'Experts hold information that consumers need but can\'t access', 'Fraud or deception is common in the market'],
-    questions: ['Who has information that others need?', 'What decisions are made poorly because of missing information?', 'What would change if both sides had equal information?'],
-    examples: [
-      { name: 'Carfax', url: 'https://carfax.com', desc: 'Used car buyers had no way to verify vehicle history — dealers knew everything.' },
-      { name: 'Glassdoor', url: 'https://glassdoor.com', desc: 'Job seekers had no insight into salaries or company culture before joining.' },
-      { name: 'Zillow', url: 'https://zillow.com', desc: 'Home buyers couldn\'t access real estate pricing data that agents had.' },
-      { name: 'Clearbit', url: 'https://clearbit.com', desc: 'Sales teams had no data on who was visiting their website or why.' },
-    ],
-    it_name: 'Asimmetria Informativa',
-    it_short: 'Un lato sa più dell\'altro',
-    it_tagline: 'L\'informazione diseguale distorce i mercati e blocca la fiducia.',
-    it_def: 'L\'asimmetria informativa si verifica quando una parte in una transazione ha informazioni significativamente migliori dell\'altra. Questo distorce i prezzi, crea sfiducia e spesso impedisce del tutto le transazioni. L\'opportunità è rendere le informazioni trasparenti, accessibili e azionabili.',
-    it_signals: ['I compratori sentono di non potersi fidare dei venditori', 'I prezzi sono opachi o variano enormemente', 'Gli esperti detengono informazioni di cui i consumatori hanno bisogno', 'Frodi o inganni sono comuni nel mercato'],
-    it_questions: ['Chi ha informazioni di cui gli altri hanno bisogno?', 'Quali decisioni vengono prese male a causa di informazioni mancanti?', 'Cosa cambierebbe se entrambe le parti avessero informazioni uguali?'],
-    it_examples: [
-      { name: 'Carfax', url: 'https://carfax.com', desc: 'Gli acquirenti di auto usate non potevano verificare la storia del veicolo — i dealer sapevano tutto.' },
-      { name: 'Glassdoor', url: 'https://glassdoor.com', desc: 'I candidati non avevano visibilità su stipendi o cultura aziendale prima di entrare.' },
-      { name: 'Zillow', url: 'https://zillow.com', desc: 'Gli acquirenti di case non potevano accedere ai dati immobiliari che gli agenti avevano.' },
-      { name: 'Clearbit', url: 'https://clearbit.com', desc: 'I team di vendita non avevano dati su chi visitava il loro sito web o perché.' },
-    ]
-  },
-  {
-    id: 'trust',
-    num: '04',
-    name: 'Trust Problem',
-    short: 'Parties won\'t transact without verification',
-    tagline: 'Willingness exists — but lack of trust blocks the transaction.',
-    color: '#1e3a8a', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'A trust problem exists when two parties are willing to transact but are blocked by insufficient verification, reputation, or guarantees. Trust is the invisible infrastructure of commerce. When it\'s missing, markets freeze or operate at a fraction of their potential.',
-    signals: ['High rates of fraud or scams in the category', 'Users hesitate to share payment info or personal data', 'Transactions require long legal processes', 'Intermediaries exist solely to provide trust'],
-    questions: ['What prevents people from transacting even when both sides want to?', 'What verification or guarantee would unlock the market?', 'Who currently provides trust — and at what cost?'],
-    examples: [
-      { name: 'Stripe', url: 'https://stripe.com', desc: 'Online payments required trust infrastructure — Stripe made it developer-native.' },
-      { name: 'DocuSign', url: 'https://docusign.com', desc: 'Contracts required physical signatures — DocuSign made digital legally binding.' },
-      { name: 'Trustpilot', url: 'https://trustpilot.com', desc: 'Consumers couldn\'t verify whether online businesses were legitimate.' },
-      { name: 'Persona', url: 'https://withpersona.com', desc: 'Businesses needed verified identity without friction — Persona automated KYC.' },
-    ],
-    it_name: 'Problema di Fiducia',
-    it_short: 'Le parti non transano senza verifica',
-    it_tagline: 'La volontà esiste — ma la mancanza di fiducia blocca la transazione.',
-    it_def: 'Un problema di fiducia esiste quando due parti sono disposte a transare ma sono bloccate da verifica, reputazione o garanzie insufficienti. La fiducia è l\'infrastruttura invisibile del commercio. Quando manca, i mercati si bloccano o operano a una frazione del loro potenziale.',
-    it_signals: ['Alti tassi di frode o truffe nella categoria', 'Gli utenti esitano a condividere dati di pagamento o personali', 'Le transazioni richiedono lunghi processi legali', 'Esistono intermediari esclusivamente per fornire fiducia'],
-    it_questions: ['Cosa impedisce alle persone di transare anche quando entrambe le parti vogliono?', 'Quale verifica o garanzia sbloccherebbe il mercato?', 'Chi fornisce fiducia oggi — e a quale costo?'],
-    it_examples: [
-      { name: 'Stripe', url: 'https://stripe.com', desc: 'I pagamenti online richiedevano infrastruttura di fiducia — Stripe l\'ha resa nativa per sviluppatori.' },
-      { name: 'DocuSign', url: 'https://docusign.com', desc: 'I contratti richiedevano firme fisiche — DocuSign ha reso il digitale legalmente vincolante.' },
-      { name: 'Trustpilot', url: 'https://trustpilot.com', desc: 'I consumatori non potevano verificare se le aziende online fossero legittime.' },
-      { name: 'Persona', url: 'https://withpersona.com', desc: 'Le aziende avevano bisogno di identità verificata senza attrito — Persona ha automatizzato il KYC.' },
-    ]
-  },
-  {
-    id: 'infrastructure',
-    num: '05',
-    name: 'Infrastructure Gap',
-    short: 'Missing layer that everything else needs',
-    tagline: 'Higher-value products can\'t be built because the foundation doesn\'t exist.',
-    color: '#1d4ed8', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'An infrastructure gap exists when the foundational technical, physical, or regulatory layer needed to build higher-order products is missing or too expensive to build from scratch. The company that fills this gap becomes critical infrastructure — invisible but essential.',
-    signals: ['Every player in the industry is rebuilding the same basic component', 'High fixed costs to enter the market', 'Companies avoid entering because the foundation is too hard', 'Technical talent is wasted on commodity plumbing'],
-    questions: ['What do all companies in this space have to build themselves?', 'What would become possible if this infrastructure existed?', 'Who pays to build it today — and is that efficient?'],
-    examples: [
-      { name: 'AWS', url: 'https://aws.amazon.com', desc: 'Every company was building its own servers — AWS made that unnecessary.' },
-      { name: 'Twilio', url: 'https://twilio.com', desc: 'Every app needed SMS/voice — Twilio turned it into a simple API.' },
-      { name: 'Plaid', url: 'https://plaid.com', desc: 'Every fintech app needed bank connectivity — Plaid became the standard pipe.' },
-      { name: 'Segment', url: 'https://segment.com', desc: 'Every company was building custom data pipelines — Segment standardized the layer.' },
-    ],
-    it_name: 'Gap Infrastrutturale',
-    it_short: 'Strato mancante di cui tutto il resto ha bisogno',
-    it_tagline: 'I prodotti di valore superiore non possono essere costruiti perché le fondamenta non esistono.',
-    it_def: 'Un gap infrastrutturale esiste quando lo strato tecnico, fisico o normativo fondamentale necessario per costruire prodotti di ordine superiore è mancante o troppo costoso da costruire da zero. L\'azienda che colma questo gap diventa infrastruttura critica — invisibile ma essenziale.',
-    it_signals: ['Ogni player nell\'industria sta ricostruendo lo stesso componente di base', 'Alti costi fissi per entrare nel mercato', 'Le aziende evitano di entrare perché le fondamenta sono troppo difficili', 'Il talento tecnico viene sprecato su tubature commodity'],
-    it_questions: ['Cosa devono costruire da soli tutte le aziende in questo spazio?', 'Cosa diventerebbe possibile se questa infrastruttura esistesse?', 'Chi paga per costruirla oggi — ed è efficiente?'],
-    it_examples: [
-      { name: 'AWS', url: 'https://aws.amazon.com', desc: 'Ogni azienda stava costruendo i propri server — AWS lo ha reso inutile.' },
-      { name: 'Twilio', url: 'https://twilio.com', desc: 'Ogni app aveva bisogno di SMS/voce — Twilio lo ha trasformato in una semplice API.' },
-      { name: 'Plaid', url: 'https://plaid.com', desc: 'Ogni app fintech aveva bisogno di connettività bancaria — Plaid è diventato il tubo standard.' },
-      { name: 'Segment', url: 'https://segment.com', desc: 'Ogni azienda stava costruendo pipeline dati personalizzate — Segment ha standardizzato lo strato.' },
-    ]
-  },
-  {
-    id: 'process',
-    num: '06',
-    name: 'Process Inefficiency',
-    short: 'Existing workflow is too slow or expensive',
-    tagline: 'The job gets done — but at enormous waste of time, money, or effort.',
-    color: '#2563eb', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'Process inefficiency occurs when an existing workflow is so slow, expensive, error-prone, or fragmented that the cost of doing business is unnecessarily high. People have learned to live with the friction — but they\'d switch instantly to something better. The opportunity is to redesign the process from scratch.',
-    signals: ['High reliance on email, spreadsheets, or manual steps', 'Same data entered multiple times in different systems', 'Errors and rework are common', 'Process takes days or weeks when it could take minutes'],
-    questions: ['What multi-step process could be collapsed into one?', 'Where is human time being spent on work that software could do?', 'What would this process look like if designed today from scratch?'],
-    examples: [
-      { name: 'Slack', url: 'https://slack.com', desc: 'Team communication ran on fragmented email threads — Slack made it real-time and searchable.' },
-      { name: 'Notion', url: 'https://notion.so', desc: 'Knowledge was scattered across Docs, Sheets, Confluence — Notion unified it.' },
-      { name: 'Figma', url: 'https://figma.com', desc: 'Design files emailed back and forth — Figma made collaboration real-time.' },
-      { name: 'Rippling', url: 'https://rippling.com', desc: 'HR, payroll, and IT were three separate systems — Rippling unified them.' },
-    ],
-    it_name: 'Inefficienza di Processo',
-    it_short: 'Il flusso di lavoro esistente è troppo lento o costoso',
-    it_tagline: 'Il lavoro viene fatto — ma con un enorme spreco di tempo, denaro o sforzo.',
-    it_def: 'L\'inefficienza di processo si verifica quando un flusso di lavoro esistente è così lento, costoso, soggetto a errori o frammentato che il costo di fare business è inutilmente alto. Le persone hanno imparato a convivere con l\'attrito — ma passerebbero immediatamente a qualcosa di meglio. L\'opportunità è riprogettare il processo da zero.',
-    it_signals: ['Alta dipendenza da email, fogli di calcolo o passaggi manuali', 'Gli stessi dati inseriti più volte in sistemi diversi', 'Errori e rilavorazioni sono comuni', 'Il processo richiede giorni o settimane quando potrebbe richiedere minuti'],
-    it_questions: ['Quale processo multi-step potrebbe essere collassato in uno?', 'Dove viene speso il tempo umano su lavoro che il software potrebbe fare?', 'Come sarebbe questo processo se fosse progettato oggi da zero?'],
-    it_examples: [
-      { name: 'Slack', url: 'https://slack.com', desc: 'La comunicazione del team avveniva su thread email frammentati — Slack l\'ha resa real-time e ricercabile.' },
-      { name: 'Notion', url: 'https://notion.so', desc: 'La conoscenza era dispersa tra Docs, Sheets, Confluence — Notion l\'ha unificata.' },
-      { name: 'Figma', url: 'https://figma.com', desc: 'I file di design venivano inviati via email — Figma ha reso la collaborazione real-time.' },
-      { name: 'Rippling', url: 'https://rippling.com', desc: 'HR, payroll e IT erano tre sistemi separati — Rippling li ha unificati.' },
-    ]
-  },
-  {
-    id: 'automation',
-    num: '07',
-    name: 'Automation Opportunity',
-    short: 'Manual work that machines could do',
-    tagline: 'Humans are doing repetitive work that software could handle better.',
-    color: '#1e5ad7', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'An automation opportunity exists when a high-volume, repetitive, rule-based task is still being done manually. Humans spend time on work that adds no judgment or creativity — just execution. Automating it frees people for higher-value work and dramatically reduces cost and error rates.',
-    signals: ['Large teams dedicated to repetitive data entry or processing', 'The same decision is made thousands of times using the same rules', 'Errors from manual work are common and costly', 'Process can be described as a clear sequence of steps'],
-    questions: ['What repetitive decisions could be encoded into rules?', 'Where do humans spend time executing rather than thinking?', 'What would 10x throughput look like at the same headcount?'],
-    examples: [
-      { name: 'Zapier', url: 'https://zapier.com', desc: 'Manually copying data between apps — Zapier automated it without code.' },
-      { name: 'UiPath', url: 'https://uipath.com', desc: 'Enterprise data entry in legacy systems — UiPath built software robots to replace it.' },
-      { name: 'HubSpot', url: 'https://hubspot.com', desc: 'Marketing and sales follow-ups were manual — HubSpot automated the pipeline.' },
-      { name: 'Workato', url: 'https://workato.com', desc: 'Business workflows across enterprise tools — Workato automated complex integrations.' },
-    ],
-    it_name: 'Opportunità di Automazione',
-    it_short: 'Lavoro manuale che le macchine potrebbero fare',
-    it_tagline: 'Gli umani fanno lavoro ripetitivo che il software potrebbe gestire meglio.',
-    it_def: 'Un\'opportunità di automazione esiste quando un task ad alto volume, ripetitivo e basato su regole viene ancora svolto manualmente. Gli umani trascorrono tempo su lavoro che non aggiunge giudizio o creatività — solo esecuzione. Automatizzarlo libera le persone per lavoro di valore superiore e riduce drasticamente costi e tassi di errore.',
-    it_signals: ['Grandi team dedicati all\'inserimento o elaborazione dati ripetitiva', 'La stessa decisione viene presa migliaia di volte usando le stesse regole', 'Gli errori da lavoro manuale sono comuni e costosi', 'Il processo può essere descritto come una chiara sequenza di passaggi'],
-    it_questions: ['Quali decisioni ripetitive potrebbero essere codificate in regole?', 'Dove gli umani trascorrono tempo eseguendo invece che pensando?', 'Come sarebbe un throughput 10x con lo stesso numero di dipendenti?'],
-    it_examples: [
-      { name: 'Zapier', url: 'https://zapier.com', desc: 'Copiare manualmente dati tra app — Zapier l\'ha automatizzato senza codice.' },
-      { name: 'UiPath', url: 'https://uipath.com', desc: 'Inserimento dati aziendali in sistemi legacy — UiPath ha costruito robot software per sostituirlo.' },
-      { name: 'HubSpot', url: 'https://hubspot.com', desc: 'I follow-up di marketing e vendite erano manuali — HubSpot ha automatizzato la pipeline.' },
-      { name: 'Workato', url: 'https://workato.com', desc: 'Flussi di lavoro aziendali tra strumenti enterprise — Workato ha automatizzato integrazioni complesse.' },
-    ]
-  },
-  {
-    id: 'aggregation',
-    num: '08',
-    name: 'Aggregation Problem',
-    short: 'Supply is fragmented across too many small players',
-    tagline: 'The supply exists — but it\'s scattered and hard to access at scale.',
-    color: '#3b5fc0', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'An aggregation problem exists when supply or demand is so fragmented that neither side can efficiently find or transact with the other. The solution is to aggregate one side (usually supply) and create a single point of access. The aggregator captures value by owning the customer relationship.',
-    signals: ['Market is served by thousands of small independent providers', 'Customers must contact many vendors to compare', 'No single player has more than a small market share', 'Quality and pricing vary wildly across providers'],
-    questions: ['Who are the fragmented suppliers that customers struggle to navigate?', 'What would a single access point unlock?', 'Which side (supply or demand) is harder to aggregate?'],
-    examples: [
-      { name: 'Booking.com', url: 'https://booking.com', desc: 'Hotels were sold individually — Booking aggregated global inventory.' },
-      { name: 'Etsy', url: 'https://etsy.com', desc: 'Independent craft sellers had no common storefront — Etsy aggregated them.' },
-      { name: 'Instacart', url: 'https://instacart.com', desc: 'Grocery stores each had their own delivery — Instacart aggregated local supply.' },
-      { name: 'Faire', url: 'https://faire.com', desc: 'Independent wholesale brands had no common channel to reach retailers.' },
-    ],
-    it_name: 'Problema di Aggregazione',
-    it_short: 'L\'offerta è frammentata tra troppi piccoli player',
-    it_tagline: 'L\'offerta esiste — ma è dispersa e difficile da accedere su scala.',
-    it_def: 'Un problema di aggregazione esiste quando l\'offerta o la domanda è così frammentata che nessuno dei due lati riesce a trovarsi o a transare efficientemente. La soluzione è aggregare un lato (di solito l\'offerta) e creare un unico punto di accesso. L\'aggregatore cattura valore possedendo la relazione con il cliente.',
-    it_signals: ['Il mercato è servito da migliaia di piccoli fornitori indipendenti', 'I clienti devono contattare molti fornitori per confrontare', 'Nessun singolo player ha più di una piccola quota di mercato', 'Qualità e prezzi variano enormemente tra i fornitori'],
-    it_questions: ['Chi sono i fornitori frammentati che i clienti faticano a navigare?', 'Cosa sblocherebbe un unico punto di accesso?', 'Quale lato (offerta o domanda) è più difficile da aggregare?'],
-    it_examples: [
-      { name: 'Booking.com', url: 'https://booking.com', desc: 'Gli hotel venivano venduti individualmente — Booking ha aggregato l\'inventario globale.' },
-      { name: 'Etsy', url: 'https://etsy.com', desc: 'I venditori di artigianato indipendenti non avevano un negozio comune — Etsy li ha aggregati.' },
-      { name: 'Instacart', url: 'https://instacart.com', desc: 'I supermercati avevano ognuno la propria consegna — Instacart ha aggregato l\'offerta locale.' },
-      { name: 'Faire', url: 'https://faire.com', desc: 'I brand wholesale indipendenti non avevano un canale comune per raggiungere i retailer.' },
-    ]
-  },
-  {
-    id: 'access',
-    num: '09',
-    name: 'Access Limitation',
-    short: 'Only a few can access it — most are excluded',
-    tagline: 'A valuable resource is available to some — but locked away from most.',
-    color: '#2d4db3', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'An access limitation exists when something valuable — a financial product, a skill, an education, a service — is only available to a privileged few due to cost, geography, or gatekeepers. The opportunity is democratization: making the thing available to the many, not just the few.',
-    signals: ['Premium version of something is dramatically better than what most people use', 'Geographic or income barriers exclude large groups', 'Gatekeepers (brokers, advisors, institutions) are the only access point', 'Self-service version doesn\'t exist or is inadequate'],
-    questions: ['Who has access to this today — and who doesn\'t?', 'What are the barriers: cost, geography, complexity, gatekeepers?', 'What would change if access were universal?'],
-    examples: [
-      { name: 'Robinhood', url: 'https://robinhood.com', desc: 'Investing required brokers and high minimums — Robinhood made it free and mobile.' },
-      { name: 'Coursera', url: 'https://coursera.com', desc: 'World-class education was locked behind university admissions and tuition.' },
-      { name: 'Substack', url: 'https://substack.com', desc: 'Publishing required a media company — Substack gave any writer a business.' },
-      { name: 'Canva', url: 'https://canva.com', desc: 'Professional design required expensive software and skills — Canva democratized it.' },
-    ],
-    it_name: 'Limitazione di Accesso',
-    it_short: 'Solo pochi possono accedervi — la maggior parte è esclusa',
-    it_tagline: 'Una risorsa di valore è disponibile per alcuni — ma inaccessibile per la maggior parte.',
-    it_def: 'Una limitazione di accesso esiste quando qualcosa di prezioso — un prodotto finanziario, una competenza, un\'istruzione, un servizio — è disponibile solo per pochi privilegiati a causa del costo, della geografia o di gatekeeper. L\'opportunità è la democratizzazione: rendere la cosa disponibile a molti, non solo a pochi.',
-    it_signals: ['La versione premium è drammaticamente migliore di quella che usa la maggior parte delle persone', 'Barriere geografiche o di reddito escludono grandi gruppi', 'I gatekeeper (broker, consulenti, istituzioni) sono l\'unico punto di accesso', 'La versione self-service non esiste o è inadeguata'],
-    it_questions: ['Chi ha accesso a questo oggi — e chi no?', 'Quali sono le barriere: costo, geografia, complessità, gatekeeper?', 'Cosa cambierebbe se l\'accesso fosse universale?'],
-    it_examples: [
-      { name: 'Robinhood', url: 'https://robinhood.com', desc: 'Investire richiedeva broker e minimi elevati — Robinhood l\'ha reso gratuito e mobile.' },
-      { name: 'Coursera', url: 'https://coursera.com', desc: 'L\'istruzione di classe mondiale era bloccata dietro ammissioni universitarie e rette.' },
-      { name: 'Substack', url: 'https://substack.com', desc: 'Pubblicare richiedeva una casa editrice — Substack ha dato a qualsiasi scrittore un business.' },
-      { name: 'Canva', url: 'https://canva.com', desc: 'Il design professionale richiedeva software costoso e competenze — Canva l\'ha democratizzato.' },
-    ]
-  },
-  {
-    id: 'cost',
-    num: '10',
-    name: 'Cost Reduction',
-    short: 'The solution works — but costs 10x too much',
-    tagline: 'The existing solution is functional but prohibitively expensive.',
-    color: '#1e40af', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'A cost reduction opportunity exists when the current solution works but is so expensive that most potential users are priced out. The technology or business model innovation that reduces the cost by 10x or more unlocks a vastly larger market — and often disrupts the incumbents entirely.',
-    signals: ['Most customers say the current solution is "too expensive"', 'Large price gap between what exists and what users can afford', 'Premium solutions exist, but mass-market versions don\'t', 'Incumbents have high margins and no incentive to cut prices'],
-    questions: ['What costs 10x more than it should?', 'Which cost component could technology eliminate?', 'Who would buy this if it cost 10x less?'],
-    examples: [
-      { name: 'Zoom', url: 'https://zoom.us', desc: 'Business travel and video conferencing hardware cost thousands — Zoom made it free.' },
-      { name: 'Shopify', url: 'https://shopify.com', desc: 'Building an e-commerce site required agencies costing tens of thousands.' },
-      { name: 'Canva', url: 'https://canva.com', desc: 'Professional design cost $50–100/hour from agencies — Canva dropped it to near zero.' },
-      { name: 'Wealthfront', url: 'https://wealthfront.com', desc: 'Financial advisors charged 1–2% AUM — Wealthfront automated it at 0.25%.' },
-    ],
-    it_name: 'Riduzione dei Costi',
-    it_short: 'La soluzione funziona — ma costa 10x troppo',
-    it_tagline: 'La soluzione esistente è funzionale ma proibitivamente costosa.',
-    it_def: 'Un\'opportunità di riduzione dei costi esiste quando la soluzione attuale funziona ma è così costosa che la maggior parte degli utenti potenziali non può permettersela. L\'innovazione tecnologica o del modello di business che riduce il costo di 10x o più sblocca un mercato enormemente più grande — e spesso sconvolge completamente i player esistenti.',
-    it_signals: ['La maggior parte dei clienti dice che la soluzione attuale è "troppo costosa"', 'Grande divario di prezzo tra ciò che esiste e ciò che gli utenti possono permettersi', 'Esistono soluzioni premium, ma non versioni mass-market', 'I player esistenti hanno margini elevati e nessun incentivo a tagliare i prezzi'],
-    it_questions: ['Cosa costa 10x più di quanto dovrebbe?', 'Quale componente di costo la tecnologia potrebbe eliminare?', 'Chi acquisterebbe questo se costasse 10x meno?'],
-    it_examples: [
-      { name: 'Zoom', url: 'https://zoom.us', desc: 'Viaggi d\'affari e hardware per videoconferenza costavano migliaia — Zoom l\'ha reso gratuito.' },
-      { name: 'Shopify', url: 'https://shopify.com', desc: 'Costruire un sito e-commerce richiedeva agenzie che costavano decine di migliaia.' },
-      { name: 'Canva', url: 'https://canva.com', desc: 'Il design professionale costava $50–100/ora dalle agenzie — Canva l\'ha portato quasi a zero.' },
-      { name: 'Wealthfront', url: 'https://wealthfront.com', desc: 'I consulenti finanziari addebitavano 1–2% AUM — Wealthfront l\'ha automatizzato allo 0,25%.' },
-    ]
-  },
-  {
-    id: 'speed',
-    num: '11',
-    name: 'Speed Problem',
-    short: 'The current solution is too slow',
-    tagline: 'Speed itself becomes the competitive advantage.',
-    color: '#1a3699', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'A speed problem exists when current solutions work but are too slow relative to user expectations or competitive needs. As a category matures, speed becomes the dimension of competition. The company that makes something 10x faster redefines the standard — and makes the old approach feel broken.',
-    signals: ['Users describe waiting as the main frustration', 'Current process takes days or weeks for something that should be instant', 'Industry SLAs are measured in days when users expect minutes', 'Speed gap creates downstream inefficiencies'],
-    questions: ['What takes too long — and what would change if it were instant?', 'Where does waiting create cascading costs?', 'What does 10x speed unlock that\'s currently impossible?'],
-    examples: [
-      { name: 'Stripe', url: 'https://stripe.com', desc: 'Setting up payments took weeks with banks — Stripe made it hours.' },
-      { name: 'Vercel', url: 'https://vercel.com', desc: 'Deployments took hours through traditional CI — Vercel made them seconds.' },
-      { name: 'DoorDash', url: 'https://doordash.com', desc: 'Food delivery took 60+ minutes — DoorDash built infrastructure for sub-30 min.' },
-      { name: 'Linear', url: 'https://linear.app', desc: 'Jira was slow and heavy — Linear rebuilt project management for speed-first teams.' },
-    ],
-    it_name: 'Problema di Velocità',
-    it_short: 'La soluzione attuale è troppo lenta',
-    it_tagline: 'La velocità stessa diventa il vantaggio competitivo.',
-    it_def: 'Un problema di velocità esiste quando le soluzioni attuali funzionano ma sono troppo lente rispetto alle aspettative degli utenti o alle esigenze competitive. Man mano che una categoria matura, la velocità diventa la dimensione della competizione. L\'azienda che rende qualcosa 10x più veloce ridefinisce lo standard — e fa sembrare rotto il vecchio approccio.',
-    it_signals: ['Gli utenti descrivono l\'attesa come la principale frustrazione', 'Il processo attuale richiede giorni o settimane per qualcosa che dovrebbe essere istantaneo', 'Gli SLA del settore sono misurati in giorni quando gli utenti si aspettano minuti', 'Il gap di velocità crea inefficienze a cascata'],
-    it_questions: ['Cosa richiede troppo tempo — e cosa cambierebbe se fosse istantaneo?', 'Dove l\'attesa crea costi a cascata?', 'Cosa sblocca una velocità 10x che attualmente è impossibile?'],
-    it_examples: [
-      { name: 'Stripe', url: 'https://stripe.com', desc: 'Configurare i pagamenti richiedeva settimane con le banche — Stripe l\'ha reso ore.' },
-      { name: 'Vercel', url: 'https://vercel.com', desc: 'I deployment richiedevano ore tramite CI tradizionale — Vercel li ha resi secondi.' },
-      { name: 'DoorDash', url: 'https://doordash.com', desc: 'La consegna di cibo richiedeva 60+ minuti — DoorDash ha costruito infrastruttura per sotto i 30 min.' },
-      { name: 'Linear', url: 'https://linear.app', desc: 'Jira era lento e pesante — Linear ha ricostruito la gestione progetti per team veloci.' },
-    ]
-  },
-  {
-    id: 'capability',
-    num: '12',
-    name: 'New Tech Capability',
-    short: 'Technology now makes the impossible possible',
-    tagline: 'A breakthrough enables solutions that simply didn\'t exist before.',
-    color: '#152b88', light: '#dbeafe', textDark: '#1e3a8a',
-    def: 'A new technology capability problem emerges when a breakthrough — in AI, hardware, biology, or infrastructure — makes a previously impossible or prohibitively expensive solution suddenly viable. The opportunity is to be the first to build the right product on top of the new capability before incumbents react.',
-    signals: ['A new technology has dropped in cost by 10–100x recently', 'Researchers have demonstrated something previously impossible', 'Early adopters are using new tools in unexpected ways', 'Incumbents are dismissing the new technology as a toy'],
-    questions: ['What can now be done that couldn\'t be done 3 years ago?', 'What existing product would be disrupted if this technology scaled?', 'Who benefits most from this new capability?'],
-    examples: [
-      { name: 'OpenAI', url: 'https://openai.com', desc: 'LLMs made conversational AI and code generation commercially viable.' },
-      { name: 'Midjourney', url: 'https://midjourney.com', desc: 'Diffusion models made professional-quality image generation instant and cheap.' },
-      { name: 'Tesla', url: 'https://tesla.com', desc: 'Battery cost curves finally made electric vehicles range-competitive.' },
-      { name: 'Figma', url: 'https://figma.com', desc: 'Browser rendering became powerful enough to run professional design tools.' },
-    ],
-    it_name: 'Nuova Capacità Tecnologica',
-    it_short: 'La tecnologia ora rende possibile l\'impossibile',
-    it_tagline: 'Una scoperta permette soluzioni che semplicemente non esistevano prima.',
-    it_def: 'Un problema di nuova capacità tecnologica emerge quando una scoperta — in AI, hardware, biologia o infrastruttura — rende una soluzione precedentemente impossibile o proibitivamente costosa improvvisamente fattibile. L\'opportunità è essere i primi a costruire il prodotto giusto sulla nuova capacità prima che i player esistenti reagiscano.',
-    it_signals: ['Una nuova tecnologia ha ridotto i costi di 10–100x di recente', 'I ricercatori hanno dimostrato qualcosa di precedentemente impossibile', 'I primi adottatori usano nuovi strumenti in modi inaspettati', 'I player esistenti stanno liquidando la nuova tecnologia come un giocattolo'],
-    it_questions: ['Cosa si può fare ora che non si poteva fare 3 anni fa?', 'Quale prodotto esistente sarebbe sconvolto se questa tecnologia scalasse?', 'Chi beneficia di più di questa nuova capacità?'],
-    it_examples: [
-      { name: 'OpenAI', url: 'https://openai.com', desc: 'I LLM hanno reso commercialmente praticabili l\'AI conversazionale e la generazione di codice.' },
-      { name: 'Midjourney', url: 'https://midjourney.com', desc: 'I modelli di diffusione hanno reso la generazione di immagini di qualità professionale istantanea ed economica.' },
-      { name: 'Tesla', url: 'https://tesla.com', desc: 'Le curve di costo delle batterie hanno finalmente reso i veicoli elettrici competitivi in autonomia.' },
-      { name: 'Figma', url: 'https://figma.com', desc: 'Il rendering del browser è diventato abbastanza potente da eseguire strumenti di design professionali.' },
-    ]
-  },
-];
-
-// ── Helpers ──
-function t(p, key) { return LANG === 'it' ? (p['it_' + key] || p[key]) : p[key]; }
-function ui(key) { return UI[LANG][key]; }
-
-// ── Highlight key sentences in def text ──
-function highlightDef(text) {
-  // Bold the opportunity sentence
-  text = text.replace(/(The opportunity is[^.]+\.)/g, '<strong>$1</strong>');
-  // Italic the opening framing clause (up to first period if short)
-  text = text.replace(/^([^.]{10,80}\.)/, '<em>$1</em>');
-  return text;
-}
-
-// ── Render ──
-function renderAll() {
-  const L = LANG;
-  // static text
-  document.querySelector('.page-title').innerHTML = ui('title');
-  document.querySelector('.page-sub').textContent = ui('sub');
-  document.querySelector('.footer-col-desc').textContent = ui('footerDesc');
-
-  // grid
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  PROBLEMS.forEach(p => {
-    const a = document.createElement('a');
-    a.href = 'javascript:void(0)';
-    a.className = 'grid-card';
-    a.dataset.id = p.id;
-    a.style.background = '#fff';
-    a.style.border = '1.5px solid #e8ecf2';
-    a.innerHTML = `
-      <div class="grid-num" style="color:${p.textDark}">${p.num}</div>
-      <div class="grid-name" style="color:${p.color}">${t(p,'name')}</div>
-      <div class="grid-short" style="color:#666">${t(p,'short')}</div>
-    `;
-    a.addEventListener('click', () => toggleSection(p.id));
-    grid.appendChild(a);
-  });
-
-  // sections
-  const sections = document.getElementById('sections');
-  sections.innerHTML = '';
-  PROBLEMS.forEach((p, i) => {
-    const examples = t(p, 'examples');
-    const signals  = t(p, 'signals');
-    const questions= t(p, 'questions');
-
-    const exHTML  = examples.map(e => `
-      <li>
-        <span class="ex-co"><a href="${e.url}" target="_blank">${e.name}</a></span>
-        <span class="ex-desc">${e.desc}</span>
-      </li>`).join('');
-    const sigHTML = signals.map(s => `<span class="signal-chip">${s}</span>`).join('');
-    const askHTML = questions.map(q => `<li>${q}</li>`).join('');
-
-    const div = document.createElement('div');
-    div.className = 'problem-section';
-    div.id = p.id;
-    div.innerHTML = `
-      <div class="problem-header">
-        <div class="problem-badge" style="background:${p.light};color:${p.color}">${p.num}</div>
-        <div>
-          <div class="problem-title">${t(p,'name')}</div>
-          <div class="problem-tagline">${t(p,'tagline')}</div>
-        </div>
-      </div>
-      <div class="problem-def">${highlightDef(t(p,'def'))}</div>
-      <div class="block-label">${ui('signalsLabel')}</div>
-      <div class="signals">${sigHTML}</div>
-      <div class="ask-box">
-        <div class="block-label">${ui('questionsLabel')}</div>
-        <ul class="ask-list">${askHTML}</ul>
-      </div>
-      <div class="block-label" style="margin-top:20px">${ui('examplesLabel')}</div>
-      <ul class="examples-list">${exHTML}</ul>
-      <div class="problem-ctas">
-        <a href="startup-framework.html?problem=${p.id}" class="cta-btn cta-framework">→ Open in Framework</a>
-        <a href="atlas.html?problem=${p.id}" class="cta-btn cta-atlas">◉ Explore in Atlas</a>
-      </div>
-      ${i < PROBLEMS.length - 1 ? '<hr class="section-divider">' : ''}
-    `;
-    sections.appendChild(div);
-  });
-
-  // button state
-  const btn = document.getElementById('lang-btn');
-  if (L === 'it') {
-    btn.textContent = 'EN';
-    btn.classList.add('it-active');
-    document.documentElement.lang = 'it';
-  } else {
-    btn.textContent = 'IT';
-    btn.classList.remove('it-active');
-    document.documentElement.lang = 'en';
-  }
-}
-
-function toggleLang() {
-  LANG = LANG === 'en' ? 'it' : 'en';
-  localStorage.setItem('problems-lang', LANG);
-  renderAll();
-}
-
-let _activeSection = null;
-
-function toggleSection(id) {
-  // Deactivate all grid cards
-  document.querySelectorAll('.grid-card').forEach(c => c.classList.remove('card-active'));
-
-  if (_activeSection === id) {
-    // Close it
-    const el = document.getElementById(id);
-    if (el) el.classList.remove('open');
-    _activeSection = null;
-    return;
-  }
-
-  // Close previous
-  if (_activeSection) {
-    const prev = document.getElementById(_activeSection);
-    if (prev) prev.classList.remove('open');
-  }
-
-  // Open new
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.add('open');
-    setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-  }
-
-  // Mark card active
-  const card = document.querySelector(`.grid-card[data-id="${id}"]`);
-  if (card) card.classList.add('card-active');
-
-  _activeSection = id;
-}
-
-renderAll();
-
-// Open section if URL hash is present
-if (window.location.hash) {
-  const hashId = window.location.hash.slice(1);
-  setTimeout(() => toggleSection(hashId), 100);
-}
-
-// Click outside grid/sections → close open section
+// ── Click outside to close ──
 document.addEventListener('click', e => {
   if (!_activeSection) return;
   const grid = document.getElementById('grid');
   const sections = document.getElementById('sections');
   const classifier = document.getElementById('classifier');
-  if (
-    !grid.contains(e.target) &&
-    !sections.contains(e.target) &&
-    !(classifier && classifier.contains(e.target))
-  ) {
+  if (!grid.contains(e.target) && !sections.contains(e.target) && !(classifier && classifier.contains(e.target))) {
     const el = document.getElementById(_activeSection);
     if (el) el.classList.remove('open');
     document.querySelectorAll('.grid-card').forEach(c => c.classList.remove('card-active'));
     _activeSection = null;
   }
 });
+
+renderAll();
+
+// Open from URL hash
+if (window.location.hash) {
+  setTimeout(() => toggleSection(window.location.hash.slice(1)), 100);
+}
 </script>
 </body>
 </html>
