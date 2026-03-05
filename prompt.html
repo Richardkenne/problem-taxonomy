@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVP Prompt — Problem Taxonomy</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #fff; color: #111; }
+
+    .page { max-width: 720px; margin: 0 auto; padding: 48px 24px 100px; }
+
+    .back { font-size: 13px; color: #1e5ad7; text-decoration: none; display: inline-block; margin-bottom: 32px; }
+    .back:hover { text-decoration: underline; }
+
+    h1 { font-size: 28px; font-weight: 700; color: #0f1d3a; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: #888; margin-bottom: 32px; }
+
+    /* Selection summary */
+    .selection {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px;
+    }
+    .sel-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    }
+    .sel-chip .sel-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; opacity: .6;
+    }
+    .chip-problem { background: #e7efff; color: #1e5ad7; }
+    .chip-solution { background: #d1fae5; color: #065f46; }
+    .chip-market { background: #fef3c7; color: #92400e; }
+    .chip-company { background: #f3e8ff; color: #6b21a8; }
+
+    /* Prompt area */
+    .prompt-box {
+      background: #f7f9ff; border: 1.5px solid #dde3ef; border-radius: 12px;
+      padding: 24px; margin-bottom: 20px; position: relative;
+    }
+    .prompt-label {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: #1e5ad7; margin-bottom: 12px;
+    }
+    .prompt-text {
+      font-size: 14px; color: #222; line-height: 1.8;
+      white-space: pre-wrap; font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    /* Actions */
+    .actions {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px;
+    }
+    .action-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 8px; font-size: 13px; font-weight: 700;
+      border: none; cursor: pointer; font-family: inherit; transition: all .15s;
+    }
+    .btn-copy { background: #1e5ad7; color: #fff; }
+    .btn-copy:hover { background: #1749b8; }
+    .btn-copy.copied { background: #059669; }
+    .btn-download { background: #f0f2f7; color: #333; }
+    .btn-download:hover { background: #e0e5ef; }
+
+    /* Edit section */
+    .edit-section { margin-top: 32px; }
+    .edit-label {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: #aaa; margin-bottom: 8px;
+    }
+    .edit-textarea {
+      width: 100%; min-height: 200px; font-size: 14px;
+      font-family: Georgia, 'Times New Roman', serif;
+      border: 1.5px solid #d0d8ef; border-radius: 10px;
+      padding: 18px; color: #222; line-height: 1.8;
+      outline: none; resize: vertical;
+    }
+    .edit-textarea:focus { border-color: #1e5ad7; }
+
+    /* Nav links */
+    .nav-links {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-top: 40px;
+      padding-top: 24px; border-top: 1px solid #e8ecf2;
+    }
+    .nav-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 11px 22px; border-radius: 8px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all .15s;
+    }
+    .nav-framework { background: #1e5ad7; color: #fff; }
+    .nav-framework:hover { background: #1749b8; }
+    .nav-atlas { background: #0f1d3a; color: #fff; }
+    .nav-atlas:hover { background: #1a2b50; }
+
+    .empty-state {
+      text-align: center; padding: 80px 20px; color: #888;
+    }
+    .empty-state h2 { font-size: 20px; color: #333; margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; margin-bottom: 24px; }
+    .empty-state a { color: #1e5ad7; font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .page { padding: 32px 16px 80px; }
+      h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back" href="problems.html">← Back to Problems</a>
+
+  <div id="content"></div>
+
+</div>
+
+<script>
+// Read URL params
+const params = new URLSearchParams(window.location.search);
+const problem = params.get('problem') || '';
+const solution = params.get('solution') || '';
+const market = params.get('market') || '';
+const company = params.get('company') || '';
+
+const content = document.getElementById('content');
+
+if (!problem) {
+  content.innerHTML = `
+    <div class="empty-state">
+      <h2>No selection yet</h2>
+      <p>Start by exploring the 12 problem archetypes, pick a problem, see how it was solved, then come back here.</p>
+      <a href="problems.html">→ Explore Problems</a>
+    </div>`;
+} else {
+  renderPrompt();
+}
+
+function generatePrompt() {
+  const lines = [];
+  lines.push(`You are an expert startup advisor and product strategist.`);
+  lines.push(``);
+  lines.push(`I want to build a startup that solves the following problem:`);
+  lines.push(``);
+  lines.push(`PROBLEM ARCHETYPE: ${problem}`);
+  if (market) lines.push(`TARGET MARKET: ${market}`);
+  if (solution) lines.push(`SOLUTION MODEL: ${solution}`);
+  if (company) lines.push(`REFERENCE COMPANY: ${company} (as inspiration, not to copy)`);
+  lines.push(``);
+  lines.push(`Based on this combination, help me design a Minimum Viable Product (MVP).`);
+  lines.push(``);
+  lines.push(`Please provide:`);
+  lines.push(``);
+  lines.push(`1. PROBLEM STATEMENT`);
+  lines.push(`   - Describe the specific pain point in this market`);
+  lines.push(`   - Who experiences this pain? (target user persona)`);
+  lines.push(`   - How are they currently solving it? (status quo)`);
+  lines.push(`   - Why is the current solution inadequate?`);
+  lines.push(``);
+  lines.push(`2. PROPOSED SOLUTION`);
+  lines.push(`   - Core value proposition (one sentence)`);
+  lines.push(`   - How does the ${solution || 'solution'} model apply here?`);
+  lines.push(`   - What makes this 10x better than the status quo?`);
+  lines.push(``);
+  lines.push(`3. MVP SPECIFICATION`);
+  lines.push(`   - Core features (maximum 3-5 for v1)`);
+  lines.push(`   - What to explicitly NOT build in v1`);
+  lines.push(`   - Suggested tech stack (keep it simple)`);
+  lines.push(`   - Estimated build time for a solo developer or small team`);
+  lines.push(``);
+  lines.push(`4. VALIDATION PLAN`);
+  lines.push(`   - How to validate demand before building`);
+  lines.push(`   - First 10 users: who are they and how to reach them`);
+  lines.push(`   - Key metric to track in the first 30 days`);
+  lines.push(``);
+  lines.push(`5. BUSINESS MODEL`);
+  lines.push(`   - Revenue model suggestion`);
+  lines.push(`   - Pricing strategy for early stage`);
+  lines.push(`   - Path to first $1K MRR`);
+  lines.push(``);
+  lines.push(`Be specific, actionable, and pragmatic. Optimize for speed to market. No fluff.`);
+
+  return lines.join('\n');
+}
+
+function renderPrompt() {
+  const promptText = generatePrompt();
+
+  // Build selection chips
+  let chips = '';
+  chips += `<span class="sel-chip chip-problem"><span class="sel-label">Problem</span> ${problem}</span>`;
+  if (solution) chips += `<span class="sel-chip chip-solution"><span class="sel-label">Solution</span> ${solution}</span>`;
+  if (market) chips += `<span class="sel-chip chip-market"><span class="sel-label">Market</span> ${market}</span>`;
+  if (company) chips += `<span class="sel-chip chip-company"><span class="sel-label">Reference</span> ${company}</span>`;
+
+  // Build framework/atlas URLs
+  const fwParams = new URLSearchParams();
+  if (problem) fwParams.set('problem', problem);
+  if (solution) fwParams.set('solution', solution);
+  if (market) fwParams.set('market', market);
+
+  content.innerHTML = `
+    <h1>MVP Prompt</h1>
+    <p class="subtitle">Copy this prompt and paste it into Claude, ChatGPT, or any LLM to get a detailed MVP plan.</p>
+
+    <div class="selection">${chips}</div>
+
+    <div class="prompt-box">
+      <div class="prompt-label">Generated Prompt</div>
+      <div class="prompt-text" id="prompt-display">${escapeHTML(promptText)}</div>
+    </div>
+
+    <div class="actions">
+      <button class="action-btn btn-copy" id="btn-copy" onclick="copyPrompt()">Copy to clipboard</button>
+      <button class="action-btn btn-download" onclick="downloadPrompt()">Download as .txt</button>
+    </div>
+
+    <div class="edit-section">
+      <div class="edit-label">Edit prompt before copying</div>
+      <textarea class="edit-textarea" id="edit-area">${escapeHTML(promptText)}</textarea>
+      <div style="margin-top:10px; display:flex; gap:10px;">
+        <button class="action-btn btn-copy" onclick="copyEdited()">Copy edited version</button>
+        <button class="action-btn btn-download" onclick="downloadEdited()">Download edited .txt</button>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="startup-framework.html?${fwParams.toString()}" class="nav-link nav-framework">→ Open in Framework</a>
+      <a href="atlas.html?${fwParams.toString()}" class="nav-link nav-atlas">◉ Explore in Atlas</a>
+      <a href="problems.html" class="nav-link" style="background:#f0f2f7;color:#333;">← Back to Problems</a>
+    </div>
+  `;
+}
+
+function escapeHTML(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-display').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('btn-copy');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy to clipboard'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyEdited() {
+  const text = document.getElementById('edit-area').value;
+  navigator.clipboard.writeText(text).then(() => {
+    const btns = document.querySelectorAll('.btn-copy');
+    const btn = btns[1];
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function downloadPrompt() {
+  downloadText(document.getElementById('prompt-display').textContent, 'mvp-prompt.txt');
+}
+
+function downloadEdited() {
+  downloadText(document.getElementById('edit-area').value, 'mvp-prompt-edited.txt');
+}
+
+function downloadText(text, filename) {
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
