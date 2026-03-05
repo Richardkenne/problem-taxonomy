@@ -784,7 +784,7 @@ function renderAll() {
     if (p.howSolved) {
       solveHTML = p.howSolved.map(group => {
         const companiesHTML = group.companies.map(c => `
-          <div class="solve-company" data-problem="${t(p,'name')}" data-solution="${group.solution}" data-market="${c.market}" data-company="${c.name}" onclick="selectCompany(this)">
+          <div class="solve-company" data-problem="${t(p,'name')}" data-problem-id="${p.id}" data-solution="${group.solution}" data-market="${c.market}" data-company="${c.name}" onclick="selectCompany(this)">
             <div class="sc-check">&#10003;</div>
             <div>
               <div class="sc-name">${c.name}</div>
