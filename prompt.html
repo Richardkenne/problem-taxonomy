@@ -192,9 +192,20 @@ function renderPrompt() {
   if (market) chips += `<span class="sel-chip chip-market"><span class="sel-label">Market</span> ${market}</span>`;
   if (company) chips += `<span class="sel-chip chip-company"><span class="sel-label">Reference</span> ${company}</span>`;
 
-  // Build framework/atlas URLs
+  // Map full problem name to short ID for framework/atlas
+  const PROBLEM_TO_ID = {
+    'Coordination Problem':'coordination', 'Discovery Problem':'discovery',
+    'Information Asymmetry':'information', 'Trust Problem':'trust',
+    'Infrastructure Gap':'infrastructure', 'Process Inefficiency':'process',
+    'Automation Opportunity':'automation', 'Aggregation Problem':'aggregation',
+    'Access Limitation':'access', 'Cost Reduction':'cost',
+    'Speed Problem':'speed', 'New Tech Capability':'capability',
+  };
+  const problemId = PROBLEM_TO_ID[problem] || problem;
+
+  // Build framework/atlas URLs using short ID
   const fwParams = new URLSearchParams();
-  if (problem) fwParams.set('problem', problem);
+  if (problemId) fwParams.set('problem', problemId);
   if (solution) fwParams.set('solution', solution);
   if (market) fwParams.set('market', market);
 
