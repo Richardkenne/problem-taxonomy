@@ -907,12 +907,13 @@ function selectCompany(el) {
   section.querySelectorAll('.solve-company').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
 
-  const problem = el.dataset.problem;
+  const problemName = el.dataset.problem;
+  const problemId = el.dataset.problemId;
   const solution = el.dataset.solution;
   const market = el.dataset.market;
   const company = el.dataset.company;
 
-  _selection = { problem, solution, market, company };
+  _selection = { problem: problemName, problemId, solution, market, company };
 
   // Show selection bar
   const sectionId = section.id;
@@ -922,21 +923,24 @@ function selectCompany(el) {
   // Update chips
   const chips = document.getElementById('chips-' + sectionId);
   chips.innerHTML = `
-    <span class="s-chip s-chip-problem"><span class="s-label">Problem</span> ${problem}</span>
+    <span class="s-chip s-chip-problem"><span class="s-label">Problem</span> ${problemName}</span>
     <span class="s-chip s-chip-solution"><span class="s-label">Solution</span> ${solution}</span>
     <span class="s-chip s-chip-market"><span class="s-label">Market</span> ${market}</span>
     <span class="s-chip s-chip-company"><span class="s-label">Reference</span> ${company}</span>
   `;
 
-  // Update CTA links
-  const params = new URLSearchParams({ problem, solution, market, company });
+  // Update CTA links — use problemId for framework/atlas (they expect short ID)
+  const fwParams = new URLSearchParams({ problem: problemId, solution, market });
+  const atParams = new URLSearchParams({ problem: problemId, solution, market });
+  const prParams = new URLSearchParams({ problem: problemName, solution, market, company });
+
   const fwLink = document.getElementById('fw-' + sectionId);
   const atLink = document.getElementById('at-' + sectionId);
   const prLink = document.getElementById('pr-' + sectionId);
 
-  fwLink.href = 'startup-framework.html?' + params.toString();
-  atLink.href = 'atlas.html?' + params.toString();
-  prLink.href = 'prompt.html?' + params.toString();
+  fwLink.href = 'startup-framework.html?' + fwParams.toString();
+  atLink.href = 'atlas.html?' + atParams.toString();
+  prLink.href = 'prompt.html?' + prParams.toString();
 
   // Smooth scroll to selection bar
   setTimeout(() => selBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
