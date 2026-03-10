@@ -69,8 +69,43 @@
     .cr-loading { font-size: 14px; color: #888; padding: 12px 0; }
     .cr-cursor { animation: blink .7s step-end infinite; color: #1e5ad7; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    @keyframes fadeInLine { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+    .cr-stream-box {
+      background: #f9fafb; border: 1.5px solid #dde3ef; border-radius: 10px;
+      padding: 16px 20px; font-size: 13px; color: #555; line-height: 1.8;
+      white-space: pre-wrap; font-family: 'SF Mono', 'Fira Code', monospace;
+      max-height: 200px; overflow-y: auto;
+    }
     .cr-no-match { font-size: 14px; color: #888; padding: 10px 0; }
     .cr-error { font-size: 13px; color: #c00; padding: 8px 0; }
+
+    /* ── Match cards ── */
+    .cr-match-card {
+      position: relative; border-radius: 12px; padding: 18px 22px;
+      margin-bottom: 10px; cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+      text-decoration: none; display: block; color: inherit;
+    }
+    .cr-match-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,.1); }
+    .cr-match-card.cr-best { background: #f7f9ff; border: 2px solid #1e5ad7; }
+    .cr-match-card.cr-other { background: #fff; border: 1.5px solid #e0e5ef; }
+    .cr-match-name { font-size: 17px; font-weight: 700; color: #0f1d3a; }
+    .cr-match-reason { font-size: 13px; color: #666; margin-top: 4px; }
+    .cr-match-pct {
+      position: absolute; top: 18px; right: 22px;
+      font-size: 22px; font-weight: 800;
+    }
+    .cr-match-pct.cr-pct-best { color: #1e5ad7; }
+    .cr-match-pct.cr-pct-other { color: #c0c8d8; }
+    .cr-best-badge {
+      display: inline-block; background: #1e5ad7; color: #fff;
+      font-size: 9px; font-weight: 700; padding: 2px 8px;
+      border-radius: 10px; margin-left: 8px; vertical-align: middle;
+    }
+    .cr-bar-track { height: 4px; background: #e8ecf4; border-radius: 2px; margin-top: 10px; overflow: hidden; }
+    .cr-bar-fill { height: 100%; border-radius: 2px; transition: width .6s ease; }
+    .cr-bar-fill.cr-fill-best { background: #1e5ad7; }
+    .cr-bar-fill.cr-fill-other { background: #c0c8d8; }
     @media (max-width: 540px) {
       .classifier-row { flex-direction: column; }
       .classifier-btn { width: 100%; }
@@ -260,7 +295,7 @@
 
 <div class="page">
   <h1 class="page-title">12 Problem<br>Archetypes</h1>
-  <p class="page-sub">Every startup solves one of these structural problems. Click any problem to explore how it's been solved — then proceed to Framework, Atlas, or generate an MVP prompt.</p>
+  <p class="page-sub">Every startup solves one of these structural problems. Click any problem to explore how it's been solved — then proceed to Framework or Atlas.</p>
 
   <!-- Classifier -->
   <div class="classifier" id="classifier">
@@ -315,7 +350,7 @@ let LANG = localStorage.getItem('problems-lang') || 'en';
 const UI = {
   en: {
     title: '12 Problem<br>Archetypes',
-    sub: 'Every startup solves one of these structural problems. Click any problem to explore how it\'s been solved — then proceed to Framework, Atlas, or generate an MVP prompt.',
+    sub: 'Every startup solves one of these structural problems. Click any problem to explore how it\'s been solved — then proceed to Framework or Atlas.',
     signalsLabel: 'Signals — how to recognize it',
     questionsLabel: 'Questions to ask',
     examplesLabel: 'Real examples',
@@ -323,11 +358,11 @@ const UI = {
     selected: 'Your selection',
     goFramework: 'Proceed with Framework',
     goAtlas: 'Proceed with Atlas',
-    goPrompt: 'Generate MVP Prompt',
+    goPrompt: 'Generate MVP Prompt', // kept for reference
   },
   it: {
     title: '12 Archetipi<br>di Problema',
-    sub: 'Ogni startup risolve uno di questi problemi strutturali. Clicca su un problema per esplorare come è stato risolto — poi procedi con Framework, Atlas, o genera un prompt MVP.',
+    sub: 'Ogni startup risolve uno di questi problemi strutturali. Clicca su un problema per esplorare come è stato risolto — poi procedi con Framework o Atlas.',
     signalsLabel: 'Segnali — come riconoscerlo',
     questionsLabel: 'Domande da fare',
     examplesLabel: 'Esempi reali',
@@ -335,7 +370,7 @@ const UI = {
     selected: 'La tua selezione',
     goFramework: 'Procedi con Framework',
     goAtlas: 'Procedi con Atlas',
-    goPrompt: 'Genera Prompt MVP',
+    goPrompt: 'Genera Prompt MVP', // kept for reference
   }
 };
 
@@ -835,7 +870,6 @@ function renderAll() {
         <div class="problem-ctas visible" id="ctas-${p.id}">
           <a class="cta-btn cta-framework" id="fw-${p.id}" href="#">${ui('goFramework')}</a>
           <a class="cta-btn cta-atlas" id="at-${p.id}" href="#">${ui('goAtlas')}</a>
-          <a class="cta-btn cta-prompt" id="pr-${p.id}" href="#">${ui('goPrompt')}</a>
         </div>
       </div>
 
@@ -932,15 +966,12 @@ function selectCompany(el) {
   // Update CTA links — use problemId for framework/atlas (they expect short ID)
   const fwParams = new URLSearchParams({ problem: problemId, solution, market });
   const atParams = new URLSearchParams({ problem: problemId, solution, market });
-  const prParams = new URLSearchParams({ problem: problemName, solution, market, company });
 
   const fwLink = document.getElementById('fw-' + sectionId);
   const atLink = document.getElementById('at-' + sectionId);
-  const prLink = document.getElementById('pr-' + sectionId);
 
   fwLink.href = 'startup-framework.html?' + fwParams.toString();
   atLink.href = 'atlas.html?' + atParams.toString();
-  prLink.href = 'prompt.html?' + prParams.toString();
 
   // Smooth scroll to selection bar
   setTimeout(() => selBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
@@ -959,9 +990,12 @@ async function classifyInput() {
   if (!input) { resultEl.style.display = 'none'; return; }
 
   resultEl.style.display = 'block';
-  resultEl.innerHTML = '<div class="cr-loading">Classifying<span class="cr-cursor">|</span></div>';
+  resultEl.innerHTML = '<div class="cr-stream-box" id="stream-box"><span id="stream-text"></span><span class="cr-cursor">|</span></div>';
 
   let fullText = '';
+  const streamEl = document.getElementById('stream-text');
+  const streamBox = document.getElementById('stream-box');
+  let renderedLines = 0;
 
   try {
     const res = await fetch(WORKER_URL, {
@@ -978,8 +1012,23 @@ async function classifyInput() {
       const { done, value } = await reader.read();
       if (done) break;
       fullText += decoder.decode(value, { stream: true });
+      // Render completed lines with fade-in, keep partial line with cursor
+      const lines = fullText.split('\n');
+      const partial = lines.pop();
+      let html = '';
+      lines.forEach((line, i) => {
+        const delay = i >= renderedLines ? (i - renderedLines) * 0.08 : 0;
+        const cls = i >= renderedLines ? `style="animation:fadeInLine .3s ${delay}s both"` : '';
+        html += `<div ${cls}>${line || '&nbsp;'}</div>`;
+      });
+      html += `<span>${partial}</span><span class="cr-cursor">|</span>`;
+      streamEl.innerHTML = html;
+      renderedLines = lines.length;
+      streamBox.scrollTop = streamBox.scrollHeight;
     }
 
+    // Brief pause to let user see the full inference, then show cards
+    await new Promise(r => setTimeout(r, 600));
     renderClassifierResult(fullText, resultEl);
   } catch (e) {
     resultEl.innerHTML = '<div class="cr-error">Could not classify — ' + e.message + '</div>';
@@ -1009,32 +1058,86 @@ function resolveId(rawLabel) {
 }
 
 function renderClassifierResult(text, resultEl) {
-  const match = text.match(/Best match:\s*(.+)/i);
-  if (!match) {
+  const bestMatch = text.match(/Best match:\s*(.+)/i);
+  if (!bestMatch) {
     resultEl.innerHTML = '<div class="cr-no-match">Could not identify a clear archetype. Try describing the problem more specifically.</div>';
     return;
   }
 
-  const id = resolveId(match[1]);
-  if (!id) {
-    resultEl.innerHTML = '<div class="cr-no-match">Matched: <strong>' + match[1].trim() + '</strong> — not found in archetypes.</div>';
-    return;
+  const bestId = resolveId(bestMatch[1]);
+
+  // Parse all possible archetypes with percentages: → Name (XX%) — reason
+  const possibleLines = text.match(/→\s*(.+)/g) || [];
+  const possibles = possibleLines.map(line => {
+    const raw = line.replace(/^→\s*/, '');
+    const pctMatch = raw.match(/\((\d+)%?\)/);
+    const pct = pctMatch ? parseInt(pctMatch[1]) : 0;
+    // Remove percentage from name
+    const withoutPct = raw.replace(/\s*\(\d+%?\)\s*/, ' ').trim();
+    const parts = withoutPct.split(/\s*—\s*/);
+    return { name: parts[0].trim(), reason: (parts[1] || '').trim(), pct };
+  });
+
+  // Parse themes
+  const themesLine = text.match(/Themes?:\s*(.+)/i);
+  const themes = themesLine ? themesLine[1].trim() : '';
+
+  // Build clickable match cards
+  let cardsHTML = '';
+  possibles.forEach((p, i) => {
+    const pid = resolveId(p.name);
+    const prob = pid ? PROBLEMS.find(pr => pr.id === pid) : null;
+    const isBest = pid === bestId;
+    const displayName = prob ? t(prob, 'name') : p.name;
+    const badge = isBest ? '<span class="cr-best-badge">BEST MATCH</span>' : '';
+    const cardClass = isBest ? 'cr-best' : 'cr-other';
+    const pctClass = isBest ? 'cr-pct-best' : 'cr-pct-other';
+    const fillClass = isBest ? 'cr-fill-best' : 'cr-fill-other';
+    const onclick = pid ? `onclick="toggleSection('${pid}')"` : '';
+    cardsHTML += `
+      <div class="cr-match-card ${cardClass}" ${onclick} style="animation:fadeInLine .4s ${i * 0.12}s both">
+        <div class="cr-match-name">${displayName}${badge}</div>
+        ${p.reason ? '<div class="cr-match-reason">' + p.reason + '</div>' : ''}
+        <div class="cr-match-pct ${pctClass}">${p.pct}%</div>
+        <div class="cr-bar-track"><div class="cr-bar-fill ${fillClass}" style="width:0%" id="bar-${i}"></div></div>
+      </div>`;
+  });
+
+  // If no possibles parsed, fallback to best match only
+  if (!cardsHTML && bestId) {
+    const prob = PROBLEMS.find(p => p.id === bestId);
+    if (prob) {
+      cardsHTML = `
+        <div class="cr-match-card cr-best" onclick="toggleSection('${bestId}')">
+          <div class="cr-match-name">${t(prob,'name')}<span class="cr-best-badge">BEST MATCH</span></div>
+          <div class="cr-match-reason" style="font-style:italic;">${t(prob,'tagline')}</div>
+          <div class="cr-match-pct cr-pct-best">100%</div>
+          <div class="cr-bar-track"><div class="cr-bar-fill cr-fill-best" style="width:0%" id="bar-0"></div></div>
+        </div>`;
+    }
   }
 
-  const prob = PROBLEMS.find(p => p.id === id);
-  if (!prob) return;
-
-  const reasonLine = text.match(/(?:because|reasoning|reason|why)[:\s]+([^\n]+)/i);
-  const reason = reasonLine ? reasonLine[1].trim() : '';
+  // Keep inference visible above the cards
+  const streamBox = document.getElementById('stream-box');
+  const inferenceHTML = streamBox ? streamBox.outerHTML.replace('cr-cursor', 'cr-cursor" style="display:none') : '';
 
   resultEl.innerHTML = `
-    <div style="margin-top:16px; background:#fff; border:1.5px solid #1e5ad7; border-radius:12px; padding:20px 24px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1e5ad7;margin-bottom:8px;">Best match</div>
-      <div style="font-size:22px;font-weight:800;color:#0f1d3a;margin-bottom:4px;">${t(prob,'name')}</div>
-      <div style="font-size:13.5px;color:#666;margin-bottom:${reason ? '12px' : '20px'};font-style:italic;">${t(prob,'tagline')}</div>
-      ${reason ? '<div style="font-size:13px;color:#555;background:#f7f9ff;border-radius:8px;padding:10px 14px;margin-bottom:20px;">' + reason + '</div>' : ''}
-      <button onclick="toggleSection('${id}')" style="display:inline-flex;align-items:center;gap:6px;padding:11px 22px;background:#1e5ad7;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">Explore this problem</button>
+    <div style="margin-top:16px;">
+      ${inferenceHTML}
+      ${themes ? '<div style="font-size:12px;color:#888;margin:16px 0 12px;"><span style="font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:10px;color:#aaa;">Themes</span> &nbsp;' + themes + '</div>' : ''}
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1e5ad7;margin-bottom:10px;">Possible matches</div>
+      ${cardsHTML}
     </div>`;
+
+  // Animate bars after render
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      possibles.forEach((p, i) => {
+        const bar = document.getElementById('bar-' + i);
+        if (bar) bar.style.width = p.pct + '%';
+      });
+    }, 100);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {

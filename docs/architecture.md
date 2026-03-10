@@ -1,0 +1,104 @@
+# Problem Taxonomy — Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        FRONTEND (Static)                     │
+│                    Cloudflare Pages / Local                   │
+│                                                              │
+│  ┌──────────────┐  ┌───────────────┐  ┌──────────────────┐  │
+│  │ problems.html│  │framework.html │  │   atlas.html     │  │
+│  │              │  │               │  │                  │  │
+│  │ • 12 cards   │  │ • VC flow     │  │ • Matrix view    │  │
+│  │ • AI class.  │  │ • Founder flow│  │ • 12×6×6 grid    │  │
+│  │ • Examples   │  │ • Dropdowns   │  │ • Company cells  │  │
+│  │ • EN/IT      │  │ • Concept card│  │                  │  │
+│  └──────┬───────┘  └──────┬────────┘  └────────┬─────────┘  │
+│         │                 │                     │            │
+│         └────────┬────────┴─────────────────────┘            │
+│                  ▼                                            │
+│         ┌──────────────┐    ┌────────────────┐               │
+│         │ prompt.html  │    │   why.html     │               │
+│         │              │    │                │               │
+│         │ • MVP prompt │    │ • Essay (EN/IT)│               │
+│         │ • Copy/Edit  │    │ • Two models   │               │
+│         │ • Download   │    │   explained    │               │
+│         └──────────────┘    └────────────────┘               │
+│                                                              │
+│  DATA LAYER (JS/CSV, loaded client-side)                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌────────────────────┐ │
+│  │examples.csv  │  │ combos.js    │  │archetypes-keywords │ │
+│  │ 168 entries  │  │ 397 entries  │  │ ~100 kw/archetype  │ │
+│  │ 7 columns    │  │ combo lookup │  │ classification aid │ │
+│  └──────────────┘  └──────────────┘  └────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+
+                           │
+                    fetch POST /
+                    (streaming)
+                           │
+                           ▼
+
+┌─────────────────────────────────────────────────────────────┐
+│                  CLOUDFLARE WORKER (API)                      │
+│          problem-classifier.richardbotsiokennedy              │
+│                    .workers.dev                               │
+│                                                              │
+│  worker.js                                                   │
+│  ┌────────────────────────────────────┐                      │
+│  │ 1. Receive problem text (POST)    │                      │
+│  │ 2. Call OpenAI gpt-4o-mini        │                      │
+│  │    (streaming, max 300 tokens)    │                      │
+│  │ 3. Parse SSE chunks              │                      │
+│  │ 4. Stream plain text to client    │                      │
+│  └────────────────────────────────────┘                      │
+│                                                              │
+│  Response format:                                            │
+│  Themes: [3-5 themes]                                        │
+│  → Archetype1 (XX%) — reason                                 │
+│  → Archetype2 (YY%) — reason                                 │
+│  → Archetype3 (ZZ%) — reason                                 │
+│  Best match: Archetype1                                      │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+                       ▼
+              ┌────────────────┐
+              │  OpenAI API    │
+              │  gpt-4o-mini   │
+              │  ~$0.001/call  │
+              └────────────────┘
+```
+
+## Data Model
+
+```
+PROBLEMS (12)          SOLUTIONS (6)         PRODUCTS (6)
+idx 0-11               idx 12-17             idx 18-23
+─────────────          ──────────────        ────────────
+0  Coordination        12 Marketplace        18 Mobile App
+1  Discovery           13 SaaS               19 Web App
+2  Info Asymmetry      14 Platform            20 API
+3  Trust               15 Infrastructure      21 AI Tool
+4  Infrastructure      16 Automation          22 Platform
+5  Process Ineff.      17 DataNetwork         23 Hardware
+6  Automation
+7  Aggregation         Combo key: "P-S-Pr"
+8  Access              e.g. "0-12-18" =
+9  Cost                Coordination +
+10 Speed               Marketplace +
+11 New Tech            Mobile App → Uber
+```
+
+## Page Flow
+
+```
+problems.html ──┬──→ startup-framework.html ──→ prompt.html
+                │                                    ↑
+                └──→ atlas.html ─────────────────────┘
+
+why.html (standalone essay, linked from all pages)
+```
+
+## Ports & URLs
+- Static site: Cloudflare Pages (auto-deploy on push to main)
+- Worker API: `https://problem-classifier.richardbotsiokennedy.workers.dev`
+- Secrets: `OPENAI_KEY` (Cloudflare Worker secret)
