@@ -128,8 +128,15 @@ if (!problem) {
   content.innerHTML = `
     <div class="empty-state">
       <h2>No selection yet</h2>
-      <p>Start by exploring the 12 problem archetypes, pick a problem, see how it was solved, then come back here.</p>
-      <a href="problems.html">→ Explore Problems</a>
+      <p>To generate an MVP prompt, you need to select a problem + solution first. Here's how:</p>
+      <div style="text-align:left;max-width:360px;margin:20px auto;line-height:2;">
+        <div><b>1.</b> Go to <a href="problems.html">Problems</a> — find your archetype</div>
+        <div><b>2.</b> Open <a href="startup-framework.html">Framework</a> or <a href="atlas.html">Atlas</a> — build your combination</div>
+        <div><b>3.</b> Click "Generate MVP Prompt" — you'll land here with everything filled in</div>
+      </div>
+      <div style="margin-top:24px;">
+        <a href="problems.html" style="display:inline-block;padding:12px 24px;background:#1e5ad7;color:#fff;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;">Start with Problems →</a>
+      </div>
     </div>`;
 } else {
   renderPrompt();

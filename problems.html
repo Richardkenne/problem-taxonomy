@@ -295,14 +295,37 @@
 
 <div class="page">
   <h1 class="page-title">12 Problem<br>Archetypes</h1>
-  <p class="page-sub">Every startup solves one of these structural problems. Click any problem to explore how it's been solved — then proceed to Framework or Atlas.</p>
+  <p class="page-sub">Every successful startup solves one of these 12 structural problems. Describe your idea below or click any archetype to explore real examples — then build your startup concept in Framework or Atlas.</p>
+
+  <!-- How it works -->
+  <div id="how-it-works" style="display:flex;justify-content:center;gap:0;margin-bottom:40px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:#e7efff;border-radius:20px;font-size:12px;font-weight:700;color:#1e5ad7;">
+        <span style="background:#1e5ad7;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;">1</span>
+        <span id="step1-text">Find your problem</span>
+      </div>
+      <span style="color:#ccc;font-size:16px;">→</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:#f0f2f7;border-radius:20px;font-size:12px;font-weight:600;color:#666;">
+        <span style="background:#c0c8d8;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;">2</span>
+        <span id="step2-text">Build your concept</span>
+      </div>
+      <span style="color:#ccc;font-size:16px;">→</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;background:#f0f2f7;border-radius:20px;font-size:12px;font-weight:600;color:#666;">
+      <span style="background:#c0c8d8;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;">3</span>
+      <span id="step3-text">Generate MVP prompt</span>
+    </div>
+  </div>
 
   <!-- Classifier -->
   <div class="classifier" id="classifier">
-    <div class="classifier-title">Problem Classifier</div>
+    <div class="classifier-title" id="classifier-title">Problem Classifier</div>
+    <div id="classifier-hint" style="font-size:12.5px;color:#888;margin:-6px 0 12px;line-height:1.5;">Describe any problem or startup idea — AI will identify which archetype it matches and show you real companies that solved it.</div>
     <div class="classifier-row">
       <textarea class="classifier-input" id="classifier-input" rows="2"
-        placeholder="Describe a problem or idea... e.g. 'People waste hours waiting in hospitals'"></textarea>
+        placeholder="e.g. 'People waste hours waiting in hospitals' or 'I want to help freelancers get paid faster'"></textarea>
       <button class="classifier-btn" onclick="classifyInput()">Classify</button>
     </div>
     <div class="classifier-result" id="classifier-result"></div>
@@ -350,7 +373,7 @@ let LANG = localStorage.getItem('problems-lang') || 'en';
 const UI = {
   en: {
     title: '12 Problem<br>Archetypes',
-    sub: 'Every startup solves one of these structural problems. Click any problem to explore how it\'s been solved — then proceed to Framework or Atlas.',
+    sub: 'Every successful startup solves one of these 12 structural problems. Describe your idea below or click any archetype to explore real examples — then build your startup concept in Framework or Atlas.',
     signalsLabel: 'Signals — how to recognize it',
     questionsLabel: 'Questions to ask',
     examplesLabel: 'Real examples',
@@ -362,7 +385,7 @@ const UI = {
   },
   it: {
     title: '12 Archetipi<br>di Problema',
-    sub: 'Ogni startup risolve uno di questi problemi strutturali. Clicca su un problema per esplorare come è stato risolto — poi procedi con Framework o Atlas.',
+    sub: 'Ogni startup di successo risolve uno di questi 12 problemi strutturali. Descrivi la tua idea qui sotto o clicca un archetipo per esplorare esempi reali — poi costruisci il tuo concept in Framework o Atlas.',
     signalsLabel: 'Segnali — come riconoscerlo',
     questionsLabel: 'Domande da fare',
     examplesLabel: 'Esempi reali',
@@ -782,6 +805,23 @@ let _activeSection = null;
 function renderAll() {
   document.querySelector('.page-title').innerHTML = ui('title');
   document.querySelector('.page-sub').textContent = ui('sub');
+
+  // Update how-it-works steps + classifier hint
+  if (LANG === 'it') {
+    document.getElementById('step1-text').textContent = 'Trova il problema';
+    document.getElementById('step2-text').textContent = 'Costruisci il concept';
+    document.getElementById('step3-text').textContent = 'Genera prompt MVP';
+    document.getElementById('classifier-title').textContent = 'Classificatore di Problemi';
+    document.getElementById('classifier-hint').textContent = 'Descrivi un problema o un\'idea startup — l\'AI identificherà quale archetipo corrisponde e ti mostrerà aziende reali che lo hanno risolto.';
+    document.getElementById('classifier-input').placeholder = "es. 'Le persone perdono ore in attesa negli ospedali' o 'Voglio aiutare i freelancer a farsi pagare più velocemente'";
+  } else {
+    document.getElementById('step1-text').textContent = 'Find your problem';
+    document.getElementById('step2-text').textContent = 'Build your concept';
+    document.getElementById('step3-text').textContent = 'Generate MVP prompt';
+    document.getElementById('classifier-title').textContent = 'Problem Classifier';
+    document.getElementById('classifier-hint').textContent = 'Describe any problem or startup idea — AI will identify which archetype it matches and show you real companies that solved it.';
+    document.getElementById('classifier-input').placeholder = "e.g. 'People waste hours waiting in hospitals' or 'I want to help freelancers get paid faster'";
+  }
 
   // Grid
   const grid = document.getElementById('grid');
