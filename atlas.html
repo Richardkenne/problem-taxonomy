@@ -151,7 +151,7 @@
   <div id="left">
     <a href="problems.html" style="font-size:12px;color:#1e5ad7;text-decoration:none;margin-bottom:8px;display:inline-block;">← Problems</a>
     <h1>Startup Discovery Atlas</h1>
-    <p>Interactive circular model — click any segment to explore</p>
+    <p style="font-size:14px;color:#555;line-height:1.5;">Pick one segment from each ring to build a startup combination. Select all 3 to see matching companies.</p>
     <p style="font-size:12px; color:#aaa; margin-bottom:4px;">Darker = more foundational &nbsp;·&nbsp; <span style="color:#1e3a8a; font-weight:600;">Problems</span> (inner) &nbsp;→&nbsp; <span style="color:#065f46; font-weight:600;">Solutions</span> (mid) &nbsp;→&nbsp; <span style="color:#92400e; font-weight:600;">Products</span> (outer) &nbsp;·&nbsp; <a href="problems.html" style="color:#1e5ad7;text-decoration:none;font-weight:600;">Learn the 12 archetypes →</a></p>
     <div id="atlas-wrap">
       <svg id="atlas" viewBox="0 0 660 660" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -161,7 +161,15 @@
     </div>
   </div>
   <div id="right">
-    <div id="info-default">Click any segment<br>to explore</div>
+    <div id="info-default">
+      <div style="font-size:18px;font-weight:700;color:#0f1d3a;margin-bottom:8px;">How to use the Atlas</div>
+      <div style="font-size:13px;color:#888;line-height:1.8;">
+        <div style="margin-bottom:6px;"><span style="color:#1e3a8a;font-weight:700;">1.</span> Click a <b style="color:#1e3a8a;">Problem</b> in the inner ring</div>
+        <div style="margin-bottom:6px;"><span style="color:#065f46;font-weight:700;">2.</span> Click a <b style="color:#065f46;">Solution</b> in the middle ring</div>
+        <div style="margin-bottom:6px;"><span style="color:#92400e;font-weight:700;">3.</span> Click a <b style="color:#92400e;">Product</b> in the outer ring</div>
+        <div style="margin-top:10px;font-size:12px;color:#aaa;">You'll see real companies that match your combination + generate an MVP prompt.</div>
+      </div>
+    </div>
     <div id="info-content">
       <div class="info-tag" id="info-tag"></div>
       <div id="info-title"></div>
