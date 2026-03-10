@@ -157,13 +157,20 @@ const COMBOS = {
     {name:'Revolut',  url:'https://revolut.com', desc:'international transfers with transparent FX pricing'},
   ],
   '3-12-19': [ // Marketplace + Web App
-    {name:'Airbnb', url:'https://airbnb.com', desc:'built an entire trust system for staying with strangers'},
-    {name:'eBay',   url:'https://ebay.com',    desc:'feedback system enabling trust between unknown buyers/sellers'},
-    {name:'Etsy',   url:'https://etsy.com',    desc:'seller ratings enabling trust in independent creators'},
+    {name:'Airbnb',      url:'https://airbnb.com',     desc:'built an entire trust system for staying with strangers'},
+    {name:'eBay',        url:'https://ebay.com',        desc:'feedback system enabling trust between unknown buyers/sellers'},
+    {name:'Etsy',        url:'https://etsy.com',        desc:'seller ratings enabling trust in independent creators'},
+    {name:'Poshmark',    url:'https://poshmark.com',    desc:'social commerce with verified seller profiles and buyer protection'},
+    {name:'StockX',      url:'https://stockx.com',      desc:'authentication layer guaranteeing sneaker and goods legitimacy'},
   ],
   '3-12-18': [ // Marketplace + Mobile App
     {name:'OfferUp',              url:'https://offerup.com',            desc:'local C2C marketplace with built-in trust ratings'},
     {name:'Facebook Marketplace', url:'https://facebook.com/marketplace', desc:'social graph as trust signal for local transactions'},
+    {name:'Mercari',              url:'https://mercari.com',            desc:'buyer protection and seller ratings for secondhand goods'},
+  ],
+  '3-13-21': [ // SaaS + AI Tool
+    {name:'Lemonade',      url:'https://lemonade.com',      desc:'AI claims with radical transparency — trust through instant payouts'},
+    {name:'Root Insurance', url:'https://rootinsurance.com', desc:'telematics-based fair pricing — trust through data transparency'},
   ],
   '3-17-19': [ // Data Network + Web App
     {name:'Trustpilot', url:'https://trustpilot.com', desc:'more reviews → stronger trust signal → more reviews'},
@@ -254,6 +261,8 @@ const COMBOS = {
     {name:'Workato',              url:'https://workato.com',             desc:'enterprise automation for complex multi-step workflows'},
     {name:'n8n',                  url:'https://n8n.io',                  desc:'open-source automation with code when needed'},
     {name:'Automation Anywhere',  url:'https://automationanywhere.com',  desc:'intelligent RPA for enterprise back-office'},
+    {name:'Tray.io',             url:'https://tray.io',                 desc:'general-purpose automation platform for ops teams'},
+    {name:'Power Automate',      url:'https://powerautomate.microsoft.com', desc:'Microsoft low-code automation for enterprise workflows'},
   ],
   '6-13-19': [ // SaaS + Web App
     {name:'HubSpot',  url:'https://hubspot.com',  desc:'automated marketing and sales pipeline — no manual follow-ups'},
@@ -262,24 +271,34 @@ const COMBOS = {
     {name:'Bill.com', url:'https://bill.com',     desc:'automated AP/AR eliminating manual invoice processing'},
     {name:'Ramp',     url:'https://ramp.com',     desc:'automated expense management and corporate card controls'},
     {name:'Rippling', url:'https://rippling.com', desc:'automated IT provisioning — software access on day one'},
+    {name:'Calendly', url:'https://calendly.com', desc:'automated scheduling removing human back-and-forth entirely'},
+    {name:'Expensify', url:'https://expensify.com', desc:'automated receipt scanning and expense report generation'},
   ],
   '6-16-21': [ // Automation + AI Tool
     {name:'UiPath AI', url:'https://uipath.com',   desc:'document understanding AI automating unstructured data'},
     {name:'Reduce',    url:'https://reduceit.ai',   desc:'AI-powered RPA for document-heavy workflows'},
     {name:'Bardeen',   url:'https://bardeen.ai',    desc:'AI automation for browser-based repetitive tasks'},
+    {name:'Copy.ai',   url:'https://copy.ai',       desc:'AI workflows automating GTM tasks end-to-end'},
+    {name:'Writer',    url:'https://writer.com',     desc:'enterprise AI automating content governance and generation'},
+    {name:'Adept',     url:'https://adept.ai',       desc:'AI agent automating any software workflow via natural language'},
   ],
   '6-15-20': [ // Infrastructure + API
     {name:'Twilio',   url:'https://twilio.com',   desc:'automated messaging triggered by business events via API'},
     {name:'SendGrid', url:'https://sendgrid.com', desc:'automated email delivery at any scale via API'},
     {name:'Courier',  url:'https://courier.com',  desc:'notification automation API across every channel'},
+    {name:'Temporal', url:'https://temporal.io',   desc:'durable execution API for reliable workflow automation'},
   ],
   '6-14-19': [ // Platform + Web App
     {name:'Salesforce', url:'https://salesforce.com', desc:'automation platform with Flow for complex business rules'},
     {name:'ServiceNow', url:'https://servicenow.com', desc:'enterprise workflow automation and IT service management'},
+    {name:'Workday',    url:'https://workday.com',    desc:'automated HR and finance workflows for enterprise'},
   ],
   '6-13-21': [ // SaaS + AI Tool
     {name:'GitHub Copilot', url:'https://github.com/features/copilot', desc:'automates code completion — 46% of code written by AI'},
     {name:'Jasper',         url:'https://jasper.ai',                   desc:'automates marketing content generation at scale'},
+    {name:'Copy.ai',       url:'https://copy.ai',                     desc:'AI automating sales copy, emails, and GTM content'},
+    {name:'Writer',        url:'https://writer.com',                   desc:'AI automating brand-consistent content at enterprise scale'},
+    {name:'Tome',          url:'https://tome.app',                     desc:'AI automating presentation and document creation'},
   ],
 
   // ── 7 AGGREGATION ───────────────────────────────────────────
@@ -366,29 +385,44 @@ const COMBOS = {
     {name:'Notion',      url:'https://notion.so',       desc:'$8/mo replacing $50+/mo multi-tool stack'},
     {name:'Loom',        url:'https://loom.com',        desc:'async video replacing expensive in-person meetings'},
     {name:'Figma',       url:'https://figma.com',       desc:'free for starters vs. $600/yr for Adobe Creative Suite'},
+    {name:'Mercury',     url:'https://mercury.com',     desc:'startup banking with zero fees vs. traditional bank charges'},
+    {name:'Brex',        url:'https://brex.com',        desc:'corporate cards with no personal guarantee — zero fee for startups'},
   ],
   '9-13-18': [ // SaaS + Mobile App
-    {name:'Revolut', url:'https://revolut.com', desc:'FX at interbank rate vs. 3-5% bank markup'},
-    {name:'Wise',    url:'https://wise.com',    desc:'international transfers at true mid-market rate'},
-    {name:'Monzo',   url:'https://monzo.com',   desc:'zero foreign transaction fees vs. 3% bank standard'},
+    {name:'Revolut',  url:'https://revolut.com', desc:'FX at interbank rate vs. 3-5% bank markup'},
+    {name:'Wise',     url:'https://wise.com',    desc:'international transfers at true mid-market rate'},
+    {name:'Monzo',    url:'https://monzo.com',   desc:'zero foreign transaction fees vs. 3% bank standard'},
+    {name:'WhatsApp', url:'https://whatsapp.com', desc:'free messaging replacing $0.10/SMS carrier charges'},
+    {name:'Skype',    url:'https://skype.com',    desc:'free video calls replacing $1+/min international landline'},
   ],
   '9-14-19': [ // Platform + Web App
     {name:'Shopify', url:'https://shopify.com', desc:'merchant ecosystem reducing software and service cost'},
     {name:'GitHub',  url:'https://github.com',  desc:'free code hosting vs. private server setup costs'},
+    {name:'Linux Foundation', url:'https://linuxfoundation.org', desc:'open-source OS eliminating licensing costs for servers'},
   ],
   '9-12-19': [ // Marketplace + Web App
     {name:'Udemy',       url:'https://udemy.com',   desc:'$15 course vs. $3,000 in-person training'},
     {name:'Booking.com', url:'https://booking.com', desc:'lower hotel rates through volume and transparency'},
+    {name:'Kayak',       url:'https://kayak.com',   desc:'flight comparison eliminating overpaying for airfare'},
+    {name:'Honey',       url:'https://joinhoney.com', desc:'automatic coupon finding at checkout — savings without effort'},
   ],
   '9-15-20': [ // Infrastructure + API
     {name:'AWS',        url:'https://aws.amazon.com', desc:'pay-per-use cloud vs. millions in owned server capex'},
     {name:'Cloudflare', url:'https://cloudflare.com', desc:'enterprise-grade CDN and security at startup price'},
     {name:'Render',     url:'https://render.com',     desc:'affordable cloud hosting vs. complex AWS setup'},
+    {name:'Fly.io',     url:'https://fly.io',         desc:'deploy globally at fraction of AWS cost for small teams'},
+    {name:'Supabase',   url:'https://supabase.com',   desc:'open-source Firebase alternative — free tier replacing paid BaaS'},
   ],
   '9-13-21': [ // SaaS + AI Tool
     {name:'GitHub Copilot', url:'https://github.com/features/copilot', desc:'$19/mo replacing thousands in developer hours'},
     {name:'Cursor',         url:'https://cursor.com',                  desc:'AI editor dramatically reducing coding time cost'},
     {name:'Jasper',         url:'https://jasper.ai',                   desc:'AI content at $49/mo vs. $5K/mo content agency'},
+    {name:'Bolt.new',      url:'https://bolt.new',                    desc:'AI full-stack app generation at fraction of developer cost'},
+    {name:'Lovable',       url:'https://lovable.dev',                  desc:'AI app builder replacing weeks of dev work with hours'},
+  ],
+  '9-16-21': [ // Automation + AI Tool
+    {name:'Lemonade',  url:'https://lemonade.com',  desc:'AI claims processing cutting insurance overhead by 80%'},
+    {name:'Root Insurance', url:'https://rootinsurance.com', desc:'telematics-based pricing eliminating actuarial overhead'},
   ],
 
   // ── 10 SPEED PROBLEM ────────────────────────────────────────
@@ -398,6 +432,8 @@ const COMBOS = {
     {name:'Linear',     url:'https://linear.app',     desc:'issue tracking at 100ms interactions vs. Jira\'s 2+ seconds'},
     {name:'Superhuman', url:'https://superhuman.com', desc:'email processed 2x faster — sub-100ms for every action'},
     {name:'Loom',       url:'https://loom.com',       desc:'async video in seconds vs. scheduling meetings over days'},
+    {name:'Figma',      url:'https://figma.com',      desc:'real-time multiplayer design — zero latency collaboration'},
+    {name:'Railway',    url:'https://railway.app',     desc:'deploy infrastructure in seconds with zero config'},
   ],
   '10-13-18': [ // SaaS + Mobile App
     {name:'Cash App', url:'https://cash.app',    desc:'P2P payment instant vs. 3-5 day bank transfer'},
@@ -436,12 +472,17 @@ const COMBOS = {
 
   // ── 11 NEW TECH CAPABILITY ──────────────────────────────────
   '11-14-21': [ // Platform + AI Tool
-    {name:'OpenAI',       url:'https://openai.com',    desc:'LLMs as platform — ChatGPT + API powering thousands of apps'},
-    {name:'Anthropic',    url:'https://anthropic.com', desc:'Constitutional AI safety platform'},
-    {name:'Midjourney',   url:'https://midjourney.com', desc:'diffusion models enabling instant professional image creation'},
-    {name:'Runway',       url:'https://runwayml.com',  desc:'AI video generation — never possible before transformer era'},
-    {name:'ElevenLabs',   url:'https://elevenlabs.io', desc:'ultra-realistic AI voice cloning and synthesis platform'},
-    {name:'Stability AI', url:'https://stability.ai',  desc:'open-source diffusion models as platform for creative apps'},
+    {name:'OpenAI',        url:'https://openai.com',      desc:'LLMs as platform — ChatGPT + API powering thousands of apps'},
+    {name:'Anthropic',     url:'https://anthropic.com',   desc:'Constitutional AI safety platform'},
+    {name:'Midjourney',    url:'https://midjourney.com',  desc:'diffusion models enabling instant professional image creation'},
+    {name:'Runway',        url:'https://runwayml.com',    desc:'AI video generation — never possible before transformer era'},
+    {name:'ElevenLabs',    url:'https://elevenlabs.io',   desc:'ultra-realistic AI voice cloning and synthesis platform'},
+    {name:'Stability AI',  url:'https://stability.ai',    desc:'open-source diffusion models as platform for creative apps'},
+    {name:'Character.ai',  url:'https://character.ai',    desc:'AI companions and roleplay enabled by large language models'},
+    {name:'Suno',          url:'https://suno.com',        desc:'AI music generation from text — never possible before generative AI'},
+    {name:'Pika',          url:'https://pika.art',        desc:'AI video creation from text and images — new creative medium'},
+    {name:'Kling',         url:'https://klingai.com',     desc:'AI video generation rivaling Hollywood VFX at consumer price'},
+    {name:'Sora',          url:'https://openai.com/sora', desc:'text-to-video model generating photorealistic scenes from prompts'},
   ],
   '11-15-20': [ // Infrastructure + API
     {name:'OpenAI API',    url:'https://platform.openai.com', desc:'GPT-4 as infrastructure — any app can now think'},
@@ -449,39 +490,53 @@ const COMBOS = {
     {name:'ElevenLabs',    url:'https://elevenlabs.io',       desc:'voice synthesis API for any content platform'},
     {name:'Replicate',     url:'https://replicate.com',       desc:'run any open-source AI model via simple API'},
     {name:'Deepgram',      url:'https://deepgram.com',        desc:'real-time speech-to-text API — 5x faster than Google'},
+    {name:'Groq',          url:'https://groq.com',            desc:'LPU inference API — fastest LLM serving infrastructure'},
+    {name:'Together AI',   url:'https://together.ai',         desc:'open-source model inference API at scale'},
+    {name:'Cohere',        url:'https://cohere.com',          desc:'enterprise LLM API for search, generation, and classification'},
+    {name:'AssemblyAI',    url:'https://assemblyai.com',      desc:'speech-to-text and audio intelligence API'},
   ],
   '11-13-21': [ // SaaS + AI Tool
-    {name:'Cursor',     url:'https://cursor.com',    desc:'AI-native code editor — GPT-4 embedded in the IDE'},
-    {name:'v0',         url:'https://v0.dev',         desc:'generates React UI components from text prompts'},
-    {name:'Jasper',     url:'https://jasper.ai',      desc:'AI content generation for marketers at scale'},
-    {name:'Runway',     url:'https://runwayml.com',   desc:'AI video editing SaaS — previously impossible effects'},
-    {name:'Descript',   url:'https://descript.com',   desc:'edit audio/video by editing text — AI transcription native'},
-    {name:'Perplexity', url:'https://perplexity.ai',  desc:'AI-native search replacing keyword queries'},
+    {name:'Cursor',       url:'https://cursor.com',     desc:'AI-native code editor — GPT-4 embedded in the IDE'},
+    {name:'v0',           url:'https://v0.dev',          desc:'generates React UI components from text prompts'},
+    {name:'Jasper',       url:'https://jasper.ai',       desc:'AI content generation for marketers at scale'},
+    {name:'Runway',       url:'https://runwayml.com',    desc:'AI video editing SaaS — previously impossible effects'},
+    {name:'Descript',     url:'https://descript.com',    desc:'edit audio/video by editing text — AI transcription native'},
+    {name:'Perplexity',   url:'https://perplexity.ai',  desc:'AI-native search replacing keyword queries'},
+    {name:'Windsurf',     url:'https://codeium.com',    desc:'AI-native IDE with deep codebase understanding'},
+    {name:'Bolt.new',     url:'https://bolt.new',        desc:'AI full-stack app builder in the browser'},
+    {name:'NotebookLM',   url:'https://notebooklm.google.com', desc:'AI research assistant generating podcasts from documents'},
+    {name:'Gamma',        url:'https://gamma.app',       desc:'AI presentation generator — slides from text in seconds'},
   ],
   '11-13-19': [ // SaaS + Web App
     {name:'Cursor',    url:'https://cursor.com',  desc:'AI code editor enabled by GPT-4 function calling'},
     {name:'Lovable',   url:'https://lovable.dev', desc:'natural language app builder — build full-stack in minutes'},
     {name:'Framer AI', url:'https://framer.com',  desc:'AI-generated website from text prompt'},
     {name:'Notion AI', url:'https://notion.so',   desc:'AI writing, summarization and Q&A inside workspace'},
+    {name:'Bolt.new',  url:'https://bolt.new',    desc:'AI app builder deploying full-stack apps from a prompt'},
+    {name:'Windsurf',  url:'https://codeium.com', desc:'AI code editor with flow-state autocomplete'},
   ],
   '11-14-19': [ // Platform + Web App
     {name:'Figma',   url:'https://figma.com',   desc:'browser rendering became powerful enough for real-time design'},
     {name:'Netflix', url:'https://netflix.com', desc:'streaming made viable by broadband infrastructure reaching 50%'},
     {name:'OpenAI',  url:'https://openai.com',  desc:'ChatGPT web platform democratizing AI capability'},
+    {name:'Waymo',   url:'https://waymo.com',   desc:'autonomous driving platform enabled by LiDAR + ML at scale'},
   ],
   '11-13-23': [ // SaaS + Hardware
     {name:'Tesla',   url:'https://tesla.com',      desc:'battery cost curves making EVs viable — SaaS updates over-the-air'},
     {name:'Peloton', url:'https://onepeloton.com', desc:'connected fitness made possible by sensors + streaming'},
     {name:'Nest',    url:'https://nest.com',        desc:'ML + sensors enabling a thermostat to learn your schedule'},
+    {name:'Waymo',   url:'https://waymo.com',       desc:'self-driving cars enabled by LiDAR, ML, and compute convergence'},
   ],
   '11-14-23': [ // Platform + Hardware
-    {name:'Tesla',      url:'https://tesla.com',     desc:'platform of sensors, compute, and OTA updates in every car'},
-    {name:'Meta Quest', url:'https://meta.com/quest', desc:'VR platform enabled by cost drops in display and compute'},
-    {name:'Spatial',    url:'https://spatial.io',    desc:'spatial computing platform on AR hardware'},
+    {name:'Tesla',       url:'https://tesla.com',       desc:'platform of sensors, compute, and OTA updates in every car'},
+    {name:'Meta Quest',  url:'https://meta.com/quest',  desc:'VR platform enabled by cost drops in display and compute'},
+    {name:'Spatial',     url:'https://spatial.io',      desc:'spatial computing platform on AR hardware'},
+    {name:'Apple Vision Pro', url:'https://apple.com/apple-vision-pro', desc:'spatial computing platform enabled by micro-OLED and M2 chip'},
   ],
   '11-15-23': [ // Infrastructure + Hardware
     {name:'SpaceX',  url:'https://spacex.com',  desc:'reusable rocket infrastructure — 10x cost reduction in launch'},
     {name:'Anduril', url:'https://anduril.com', desc:'AI defense hardware enabled by modern compute'},
+    {name:'NVIDIA',  url:'https://nvidia.com',  desc:'GPU infrastructure powering entire AI revolution'},
   ],
   '11-12-18': [ // Marketplace + Mobile App
     {name:'Coinbase', url:'https://coinbase.com', desc:'crypto exchange made accessible by blockchain technology'},
@@ -491,6 +546,7 @@ const COMBOS = {
     {name:'OpenAI',     url:'https://openai.com',     desc:'model improves from billions of interactions — data flywheel'},
     {name:'Midjourney', url:'https://midjourney.com', desc:'image model improves from millions of user ratings'},
     {name:'Duolingo',   url:'https://duolingo.com',   desc:'AI learning model trained on 500M learner sessions'},
+    {name:'Character.ai', url:'https://character.ai', desc:'conversation data flywheel — each chat improves AI personality models'},
   ],
 
   // ── ADDITIONAL COMBOS ────────────────────────────────────────
@@ -548,6 +604,12 @@ const COMBOS = {
     {name:'Checkr',    url:'https://checkr.com',   desc:'automated background checks building trust at scale'},
     {name:'Persona',   url:'https://withpersona.com', desc:'automated KYC/AML verification for any onboarding flow'},
   ],
+  '3-14-22': [ // Platform + Platform(prod) — DTC trust brands
+    {name:'Warby Parker',  url:'https://warbyparker.com',  desc:'DTC eyewear with radical price transparency and home try-on'},
+    {name:'Everlane',      url:'https://everlane.com',      desc:'radical transparency — shows factory, markup, and true cost'},
+    {name:'Allbirds',      url:'https://allbirds.com',      desc:'sustainable materials with full carbon footprint transparency'},
+    {name:'Glossier',      url:'https://glossier.com',      desc:'community-driven beauty — trust built through real user content'},
+  ],
 
   // ── 4 INFRASTRUCTURE GAP (extra) ──
   '4-16-19': [ // Automation + Web App
@@ -591,6 +653,11 @@ const COMBOS = {
     {name:'Zapier AI',   url:'https://zapier.com',     desc:'natural language interface to 5,000+ app automations'},
     {name:'Make AI',     url:'https://make.com',       desc:'AI scenario builder for complex automated workflows'},
     {name:'Vertex AI',   url:'https://cloud.google.com/vertex-ai', desc:'ML automation platform for building and deploying models'},
+    {name:'Devin',       url:'https://cognition.ai',   desc:'AI software engineer autonomously completing entire tasks'},
+  ],
+  '6-16-18': [ // Automation + Mobile App
+    {name:'IFTTT',       url:'https://ifttt.com',      desc:'if-this-then-that automation across mobile apps and IoT'},
+    {name:'Shortcuts',   url:'https://support.apple.com/shortcuts', desc:'Apple automation for iOS workflows and app chaining'},
   ],
 
   // ── 7 AGGREGATION (extra) ──
@@ -643,8 +710,13 @@ const COMBOS = {
     {name:'n8n',        url:'https://n8n.io',        desc:'open-source automation at near-zero cost vs. enterprise middleware'},
   ],
   '9-17-19': [ // Data Network + Web App
-    {name:'Waze',       url:'https://waze.com',      desc:'free navigation vs. $200 GPS devices — data network kills hardware cost'},
+    {name:'Waze',        url:'https://waze.com',      desc:'free navigation vs. $200 GPS devices — data network kills hardware cost'},
     {name:'Google Maps', url:'https://maps.google.com', desc:'enterprise mapping data free to consumers via ad-funded model'},
+  ],
+  '9-15-19': [ // Infrastructure + Web App
+    {name:'Lemonade',       url:'https://lemonade.com',      desc:'AI-powered insurance with 0% broker fee vs. 30% traditional'},
+    {name:'Root Insurance',  url:'https://rootinsurance.com', desc:'telematics pricing cutting premiums for safe drivers'},
+    {name:'Oscar Health',    url:'https://hioscar.com',      desc:'tech-first health insurance reducing admin overhead'},
   ],
 
   // ── 10 SPEED (extra) ──
@@ -661,6 +733,10 @@ const COMBOS = {
   '10-17-18': [ // Data Network + Mobile App
     {name:'Waze',         url:'https://waze.com',         desc:'fastest route calculated in real time from crowd data'},
     {name:'Google Maps',  url:'https://maps.google.com',  desc:'traffic predictions from billions of location pings'},
+  ],
+  '10-15-21': [ // Infrastructure + AI Tool
+    {name:'Groq',         url:'https://groq.com',         desc:'LPU chip delivering 500+ tokens/sec — 10x faster LLM inference'},
+    {name:'Fastly',       url:'https://fastly.com',       desc:'edge compute delivering sub-millisecond responses globally'},
   ],
 
   // ── 11 NEW TECH CAPABILITY (extra) ──
@@ -683,10 +759,18 @@ const COMBOS = {
     {name:'GitHub Copilot', url:'https://github.com/features/copilot', desc:'AI automates code generation — previously impossible'},
     {name:'Cursor',         url:'https://cursor.com',     desc:'AI-powered automated refactoring and codebase understanding'},
     {name:'Devin',          url:'https://cognition.ai',   desc:'AI software engineer autonomously completing coding tasks'},
+    {name:'Bolt.new',      url:'https://bolt.new',        desc:'AI automating full-stack app development from prompts'},
+    {name:'Windsurf',      url:'https://codeium.com',     desc:'AI automating code flow with deep codebase context'},
   ],
   '11-12-21': [ // Marketplace + AI Tool
     {name:'Midjourney',     url:'https://midjourney.com', desc:'AI image marketplace enabled by diffusion models'},
     {name:'Runway',         url:'https://runwayml.com',   desc:'AI video generation market enabled by transformer architecture'},
     {name:'Adobe Firefly',  url:'https://adobe.com/firefly', desc:'generative AI creative tools embedded in design marketplace'},
+    {name:'Civitai',        url:'https://civitai.com',     desc:'marketplace for AI models and LoRAs enabled by open-source diffusion'},
+  ],
+  '11-15-21': [ // Infrastructure + AI Tool
+    {name:'NVIDIA',         url:'https://nvidia.com',     desc:'GPU + CUDA infrastructure powering all AI training and inference'},
+    {name:'Groq',           url:'https://groq.com',       desc:'LPU chip — new hardware architecture for ultra-fast AI inference'},
+    {name:'Cerebras',       url:'https://cerebras.ai',    desc:'wafer-scale chip enabling training of frontier AI models'},
   ],
 };

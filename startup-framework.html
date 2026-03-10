@@ -783,6 +783,20 @@
     });
   }
 
+  function buildPromptURL(card) {
+    const s = state[card];
+    const params = new URLSearchParams();
+    if (card === 'vc') {
+      if (s[2]) params.set('problem', s[2]);
+      if (s[3]) params.set('solution', s[3]);
+      if (s[0]) params.set('market', s[0]);
+    } else {
+      if (s[0]) params.set('problem', s[0]);
+      if (s[1]) params.set('solution', s[1]);
+    }
+    return 'prompt.html?' + params.toString();
+  }
+
   function renderSummary(card) {
     const el = document.getElementById(`concept-${card}`);
     if (!el) return;
@@ -794,12 +808,14 @@
       text = `A ${s[2]||'product'} using a ${s[1]||'?'} model, solving a "${s[0]||'?'}".`;
     }
     _conceptTexts[card] = text;
+    const promptURL = buildPromptURL(card);
     el.innerHTML = `
       <div class="concept-label">Your startup concept</div>
       <p class="concept-text">${text}</p>
-      <div style="display:flex;gap:8px;margin-top:10px">
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
         <button class="concept-copy" onclick="copyConceptText(this,'${card}')">Copy</button>
         <button class="concept-copy" style="background:#444" onclick="downloadConceptTxt('${card}')">Download TXT</button>
+        <a href="${promptURL}" style="display:inline-flex;align-items:center;gap:6px;padding:7px 18px;background:#059669;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;font-family:inherit;transition:background .15s;">Generate MVP Prompt →</a>
       </div>`;
     el.classList.add('visible');
   }

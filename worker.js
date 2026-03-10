@@ -19,16 +19,17 @@ Given a problem statement, respond in EXACTLY this format (no deviations):
 Themes: [3-5 implied themes, comma separated]
 
 Possible archetypes:
-→ [Archetype Name] — [one short sentence why, max 10 words]
-→ [Archetype Name] — [one short sentence why, max 10 words]
-→ [Archetype Name] — [one short sentence why, max 10 words]
+→ [Archetype Name] ([confidence %]) — [one short sentence why, max 10 words]
+→ [Archetype Name] ([confidence %]) — [one short sentence why, max 10 words]
+→ [Archetype Name] ([confidence %]) — [one short sentence why, max 10 words]
 
 Best match: [Archetype Name]
 
 Rules:
-- Always output exactly 3 possible archetypes
+- Always output exactly 3 possible archetypes, ordered by confidence (highest first)
+- Confidence percentages must sum to roughly 100%
 - Each line starts with →
-- "Best match:" must be on its own line at the end
+- "Best match:" must be on its own line at the end (same as highest confidence)
 - No intro sentence, no conclusion, no extra text
 - Be direct and specific, not generic`;
 

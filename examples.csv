@@ -166,3 +166,68 @@ Founder,Midjourney,Media & Entertainment,AI Image Generation,New tech capability
 Founder,Runway,Media & Entertainment,AI Video Generation,New tech capability,SaaS,Web app
 Founder,Descript,Media & Entertainment,Audio / Video Editing,Process inefficiency,SaaS,Web app
 Founder,Figma (FigJam),Software,Online Whiteboard,Coordination problem,SaaS,Web app
+VC,Tray.io,Software,Workflow Automation,Automation opportunity,Automation,Web app
+VC,Power Automate,Software,Low-code Automation,Automation opportunity,Automation,Web app
+VC,Copy.ai,Software,AI Content Automation,Automation opportunity,Automation,Web app
+VC,Writer,Software,AI Content Governance,Automation opportunity,SaaS,Web app
+VC,Adept,Technology (Broad),AI Agents,Automation opportunity,Automation,Web app
+VC,Temporal,Software,Workflow Infrastructure,Automation opportunity,Infrastructure,API
+VC,Expensify,Financial Services,Expense Management,Automation opportunity,SaaS,Web app
+VC,Tome,Software,AI Presentations,Automation opportunity,SaaS,Web app
+VC,IFTTT,Software,Consumer Automation,Automation opportunity,Automation,Mobile app
+VC,Devin,Software,AI Software Engineering,Automation opportunity,Platform,Web app
+VC,Mercury,Financial Services,Startup Banking,Cost reduction,SaaS,Web app
+VC,Skype,Telecommunications,Video Calling,Cost reduction,SaaS,Web app
+VC,WhatsApp,Telecommunications,Messaging,Cost reduction,SaaS,Mobile app
+VC,Lemonade,Insurance,Home & Renters Insurance,Cost reduction,Infrastructure,Web app
+VC,Root Insurance,Insurance,Auto Insurance,Cost reduction,SaaS,Mobile app
+VC,Oscar Health,Healthcare,Health Insurance,Cost reduction,Infrastructure,Web app
+VC,Kayak,Tourism & Hospitality,Flight Search,Cost reduction,Marketplace,Web app
+VC,Honey,Retail & E-commerce,Coupon Aggregation,Cost reduction,SaaS,Web app
+VC,Fly.io,Software,Cloud Hosting,Cost reduction,Infrastructure,API
+VC,Supabase,Software,Backend-as-a-Service,Cost reduction,Infrastructure,API
+VC,Linux Foundation,Software,Open Source OS,Cost reduction,Platform,Web app
+VC,Bolt.new,Software,AI App Builder,Cost reduction,SaaS,Web app
+VC,Character.ai,Technology (Broad),AI Companions,New tech capability,Platform,Web app
+VC,Suno,Media & Entertainment,AI Music Generation,New tech capability,Platform,Web app
+VC,Pika,Media & Entertainment,AI Video Generation,New tech capability,Platform,Web app
+VC,Kling,Media & Entertainment,AI Video Generation,New tech capability,Platform,Web app
+VC,Sora,Media & Entertainment,AI Video Generation,New tech capability,Platform,Web app
+VC,Waymo,Transportation & Mobility,Autonomous Driving,New tech capability,Platform,Hardware
+VC,Groq,Technology (Broad),AI Inference Hardware,New tech capability,Infrastructure,API
+VC,Together AI,Technology (Broad),AI Inference,New tech capability,Infrastructure,API
+VC,Cohere,Technology (Broad),Enterprise LLM,New tech capability,Infrastructure,API
+VC,AssemblyAI,Technology (Broad),Speech AI,New tech capability,Infrastructure,API
+VC,Cerebras,Technology (Broad),AI Hardware,New tech capability,Infrastructure,Hardware
+VC,NVIDIA,Technology (Broad),GPU Infrastructure,New tech capability,Infrastructure,Hardware
+VC,Apple Vision Pro,Technology (Broad),Spatial Computing,New tech capability,Platform,Hardware
+VC,Civitai,Technology (Broad),AI Model Marketplace,New tech capability,Marketplace,Web app
+VC,Gamma,Software,AI Presentations,New tech capability,SaaS,Web app
+VC,NotebookLM,Software,AI Research Assistant,New tech capability,SaaS,Web app
+VC,Warby Parker,Retail & E-commerce,DTC Eyewear,Trust problem,Platform,Web app
+VC,Everlane,Retail & E-commerce,DTC Fashion,Trust problem,Platform,Web app
+VC,Allbirds,Retail & E-commerce,DTC Footwear,Trust problem,Platform,Web app
+VC,Glossier,Retail & E-commerce,DTC Beauty,Trust problem,Platform,Web app
+VC,StockX,Retail & E-commerce,Authenticated Resale,Trust problem,Marketplace,Web app
+VC,Mercari,Retail & E-commerce,C2C Marketplace,Trust problem,Marketplace,Mobile app
+VC,Lemonade,Insurance,AI Insurance,Trust problem,SaaS,Web app
+VC,Root Insurance,Insurance,Telematics Insurance,Trust problem,SaaS,Mobile app
+VC,Railway,Software,Cloud Deploy,Speed problem,SaaS,Web app
+VC,Groq,Technology (Broad),Fast AI Inference,Speed problem,Infrastructure,API
+VC,Fastly,Technology (Broad),Edge Computing,Speed problem,Infrastructure,API
+VC,Windsurf,Software,AI Code Editor,New tech capability,SaaS,Web app
+VC,Bolt.new,Software,AI Full-stack Builder,New tech capability,SaaS,Web app
+Founder,Bolt.new,Software,AI App Builder,New tech capability,SaaS,Web app
+Founder,Windsurf,Software,AI Code Editor,New tech capability,SaaS,Web app
+Founder,Suno,Media & Entertainment,AI Music,New tech capability,Platform,Web app
+Founder,Pika,Media & Entertainment,AI Video,New tech capability,Platform,Web app
+Founder,Character.ai,Technology (Broad),AI Companions,New tech capability,Platform,Web app
+Founder,NotebookLM,Software,AI Research,New tech capability,SaaS,Web app
+Founder,Gamma,Software,AI Presentations,New tech capability,SaaS,Web app
+Founder,Devin,Software,AI Developer,Automation opportunity,Platform,Web app
+Founder,Copy.ai,Software,AI Sales Automation,Automation opportunity,SaaS,Web app
+Founder,Writer,Software,AI Content Platform,Automation opportunity,SaaS,Web app
+Founder,Mercury,Financial Services,Startup Banking,Cost reduction,SaaS,Web app
+Founder,Lemonade,Insurance,AI Insurance,Cost reduction,SaaS,Mobile app
+Founder,Warby Parker,Retail & E-commerce,DTC Eyewear,Trust problem,Platform,Web app
+Founder,Everlane,Retail & E-commerce,DTC Fashion,Trust problem,Platform,Web app
